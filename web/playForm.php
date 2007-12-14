@@ -38,7 +38,7 @@ if($status == AUTH_LOGGED){
 			
 		} else {
 			?>
-			<form action="playDo.php" name="frm" method="post">
+			<form action="playForm.php" name="frm" method="post">
 				<div align="center">				<table align="left" border="0" cellspacing="0" cellpadding="3">
 				Inserisci dei tag su cui basare la ricerca separati da virgole:<input type="text" size="30" maxlength="36" name="tags" id="tags">:<br />				<tr><td colspan="2" align="right"><input type="submit" name="action" value="searchtag"></td></tr>				</table>
 				</div>
