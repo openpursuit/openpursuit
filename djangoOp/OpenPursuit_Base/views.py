@@ -10,6 +10,11 @@ import datetime
 
 def index(request):
 
+	#return HttpResponse("ciao")
+	return render_to_response('index.html')
+
+def addquestion(request):
+
 	class QuestionForm(forms.Form):
 		question = forms.CharField(max_length=2000)
 		rightAnswer = forms.CharField(max_length=2000)
