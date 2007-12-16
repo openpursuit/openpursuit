@@ -23,7 +23,7 @@ def addquestion(request):
 		wrongAnswer3 = forms.CharField(max_length=2000)
 		difficulty = forms.IntegerField()
 		tags = forms.CharField(max_length=2000)
-
+		language = forms.CharField(max_length=200)
 
 	if request.method == 'POST':
         
@@ -42,6 +42,14 @@ def addquestion(request):
 				t = Tags.objects.create(tag=request.POST['tags'])
 				t.save()
 
+			#Se non esiste la lingua la aggiungo
+			try:
+				lang = Languages.objects.get(language=request.POST['language'])
+
+			except ObjectDoesNotExist:
+				
+				lang = Languages.objects.create(language=request.POST['language'])
+				lang.save()
 			
 			q = Question(question = request.POST['question'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), score = 0);
 			
