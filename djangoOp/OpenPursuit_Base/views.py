@@ -5,6 +5,7 @@ from django import newforms as forms
 from djangoOp.OpenPursuit_Base.models import Tags
 from djangoOp.OpenPursuit_Base.models import Question 
 from djangoOp.OpenPursuit_Base.models import Answers
+from djangoOp.OpenPursuit_Base.models import Languages
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
 
@@ -55,6 +56,7 @@ def addquestion(request):
 			
 			q.save() #this is need to create the primary key for the question
 			q.tag.add(t)
+			q.language.add(lang)
 			q.save()
 			
 			p = Answers(question = q, right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'])
