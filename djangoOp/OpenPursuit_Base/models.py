@@ -19,5 +19,7 @@ class Question(models.Model):
 	wrong1 = models.CharField(maxlength=2000)	
 	wrong2 = models.CharField(maxlength=2000)	
 	wrong3 = models.CharField(maxlength=2000)
+	class Admin:
+       		pass
 
 

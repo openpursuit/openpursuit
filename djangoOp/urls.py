@@ -7,5 +7,5 @@ urlpatterns = patterns('',
     # Uncomment this for admin:
      (r'^admin/', include('django.contrib.admin.urls')),
      (r'^$', 'djangoOp.OpenPursuit_Base.views.index'),
-     (r'^base/$', 'djangoOp.OpenPursuit_Base.views.addquestion')
+     (r'^base/', include('djangoOp.OpenPursuit_Base.urls'))
 )
