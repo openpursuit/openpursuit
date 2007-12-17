@@ -15,11 +15,6 @@ class Question(models.Model):
 	date = models.DateTimeField('date inserted')
 	tag = models.ManyToManyField(Tags)
 	language = models.ManyToManyField(Languages)
-
-class Answers(models.Model):
-	
-	question = models.ForeignKey(Question)
-
 	right1 = models.CharField(maxlength=2000)	
 	wrong1 = models.CharField(maxlength=2000)	
 	wrong2 = models.CharField(maxlength=2000)	

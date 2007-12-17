@@ -4,7 +4,6 @@ from django.shortcuts import render_to_response
 from django import newforms as forms
 from djangoOp.OpenPursuit_Base.models import Tags
 from djangoOp.OpenPursuit_Base.models import Question 
-from djangoOp.OpenPursuit_Base.models import Answers
 from djangoOp.OpenPursuit_Base.models import Languages
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
@@ -52,15 +51,12 @@ def addquestion(request):
 				lang = Languages.objects.create(language=request.POST['language'])
 				lang.save()
 			
-			q = Question(question = request.POST['question'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), score = 0);
+			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), score = 0);
 			
 			q.save() #this is need to create the primary key for the question
 			q.tag.add(t)
 			q.language.add(lang)
 			q.save()
-			
-			p = Answers(question = q, right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'])
-			p.save()
 
 			#return HttpResponseRedirect('/url/on_success/')
 			return HttpResponse("OK QUESTION ADDED")
