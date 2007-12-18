@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link rel="stylesheet" href="static/style.css" />
+    <title>{% block title %}My amazing site{% endblock %}</title>
+</head>
+
+<body>
+    <div id="header">
+        <h1>OpenPursuit</h1>
+
+    </div>
+    <div id="navigation">
+    {% block sidebar %}
+        <ul>
+            <li><a id="activelink" href="#">Home</a></li>
+            <li><a href="#">Link1</a></li>
+            <li><a href="#">Link2</a></li>
+            <li><a href="#">Link3</a></li>
+
+            <li><a href="#">Link4</a></li>
+            <li><a href="#">Link5</a></li>
+            <li><a href="#">Link6</a></li>
+        </ul>
+    {% endblock %}
+    </div>
+    <!-- div id="sidebar">
+        {# block sidebar#}
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog/">Blog</a></li>
+        </ul>
+        {# endblock #}
+    </div -->
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+    <div id="footer">
+    {% block footer %} 
+     Footer Footer Footer<br>
+    {% endblock %}
+    </div>
+</body>
+</html>

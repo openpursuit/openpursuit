@@ -9,9 +9,10 @@ from django.core.exceptions import ObjectDoesNotExist
 import datetime
 
 def index(request):
-
+    all_questions = Question.objects.all()[:5]
+    return render_to_response('index.html', {'all_questions': all_questions})
 	#return HttpResponse("ciao")
-	return render_to_response('index.html')
+#	return render_to_response('index.html')
 
 def addquestion(request):
 

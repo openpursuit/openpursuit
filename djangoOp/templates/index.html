@@ -1,1 +1,14 @@
-Index!
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<h1>Sito in debug: lista delle domande</h1>
+{% for entry in all_questions %}
+    <h2>{{ entry.question }}</h2>
+    <p>{{ entry.right1 }}</p>
+    <p>{{ entry.wrong1 }}</p>
+    <p>{{ entry.wrong2 }}</p>
+    <p>{{ entry.wrong3 }}</p>
+{% endfor %}
+{% endblock %}
