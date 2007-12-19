@@ -6,11 +6,13 @@ from djangoOp.OpenPursuit_Base.models import Tags
 from djangoOp.OpenPursuit_Base.models import Question 
 from djangoOp.OpenPursuit_Base.models import Languages
 from django.core.exceptions import ObjectDoesNotExist
+from django.template import RequestContext 
 import datetime
+
 
 def index(request):
     all_questions = Question.objects.all()[:5]
-    return render_to_response('index.html', {'all_questions': all_questions})
+    return render_to_response('index.html', {'all_questions': all_questions},context_instance=RequestContext(request))
 	#return HttpResponse("ciao")
 #	return render_to_response('index.html')
 

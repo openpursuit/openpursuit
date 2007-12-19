@@ -2,14 +2,15 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <link rel="stylesheet" href="static/style.css" />
+    <link rel="stylesheet"
+ href="{% block stylesheet %}{{ MEDIA_URL }}css/base.css{% endblock %}"/>
     <title>{% block title %}My amazing site{% endblock %}</title>
 </head>
 
 <body>
     <div id="header">
         <h1>OpenPursuit</h1>
-
+<h2>{{ MEDIA_URL }} </h2>
     </div>
     <div id="navigation">
     {% block sidebar %}
