@@ -25,4 +25,5 @@ div#navigation ul{margin: 0;padding: 0; list-style-type: none;}
 div#navigation li{display: inline; margin: 0 0 0 1em;padding: 0} /*nota display: inline*/
 div#navigation a{color:#369;font: normal bold 1.2em/2.5em arial,sans-serif;text-decoration: none}
 div#navigation a:hover{color: #fff;text-decoration: underline}
-div#navigation a#activelink{color: #033;text-decoration: none}
+// div#navigation a#active{color: #033;text-decoration: none}
+div#navigation .active{color: #fff;text-decoration: none}

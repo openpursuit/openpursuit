@@ -14,27 +14,14 @@
     </div>
     <div id="navigation">
     {% block sidebar %}
-        <ul>
-            <li><a id="activelink" href="#">Home</a></li>
-            <li><a href="#">Link1</a></li>
-            <li><a href="#">Link2</a></li>
-            <li><a href="#">Link3</a></li>
-
-            <li><a href="#">Link4</a></li>
-            <li><a href="#">Link5</a></li>
-            <li><a href="#">Link6</a></li>
-        </ul>
+    {% load tags %}
+    <ul>
+    <li><a class="{% active request "^/$" %}" href="/">Home</a></li>
+    <li><a class="{% active request "^/base/add/" %}" href="/base/add/">Add</a></li>
+    <li><a class="{% active request "^/base/play/" %}" href="/base/play/">Play</a></li>
+    </ul>
     {% endblock %}
     </div>
-    <!-- div id="sidebar">
-        {# block sidebar#}
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog/">Blog</a></li>
-        </ul>
-        {# endblock #}
-    </div -->
-
     <div id="content">
         {% block content %}{% endblock %}
     </div>
