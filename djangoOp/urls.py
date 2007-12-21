@@ -10,5 +10,6 @@ urlpatterns = patterns('',
      (r'^$', 'djangoOp.OpenPursuit_Base.views.index'),
      (r'^static/(.*)$', 'django.views.static.serve',
 { 'document_root': settings.MEDIA_ROOT  }), 
-     (r'^base/', include('djangoOp.OpenPursuit_Base.urls'))
+     (r'^base/', include('djangoOp.OpenPursuit_Base.urls')),
+     (r'^accounts/', include('registration.urls')),
 )

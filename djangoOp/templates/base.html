@@ -13,7 +13,8 @@
 <h2>{{ MEDIA_URL }} </h2>
     </div>
     <div id="navigation">
-    {% block sidebar %}
+    {#% block sidebar %#}
+    {% block navbar %}
     {% load tags %}
     <ul>
     <li><a class="{% active request "^/$" %}" href="/">Home</a></li>

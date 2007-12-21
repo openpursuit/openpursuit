@@ -1,4 +1,7 @@
+import os
 # Django settings for djangoOp project.
+
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,9 +15,16 @@ MANAGERS = ADMINS
 DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
 DATABASE_NAME = 'openpursuit'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'openpursuit'             # Not used with sqlite3.
-DATABASE_PASSWORD = 'opentrivial'         # Not used with sqlite3.
+DATABASE_PASSWORD = 'mypass'         # Not used with sqlite3.
 DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = '3306'             # Set to empty string for default. Not used with sqlite3.
+
+# Registration
+ACCOUNT_ACTIVATION_DAYS=7EMAIL_HOST='smtp.myserver.org'EMAIL_PORT=25
+# comment the following line if your server doesn't support authentication #EMAIL_HOST_USER='username'#EMAIL_HOST_PASSWORD='mypass'
+
+
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://www.postgresql.org/docs/8.1/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
@@ -36,11 +46,11 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)),"static/")
 
 # URL that handles the media served from MEDIA_ROOT.
 # Example: "http://media.lawrence.com"
-MEDIA_URL = ''
+MEDIA_URL = "http://192.168.0.10:5800/static/"
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -70,15 +80,26 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-#"/home/saverio/SORGENTI/openpursuit/trunk/djangoOp/templates"
-"./templates"
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),"templates"),
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),"templates/registration"),
 )
 
 INSTALLED_APPS = (
+    'registration',
     'django.contrib.auth',
+    'django.contrib.humanize',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
     'djangoOp.OpenPursuit_Base',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.request",
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media"
+)
+
