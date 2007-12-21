@@ -16,6 +16,7 @@ class Question(models.Model):
 	tag = models.ManyToManyField(Tags)
 	language = models.ManyToManyField(Languages)
 	right1 = models.CharField(max_length=2000)	
+	reference = models.URLField()
 	wrong1 = models.CharField(max_length=2000)	
 	wrong2 = models.CharField(max_length=2000)	
 	wrong3 = models.CharField(max_length=2000)

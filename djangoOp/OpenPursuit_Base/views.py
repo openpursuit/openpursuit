@@ -24,6 +24,7 @@ def addquestion(request):
 		wrongAnswer1 = forms.CharField(max_length=2000)
 		wrongAnswer2 = forms.CharField(max_length=2000)
 		wrongAnswer3 = forms.CharField(max_length=2000)
+		reference = forms.URLField(max_length=2000)
 		difficulty = forms.IntegerField()
 		tags = forms.CharField(max_length=2000)
 		language = forms.CharField(max_length=200)
@@ -54,7 +55,7 @@ def addquestion(request):
 				lang = Languages.objects.create(language=request.POST['language'])
 				lang.save()
 			
-			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), score = 0);
+			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), score = 0,reference = request.POST['reference']);
 			
 			q.save() #this is need to create the primary key for the question
 			q.tag.add(t)
@@ -63,6 +64,7 @@ def addquestion(request):
 
 			#return HttpResponseRedirect('/url/on_success/')
 			return HttpResponse("OK QUESTION ADDED")
+		else: return HttpResponse("FORM WAS NOT VALID")
 	else:
 		#template = loader.get_template('form.html')
 		form = QuestionForm()
