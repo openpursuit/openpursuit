@@ -7,9 +7,9 @@ urlpatterns = patterns('',
 
     # Uncomment this for admin:
      (r'^admin/', include('django.contrib.admin.urls')),
-     (r'^$', 'djangoOp.OpenPursuit_Base.views.index'),
+     (r'^$', 'djangoOp.op.views.index'),
      (r'^static/(.*)$', 'django.views.static.serve',
 { 'document_root': settings.MEDIA_ROOT  }), 
-     (r'^base/', include('djangoOp.OpenPursuit_Base.urls')),
+     (r'^base/', include('djangoOp.op.urls')),
      (r'^accounts/', include('registration.urls')),
 )
