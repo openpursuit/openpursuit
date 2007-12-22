@@ -2,9 +2,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django import newforms as forms
-from djangoOp.OpenPursuit_Base.models import Tags
-from djangoOp.OpenPursuit_Base.models import Question 
-from djangoOp.OpenPursuit_Base.models import Languages
+from djangoOp.op.models import * 
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext 
 import datetime
