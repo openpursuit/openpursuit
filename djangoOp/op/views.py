@@ -25,7 +25,7 @@ def addquestion(request):
 		reference = forms.URLField(max_length=2000)
 		difficulty = forms.IntegerField()
 		tags = forms.CharField(max_length=2000)
-		language = forms.CharField(max_length=200)
+		lang = forms.CharField(max_length=5)
 
 	if request.method == 'POST':
         
@@ -44,25 +44,18 @@ def addquestion(request):
 				t = Tags.objects.create(tag=request.POST['tags'])
 				t.save()
 
-			#Se non esiste la lingua la aggiungo
-			try:
-				lang = Languages.objects.get(language=request.POST['language'])
-
-			except ObjectDoesNotExist:
-				
-				lang = Languages.objects.create(language=request.POST['language'])
-				lang.save()
-			
-			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), score = 0,reference = request.POST['reference']);
+			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['lang'], spamfeedback = 0, quarantine = False, mediatype = 'text', attachment = '');
 			
 			q.save() #this is need to create the primary key for the question
 			q.tag.add(t)
-			q.language.add(lang)
+			#q.language.add(lang)
 			q.save()
 
 			#return HttpResponseRedirect('/url/on_success/')
 			return HttpResponse("OK QUESTION ADDED")
-		else: return HttpResponse("FORM WAS NOT VALID")
+		else: 
+			print form.errors
+			return HttpResponse("FORM WAS NOT VALIDz")
 	else:
 		#template = loader.get_template('form.html')
 		form = QuestionForm()
@@ -70,5 +63,29 @@ def addquestion(request):
 
 
 
+
+
+def play(request):
+	class PlayForm(forms.Form):
+		tags = forms.CharField(max_length=2000)
+		
+	if request.method == 'POST':
+		form = PlayForm(request.POST)
+		if form.is_valid():
+			res = Question.objects.filter(tag__tag__startswith=request.POST['tags'])
+			if res.count() > 0:
+				res.order_by('?')
+				print res
+				quiz = res[0]
+				print quiz.right1
+				return render_to_response('play.html', {'quiz' : quiz},context_instance=RequestContext(request))
+			else:
+				return HttpResponse("No QUESTION FOUND FOR THIS TAG")
+		else:
+			print form.errors
+			return HttpResponse("Form Not Valid")
+	else:
+		form = PlayForm()
+		return render_to_response('play.html', {'form': form},context_instance=RequestContext(request))
 
 

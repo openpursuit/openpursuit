@@ -1,6 +1,20 @@
-<h1>{{ question.question }}</h1>
-<ul>
-{% for choice in poll.choice_set.all %}
-    <li>{{ choice.choice }}</li>
-{% endfor %}
-</ul>
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<h1>Play</h1>
+<form method="post" action="">
+<table>{{ form }}</table>
+<input type="submit" />
+</form>
+{% if quiz %}
+<h1>Quiz</h1>
+{{ quiz.right1 }}
+{{ quiz.wrong1 }}
+{{ quiz.wrong2 }}
+{{ quiz.wrong3 }}
+{% endif %}
+
+{% endblock %}
+
