@@ -1,6 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+DIFFICULTY_LEVEL = (
+    (1, 'Trivial'),
+    (2, 'Easy'),
+    (3, 'Medium'),
+    (4, 'Hard'),
+    (5, 'Almost Impossible')
+)
+
+
 class Tags(models.Model):
 	tag = models.CharField(max_length=2000)
 
@@ -18,9 +27,10 @@ class Question(models.Model):
 	tag = models.ManyToManyField(Tags)
 	#Two char language code ISO 639-1 
 	#For more info go to http://www.loc.gov/standards/iso639-2/php/English_list.php
+	#Or here : http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
 	lang = models.CharField(max_length=2) 
 	#statistics
-	difficulty = models.IntegerField()
+	difficulty = models.IntegerField(choices=DIFFICULTY_LEVEL)
 	views = models.IntegerField()
 	date = models.DateTimeField('date inserted')
 	#Spam signalations signalled by "reporter" users, could put the question in quarantine
