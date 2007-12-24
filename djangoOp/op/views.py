@@ -66,25 +66,40 @@ def addquestion(request):
 
 
 def play(request):
+	import random
 	class PlayForm(forms.Form):
 		tags = forms.CharField(max_length=2000)
 		
 	if request.method == 'POST':
-		form = PlayForm(request.POST)
-		if form.is_valid():
-			res = Question.objects.filter(tag__tag__startswith=request.POST['tags'])
-			if res.count() > 0:
-				res.order_by('?')
-				print res
-				quiz = res[0]
-				print quiz.right1
-				return render_to_response('play.html', {'quiz' : quiz},context_instance=RequestContext(request))
+		if request.POST.has_key('action'):
+			# the result of the game
+			quest = Question.objects.filter(id=request.POST['question_id'])
+			if quest.count() > 0:
+				if quest[0].right1 == request.POST['answer']:
+					return HttpResponse("Hai vinto")
+				else:
+					return HttpResponse("Hai perso")	
 			else:
-				return HttpResponse("No QUESTION FOUND FOR THIS TAG")
+				return HttpResponse("BAD!")
 		else:
-			print form.errors
-			return HttpResponse("Form Not Valid")
+			# Show the form with answers and question
+			form = PlayForm(request.POST)
+			if form.is_valid():
+				res = Question.objects.filter(tag__tag__startswith=request.POST['tags'])
+				if res.count() > 0:
+					res.order_by('?')
+					quiz = res[0]
+					ansarray = [quiz.right1, quiz.wrong1, quiz.wrong2 ,  quiz.wrong3]
+					random.shuffle( ansarray )
+					return render_to_response('play.html', {'ansarray' : ansarray, 'quiz' : quiz},context_instance=RequestContext(request))
+				else:
+					return HttpResponse("No QUESTION FOUND FOR THIS TAG")
+			else:
+				print form.errors
+				# TODO: report form errors in html
+				return HttpResponse("Form Not Valid")
 	else:
+		# Show the form for search for tag
 		form = PlayForm()
 		return render_to_response('play.html', {'form': form},context_instance=RequestContext(request))
 

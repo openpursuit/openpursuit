@@ -4,16 +4,24 @@
 
 {% block content %}
 <h1>Play</h1>
+{% if form %}
 <form method="post" action="">
 <table>{{ form }}</table>
 <input type="submit" />
 </form>
-{% if quiz %}
+{% endif %}
+
+{% if ansarray %}
 <h1>Quiz</h1>
-{{ quiz.right1 }}
-{{ quiz.wrong1 }}
-{{ quiz.wrong2 }}
-{{ quiz.wrong3 }}
+{{ quiz.question }}<br>
+<form name='play' action='' method='POST'">
+{% for ans in ansarray %}
+	<input type="radio" name="answer" value="{{ ans }}">{{ ans }} <br>{% endfor %}
+<input type="hidden" name="question_id" value="{{ quiz.id }}">
+<input type="submit" name="action" value="play">
+</form>
+
+
 {% endif %}
 
 {% endblock %}
