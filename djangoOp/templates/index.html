@@ -3,13 +3,18 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-<h1>Sito in debug: lista delle domande</h1>
-{% for entry in all_questions %}
-    <h2>{{ entry.question }}</h2>
-    <p>{{ entry.right1 }}</p>
-    <p>{{ entry.wrong1 }}</p>
-    <p>{{ entry.wrong2 }}</p>
-    <p>{{ entry.wrong3 }}</p>
-    <p>{{ entry.reference }}</p>
-{% endfor %}
+<h1>Welcome in OpenPursuit</h1>
+The first free and "open" database of question and answer, all released under Creative Commons licence. <br><br>
+<ul>
+<li><b>How does it works?</b> It's easy. Everyone can <a href="/accounts/register/">register</a> to the site and then populate a free database. 
+Each question/answer matches one or more <a href="http://en.wikipedia.org/wiki/Tags">tags</a> so it is possibile to play with friend with questions related to generic topics like "art" or "literature", or very specific ones such "internet", "math", "geeks".  
+Everyone can use the database by plaing in this site, in othersite or dump some question and play it offline, for example on a mobile phone. More detailated info in the <a href="/accounts/instructions/">instructions</a> page.</li><br>
+
+<li><b>What do you mean with "Open"?</b> The OpenPursuit project follow an open architecture. Open source server side code released under GPL3 licence, quiz released under creative commons open licences, database open for input and output insert/queries, a community open to accept you in the staff for discussuss on the project and control the quality of the quiz.</li><br>
+<li><b>Can I partecipate?</b> Sure! You can partecipate adding new questions, joining the mailing list and  eventually enter in the openpursuit developing team</li>
+<li><b>What else?</b> Dunno! Just play and enjoy yourself! :-) </li>
+</ul>
+
+
+
 {% endblock %}
