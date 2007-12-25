@@ -19,8 +19,8 @@
     <li><a class="{% active request "^/$" %}" href="/">Home</a></li>
      <li><a class="{% active request "^/base/play/" %}" href="/base/play/">Play</a></li>
     <li><a class="{% active request "^/base/add/" %}" href="/base/add/">AddQuestion</a></li>
-    <li><a class="{% active request "^/base/intructions/" %}" href="/base/add/">Instructions</a></li>
-    <li><a class="{% active request "^/base/community/" %}" href="/base/add/">Community</a></li>
+    <li><a class="{% active request "^/base/intructions/" %}" href="/base/instructions/">Instructions</a></li>
+    <li><a class="{% active request "^/base/community/" %}" href="/base/community/">Community</a></li>
     {% if user.is_authenticated %}
     <li><a class="{% active request "^/accounts/logout/" %}" href="/accounts/logout/">Logout</a></li>
     {% else %}
