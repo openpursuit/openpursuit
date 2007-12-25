@@ -9,10 +9,16 @@ import datetime
 
 
 def index(request):
-    all_questions = Question.objects.all()[:5]
-    return render_to_response('index.html', {'all_questions': all_questions},context_instance=RequestContext(request))
+    return render_to_response('index.html', {},context_instance=RequestContext(request))
 	#return HttpResponse("ciao")
 #	return render_to_response('index.html')
+
+def instructions(request):
+   return render_to_response('instructions.html', {},context_instance=RequestContext(request))
+ 
+def community(request):
+   return render_to_response('community.html', {},context_instance=RequestContext(request))
+
 
 def addquestion(request):
 
