@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.openpursuit.opgame">
+    <application android:icon="@drawable/icon">
+        <activity class=".opgame" android:label="@string/app_name">
+            <intent-filter>
+                <action android:value="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+    </application>
+</manifest> 
