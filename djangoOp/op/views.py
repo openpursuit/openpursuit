@@ -4,7 +4,8 @@ from django.shortcuts import render_to_response
 from django import newforms as forms
 from djangoOp.op.models import * 
 from django.core.exceptions import ObjectDoesNotExist
-from django.template import RequestContext 
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 import datetime
 
 
@@ -13,26 +14,38 @@ def index(request):
 	#return HttpResponse("ciao")
 #	return render_to_response('index.html')
 
+def intro(request):
+   return render_to_response('intro.html', {},context_instance=RequestContext(request))
+ 
+
 def instructions(request):
    return render_to_response('instructions.html', {},context_instance=RequestContext(request))
  
+def tagcloud(request):
+   return render_to_response('tagcloud.html', {},context_instance=RequestContext(request)) 
+
 def community(request):
    return render_to_response('community.html', {},context_instance=RequestContext(request))
 
 
+@login_required 
 def addquestion(request):
 
 	class QuestionForm(forms.Form):
-		question = forms.CharField(max_length=2000)
+		question = forms.CharField(max_length=2000, widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("ciao");', 'onblur':'javascript:writehelp("");'}))
 		rightAnswer = forms.CharField(max_length=2000)
 		wrongAnswer1 = forms.CharField(max_length=2000)
 		wrongAnswer2 = forms.CharField(max_length=2000)
 		wrongAnswer3 = forms.CharField(max_length=2000)
 		reference = forms.URLField(max_length=2000)
-		difficulty = forms.IntegerField()
+		#difficulty = forms.IntegerField()
+		difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
 		tags = forms.CharField(max_length=2000)
-		lang = forms.CharField(max_length=5)
-
+		#lang = forms.CharField(max_length=5)
+		lang = forms.ChoiceField(choices=LANGUAGES)
+		media = forms.ChoiceField(choices=MEDIA_TYPE) 
+		ufile = forms.Field(widget=forms.FileInput())
+        
 	if request.method == 'POST':
         
 		form = QuestionForm(request.POST)
@@ -50,7 +63,7 @@ def addquestion(request):
 				t = Tags.objects.create(tag=request.POST['tags'])
 				t.save()
 
-			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['lang'], spamfeedback = 0, quarantine = False, mediatype = 'text', attachment = '');
+			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['language'], spamfeedback = 0, quarantine = False, mediatype = 'text', attachment = '');
 			
 			q.save() #this is need to create the primary key for the question
 			q.tag.add(t)
@@ -60,8 +73,12 @@ def addquestion(request):
 			#return HttpResponseRedirect('/url/on_success/')
 			return HttpResponse("OK QUESTION ADDED")
 		else: 
-			print form.errors
-			return HttpResponse("FORM WAS NOT VALIDz")
+			#print form.errors
+			#response = HttpResponse()
+			#response.write("<p>The form contains some errors:</p>")
+			#response.write(form.errors)
+			#return response
+			return render_to_response('form.html', {'form': form},context_instance=RequestContext(request))
 	else:
 		#template = loader.get_template('form.html')
 		form = QuestionForm()

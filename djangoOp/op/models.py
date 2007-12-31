@@ -9,9 +9,36 @@ DIFFICULTY_LEVEL = (
     (5, 'Almost Impossible')
 )
 
+MEDIA_TYPE = (
+    (1, 'Text'),
+    (2, 'Image'),
+    (3, 'Audio'),
+    (4, 'Video'),
+)
+
+
+gettext_noop = lambda s: s
+
+LANGUAGES = (
+    ('it', gettext_noop('Italian')),
+    ('ja', gettext_noop('Japanese')),
+    ('de', gettext_noop('German')),
+    ('el', gettext_noop('Greek')),
+    ('en', gettext_noop('English')),
+    ('es', gettext_noop('Spanish')),
+    ('fr', gettext_noop('French')),
+    ('pt', gettext_noop('Portugese')),
+    ('nl', gettext_noop('Dutch')),
+
+
+)
+
 
 class Tags(models.Model):
 	tag = models.CharField(max_length=2000)
+
+
+
 
 class Question(models.Model):
 	"""
@@ -28,9 +55,9 @@ class Question(models.Model):
 	#Two char language code ISO 639-1 
 	#For more info go to http://www.loc.gov/standards/iso639-2/php/English_list.php
 	#Or here : http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
-	lang = models.CharField(max_length=2) 
+	lang = models.CharField(max_length=5, choices=LANGUAGES) 
 	#statistics
-	difficulty = models.IntegerField(choices=DIFFICULTY_LEVEL)
+	difficulty = models.IntegerField(choices=DIFFICULTY_LEVEL) 
 	views = models.IntegerField()
 	date = models.DateTimeField('date inserted')
 	#Spam signalations signalled by "reporter" users, could put the question in quarantine
@@ -39,7 +66,7 @@ class Question(models.Model):
 	reporter = models.ManyToManyField(User)
 	#For multimedia question
 	#mediatype should be something like "text", "image", "audio", "video"
-	mediatype = models.CharField(max_length=10)
+	mediatype = models.IntegerField(choices=MEDIA_TYPE)
 	attachment = models.FileField(upload_to='multimedia')
 	#Url with a reference of where to find the right answer and more info about the question topic
 	reference = models.URLField()

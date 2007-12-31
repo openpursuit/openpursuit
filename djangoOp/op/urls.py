@@ -16,4 +16,5 @@ urlpatterns = patterns('',
      (r'play', 'djangoOp.op.views.play'),
      (r'instructions', 'djangoOp.op.views.instructions'),
      (r'community', 'djangoOp.op.views.community'),
+     (r'tagcloud', 'djangoOp.op.views.tagcloud'),
 )

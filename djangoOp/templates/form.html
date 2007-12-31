@@ -2,12 +2,22 @@
 
 {% block title %}Index{% endblock %}
 
-{% block content %}
-<h1>Sito in debug: Form</h1>
-<form method="post" action="">
+{% block jscripts %}
+<SCRIPT>function writehelp(str){ 	document.frm.id_tags.value=str;}</SCRIPT>
+{% endblock %}
 
-<table>{{ form }}</table>
-<input type="submit" />
+{% block content %}
+
+<form method="post" action="" name="frm">
+	<input id="id_tags" type="text" name="tags" maxlength="2000" />
 </form>
+
+
+{# % if form.is_multipart % #}    <form enctype="multipart/form-data" method="post" action="">{# % else %}    <form method="post" action="">{% endif % #}
+<dl>{% for field in form %}    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>    <dd>{{ field }}</dd>    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}{% endfor %}</dl><input type="submit" /></form>
+
+
+
+
 {% endblock %}
 

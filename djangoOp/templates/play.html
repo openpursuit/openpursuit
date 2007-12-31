@@ -1,17 +1,33 @@
 {% extends "base.html" %}
 
+{% block jscripts %}
+<SCRIPT>function writetag(str){
+	if (document.frm.id_tags.value == "") 		document.frm.id_tags.value=str;
+ 	else
+ 		document.frm.id_tags.value=document.frm.id_tags.value + ", " + str;}</SCRIPT>
+{% endblock %}
+
+
 {% block title %}Index{% endblock %}
 
 {% block content %}
 <h1>Play</h1>
 {% if form %}
-<form method="post" action="">
+{# Visualize the form to put tags #}
+<form method="post" action="" name="frm">
 <table>{{ form }}</table>
 <input type="submit" />
 </form>
+{% load tagclouds %}
+{% get_latest_cloudtag %}
+{% for tag in content_tagclouds|slice:"5" %}
+<div style="font-size:{{ tag.cloudsize }}; text-align:left;float:left" > <a href="JavaScript:writetag( '{{ tag.tag }}' );"> {{ tag.tag }}</a>, </div>
+{% endfor %}
 {% endif %}
 
+
 {% if ansarray %}
+{# Visualize question and answers #}
 <h1>Quiz</h1>
 {{ quiz.question }}<br>
 <form name='play' action='' method='POST'">
@@ -20,8 +36,6 @@
 <input type="hidden" name="question_id" value="{{ quiz.id }}">
 <input type="submit" name="action" value="play">
 </form>
-
-
 {% endif %}
 
 {% endblock %}
