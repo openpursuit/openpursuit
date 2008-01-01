@@ -50,7 +50,7 @@ def addquestion(request):
 	if request.method == 'POST':
 		post_data = request.POST.copy()		post_data.update(request.FILES)
 		form = QuestionForm(post_data)
-		#print request.FILES['media_file']
+		print request.FILES['media_file']
 		if form.is_valid():
 			# Do form processing here...	                
 			
@@ -70,8 +70,8 @@ def addquestion(request):
 			# VERY INSECURE!!!! Parse the file type
 			print 'prima if'
 			if 'media_file' in request.FILES:  				mfile = request.FILES['media_file']				# Other data on the request.FILES dictionary:  				#filesize = len(file['content'])<br />  				#filetype = file['content-type']   				filename = mfile['filename']
-				print 'entered!'
-				print filename				fd = open('%s/%s' % (MEDIA_ROOT, filename), 'wb')				fd.write(mfile['content'])				fd.close()
+				if mfile['content-type'] != 'audio/mpeg' and mfile['content-type'] !='image/jpeg':
+					return HttpResponse("BAD FILE TYPE")				fd = open('%s/%s' % (MEDIA_ROOT, filename), 'wb')				fd.write(mfile['content'])				fd.close()
 		
 			
 			
