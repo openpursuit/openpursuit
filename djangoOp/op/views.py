@@ -2,7 +2,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django import newforms as forms
-from djangoOp.op.models import * 
+from djangoOp.op.models import *
+from djangoOp.settings import MEDIA_ROOT  
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -42,14 +43,15 @@ def addquestion(request):
 		difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
 		tags = forms.CharField(max_length=2000)
 		#lang = forms.CharField(max_length=5)
-		lang = forms.ChoiceField(choices=LANGUAGES)
+		language = forms.ChoiceField(choices=LANGUAGES)
 		media = forms.ChoiceField(choices=MEDIA_TYPE) 
-		ufile = forms.Field(widget=forms.FileInput())
+		media_file = forms.Field(widget=forms.FileInput(), required=False)
         
 	if request.method == 'POST':
-        
-		form = QuestionForm(request.POST)
-	        if form.is_valid():
+		post_data = request.POST.copy()		post_data.update(request.FILES)
+		form = QuestionForm(post_data)
+		#print request.FILES['media_file']
+		if form.is_valid():
 			# Do form processing here...	                
 			
 			#WARNING --- FIX THIS --- THIS LOGIC DOES NOT WORK
@@ -63,7 +65,16 @@ def addquestion(request):
 				t = Tags.objects.create(tag=request.POST['tags'])
 				t.save()
 
-			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['language'], spamfeedback = 0, quarantine = False, mediatype = 'text', attachment = '');
+			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['language'], spamfeedback = 0, quarantine = False, mediatype = 'text')
+			
+			# VERY INSECURE!!!! Parse the file type
+			print 'prima if'
+			if 'media_file' in request.FILES:  				mfile = request.FILES['media_file']				# Other data on the request.FILES dictionary:  				#filesize = len(file['content'])<br />  				#filetype = file['content-type']   				filename = mfile['filename']
+				print 'entered!'
+				print filename				fd = open('%s/%s' % (MEDIA_ROOT, filename), 'wb')				fd.write(mfile['content'])				fd.close()
+		
+			
+			
 			
 			q.save() #this is need to create the primary key for the question
 			q.tag.add(t)
