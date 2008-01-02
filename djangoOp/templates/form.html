@@ -3,17 +3,24 @@
 {% block title %}Index{% endblock %}
 
 {% block jscripts %}
-<SCRIPT>function writehelp(str){ 	document.frm.id_tags.value=str;}</SCRIPT>
+<SCRIPT>function writehelp(str){ 	document.frmhelp.id_tags.value=str;}
+
+function changeMedia(){
+	if (document.frm.id_media.options[0].selected)
+		document.frm.id_media_file.disabled = true;	
+	else 
+		document.frm.id_media_file.disabled = false;
+	}</SCRIPT>
 {% endblock %}
 
 {% block content %}
 
-<form method="post" action="" name="frm">
+<form method="post" action="" name="frmhelp">
 	<input id="id_tags" type="text" name="tags" maxlength="2000" />
 </form>
 
 
-{# % if form.is_multipart % #}    <form enctype="multipart/form-data" method="post" action="">{# % else %}    <form method="post" action="">{% endif % #}
+{# % if form.is_multipart % #}    <form enctype="multipart/form-data" method="post" action="" name="frm">{# % else %}    <form method="post" action="" name="frm">{% endif % #}
 <dl>{% for field in form %}    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>    <dd>{{ field }}</dd>    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}{% endfor %}</dl><input type="submit" /></form>
 
 

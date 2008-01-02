@@ -44,9 +44,8 @@ def addquestion(request):
 		tags = forms.CharField(max_length=2000)
 		#lang = forms.CharField(max_length=5)
 		language = forms.ChoiceField(choices=LANGUAGES)
-		media = forms.ChoiceField(choices=MEDIA_TYPE) 
-		media_file = forms.Field(widget=forms.FileInput(), required=False)
-        
+		media = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'javascript:changeMedia();'}), choices=MEDIA_TYPE )
+		media_file = forms.Field(widget=forms.FileInput(attrs={'disabled':'true'}), required=False)        
 	if request.method == 'POST':
 		post_data = request.POST.copy()		post_data.update(request.FILES)
 		form = QuestionForm(post_data)
