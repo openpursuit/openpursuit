@@ -1,0 +1,18 @@
+{% comment %}
+Template for a form ajaxified select field.
+{% endcomment %}
+<div class="form-row {% if field.errors %}error{% endif %}">
+    <script type="text/javascript">
+        dojo.addOnLoad(function(){
+            var f = dojo.widget.byId("{{ field.get_id }}");
+            f.setAllValues("{{ selection }}", "{{ value }}");
+        });
+    </script>
+    {% if field.errors %}{{ field.html_error_list }}{% endif %}
+    <label class="{% if field.formfield.is_required %}required{% else %}optional{% endif %}" for="{{ field.get_id }}">{{ label|title }}:</label>
+    <select dojoType="NongSelect" id="{{ field.get_id }}" name="{{ field.field_name }}" dataUrl="{{ data_url }}" mode="remote" value="default"></select>
+    {% if help_text %}
+    <p class="help">{{ help_text }}</p>
+    {% endif %}
+    <p class="help">Type the first few letters of the {{ fieldname }} {{ lookup_field }} to have a list of matches shown. {% if addlink %}If they do not exist then <a href="{{ addlink }}" class="addlink">Add a {{ fieldname }}</a> before completing this form.{% endif %}</p>
+</div>

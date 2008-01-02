@@ -36,6 +36,8 @@ LANGUAGES = (
 
 class Tags(models.Model):
 	tag = models.CharField(max_length=2000)
+	
+	def __str__(self):		return "%s" % (self.tag)
 
 
 
@@ -70,8 +72,10 @@ class Question(models.Model):
 	attachment = models.FileField(upload_to='multimedia')
 	#Url with a reference of where to find the right answer and more info about the question topic
 	reference = models.URLField()
-	class Admin:
-       		pass
+	#class Admin:
+	#pass
+
+	def __str__(self):		return "%s" % (self.question)
 
 class UserProfile(models.Model):
 	"""

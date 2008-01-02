@@ -1,0 +1,10 @@
+{% comment %}
+Template for a form field.
+{% endcomment %}
+<div class="form-row {% if field.errors %}error{% endif %}">
+    {% if field.errors %}{{ field.html_error_list }}{% endif %}
+    <label class="{% if field.formfield.is_required %}required{% else %}optional{% endif %}" for="{{ field.get_id }}">{{ label|title }}:</label> {{ field }}
+    {% if help_text %}
+    <p class="help">{{ help_text }}</p>
+    {% endif %}
+</div>

@@ -21,9 +21,13 @@ function changeMedia(){
 
 
 {# % if form.is_multipart % #}    <form enctype="multipart/form-data" method="post" action="" name="frm">{# % else %}    <form method="post" action="" name="frm">{% endif % #}
-<dl>{% for field in form %}    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>    <dd>{{ field }}</dd>    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}{% endfor %}</dl><input type="submit" /></form>
+<dl>{% for field in form %}    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>    <dd>{{ field }}</dd>    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}{% endfor %}
 
 
+{% load formtags %}{% block extrahead %}{% comment %}load dojo and the select widget{% endcomment %}<script type="text/javascript" src="/static/dojo/dojo.js"></script><script type="text/javascript">    dojo.require("dojo.widget.*");    dojo.setModulePrefix("nong.widget","/static/js/nong/widget");    dojo.widget.manager.registerWidgetPackage("nong.widget");    dojo.require("nong.widget.NongSelect");</script>{% endblock %}...{% comment %}Two templatetags are included for your convenience. The first, {% fieldrow ... %} splits out a form element similar in style to theDjango Admin with the field's help_text displayed.The second, {% selectrow ... %}, splits out all the markup and javascript necessary for the AJAX select widget.Replace the usual {{ form.reporter }} element in the template with this:{% endcomment %}{% fieldrow form.question %}{#% fieldrow form.date %#}{% selectrow form.tags "/base/tags_lookup/?q=%{searchString}" "tags" %}
+
+
+</dl><input type="submit" /></form>
 
 
 {% endblock %}

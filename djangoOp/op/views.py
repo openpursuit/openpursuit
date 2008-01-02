@@ -7,8 +7,9 @@ from djangoOp.settings import MEDIA_ROOT
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import redirect_to_login
 import datetime
-
+from  django.utils import simplejson
 
 def index(request):
     return render_to_response('index.html', {},context_instance=RequestContext(request))
@@ -41,7 +42,8 @@ def addquestion(request):
 		reference = forms.URLField(max_length=2000)
 		#difficulty = forms.IntegerField()
 		difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
-		tags = forms.CharField(max_length=2000)
+		#tags = forms.CharField(max_length=2000)
+		tags = forms.ChoiceField()
 		#lang = forms.CharField(max_length=5)
 		language = forms.ChoiceField(choices=LANGUAGES)
 		media = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'javascript:changeMedia();'}), choices=MEDIA_TYPE )
@@ -88,6 +90,7 @@ def addquestion(request):
 			#response.write("<p>The form contains some errors:</p>")
 			#response.write(form.errors)
 			#return response
+			form = QuestionForm()
 			return render_to_response('form.html', {'form': form},context_instance=RequestContext(request))
 	else:
 		#template = loader.get_template('form.html')
@@ -136,4 +139,29 @@ def play(request):
 		form = PlayForm()
 		return render_to_response('play.html', {'form': form},context_instance=RequestContext(request))
 
+#AJAX
 
+
+class JsonResponse(HttpResponse):
+    def __init__(self, obj):
+        self.original_obj = obj
+        HttpResponse.__init__(self, self.serialize())
+        self["Content-Type"] = "text/javascript"
+
+    def serialize(self):
+        return(simplejson.dumps(self.original_obj))
+
+def json_lookup(request, queryset, field, limit=10, login_required=False):
+    """
+    Method to lookup a model field and return a array. Intended for use 
+    in AJAX widgets.
+    """
+    if login_required and not request.user.is_authenticated():
+        return redirect_to_login(request.path)
+    obj_list = []
+    lookup = {
+        '%s__istartswith' % field: request.GET['q'],
+    }
+    for obj in queryset.filter(**lookup)[:limit]:
+        obj_list.append([getattr(obj, field), obj.id])
+    return JsonResponse(obj_list)
