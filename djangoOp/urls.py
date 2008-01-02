@@ -12,5 +12,5 @@ urlpatterns = patterns('',
      (r'^static/(.*)$', 'django.views.static.serve',
 { 'document_root': settings.MEDIA_ROOT  }), 
      (r'^base/', include('djangoOp.op.urls')),
-     (r'^accounts/', include('djangoOp.op.registration.urls')),
+     (r'^accounts/', include('djangoOp.registration.urls')),
 )
