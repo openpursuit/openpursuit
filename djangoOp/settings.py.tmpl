@@ -31,6 +31,7 @@ AUTH_PROFILE_MODULE = 'op.userprofile'
 #EMAIL_HOST_PASSWORD='mypass'
 
 
+AUTH_PROFILE_MODULE = 'op.userprofile'
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -45,6 +46,8 @@ TIME_ZONE = 'Europe/Rome'
 # http://blogs.law.harvard.edu/tech/stories/storyReader$15
 LANGUAGE_CODE = 'it'
 
+
+
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -57,7 +60,8 @@ MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)),"static/")
 
 # URL that handles the media served from MEDIA_ROOT.
 # Example: "http://media.lawrence.com"
-MEDIA_URL = "http://192.168.0.10:5800/static/"
+#MEDIA_URL = "http://192.168.0.10:5060/static/"
+MEDIA_URL = "http://www.bzzauz.org:5060/static/"
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -87,11 +91,15 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+#"/home/saverio/SORGENTI/openpursuit/trunk/djangoOp/templates"
+#"./templates"
     os.path.join(os.path.dirname(os.path.abspath(__file__)),"templates"),
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),"widgets/templates"),
     os.path.join(os.path.dirname(os.path.abspath(__file__)),"templates/registration"),
 )
 
 INSTALLED_APPS = (
+    'registration',
     'django.contrib.auth',
     'django.contrib.humanize',
     'django.contrib.contenttypes',
@@ -99,7 +107,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'djangoOp.op',
-    'djangoOp.registration',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
