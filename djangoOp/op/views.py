@@ -90,7 +90,7 @@ def addquestion(request):
 			#response.write("<p>The form contains some errors:</p>")
 			#response.write(form.errors)
 			#return response
-			form = QuestionForm()
+			#form = QuestionForm()
 			return render_to_response('form.html', {'form': form},context_instance=RequestContext(request))
 	else:
 		#template = loader.get_template('form.html')
