@@ -34,7 +34,7 @@ def community(request):
 def addquestion(request):
 
 	class QuestionForm(forms.Form):
-		question = forms.CharField(max_length=2000, widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("ciao");', 'onblur':'javascript:writehelp("");'}))
+		question = forms.CharField(max_length=2000, label='Add the Question', widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("ciao");', 'onblur':'javascript:writehelp("");'}))
 		rightAnswer = forms.CharField(max_length=2000)
 		wrongAnswer1 = forms.CharField(max_length=2000)
 		wrongAnswer2 = forms.CharField(max_length=2000)
@@ -42,16 +42,17 @@ def addquestion(request):
 		reference = forms.URLField(max_length=2000)
 		#difficulty = forms.IntegerField()
 		difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
-		#tags = forms.CharField(max_length=2000)
-		tags = forms.ChoiceField()
+		tags = forms.CharField(max_length=2000)
+		#tags = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
 		#lang = forms.CharField(max_length=5)
 		language = forms.ChoiceField(choices=LANGUAGES)
 		media = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'javascript:changeMedia();'}), choices=MEDIA_TYPE )
 		media_file = forms.Field(widget=forms.FileInput(attrs={'disabled':'true'}), required=False)        
+	
 	if request.method == 'POST':
 		post_data = request.POST.copy()		post_data.update(request.FILES)
 		form = QuestionForm(post_data)
-		print request.FILES['media_file']
+		
 		if form.is_valid():
 			# Do form processing here...	                
 			
@@ -69,7 +70,6 @@ def addquestion(request):
 			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['language'], spamfeedback = 0, quarantine = False, mediatype = 'text')
 			
 			# VERY INSECURE!!!! Parse the file type
-			print 'prima if'
 			if 'media_file' in request.FILES:  				mfile = request.FILES['media_file']				# Other data on the request.FILES dictionary:  				#filesize = len(file['content'])<br />  				#filetype = file['content-type']   				filename = mfile['filename']
 				if mfile['content-type'] != 'audio/mpeg' and mfile['content-type'] !='image/jpeg':
 					return HttpResponse("BAD FILE TYPE")				fd = open('%s/%s' % (MEDIA_ROOT, filename), 'wb')				fd.write(mfile['content'])				fd.close()
@@ -138,30 +138,3 @@ def play(request):
 		# Show the form for search for tag
 		form = PlayForm()
 		return render_to_response('play.html', {'form': form},context_instance=RequestContext(request))
-
-#AJAX
-
-
-class JsonResponse(HttpResponse):
-    def __init__(self, obj):
-        self.original_obj = obj
-        HttpResponse.__init__(self, self.serialize())
-        self["Content-Type"] = "text/javascript"
-
-    def serialize(self):
-        return(simplejson.dumps(self.original_obj))
-
-def json_lookup(request, queryset, field, limit=10, login_required=False):
-    """
-    Method to lookup a model field and return a array. Intended for use 
-    in AJAX widgets.
-    """
-    if login_required and not request.user.is_authenticated():
-        return redirect_to_login(request.path)
-    obj_list = []
-    lookup = {
-        '%s__istartswith' % field: request.GET['q'],
-    }
-    for obj in queryset.filter(**lookup)[:limit]:
-        obj_list.append([getattr(obj, field), obj.id])
-    return JsonResponse(obj_list)
