@@ -142,4 +142,5 @@ def play(request):
 		form = PlayForm()
 		return render_to_response('play.html', {'form': form},context_instance=RequestContext(request))
 
-from widgets.autocomplete import autocomplete_responsedef autocomplete(request):    return autocomplete_response(        request.REQUEST['text'], Tags, (            'tag'        )    )
+from widgets.autocomplete import autocomplete_responsedef autocomplete(request):    #return autocomplete_response(request.REQUEST['text'], Tags, ('tag'))
+    return autocomplete_response(request.POST['text'], Tags , ('tag') )
