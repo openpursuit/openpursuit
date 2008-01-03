@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
 import datetime
 from  django.utils import simplejson
+from djangoOp.widgets.autocomplete import AutoCompleteField
 
 def index(request):
     return render_to_response('index.html', {},context_instance=RequestContext(request))
@@ -42,7 +43,9 @@ def addquestion(request):
 		reference = forms.URLField(max_length=2000)
 		#difficulty = forms.IntegerField()
 		difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
-		tags = forms.CharField(max_length=2000)
+		#tags = forms.CharField(max_length=2000)
+		tags = forms.CharField(required=False, widget=AutoCompleteField(url='/base/autocomplete/'))
+       
 		#tags = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
 		#lang = forms.CharField(max_length=5)
 		language = forms.ChoiceField(choices=LANGUAGES)
@@ -138,3 +141,5 @@ def play(request):
 		# Show the form for search for tag
 		form = PlayForm()
 		return render_to_response('play.html', {'form': form},context_instance=RequestContext(request))
+
+from widgets.autocomplete import autocomplete_responsedef autocomplete(request):    return autocomplete_response(        request.REQUEST['text'], Tags, (            'tag'        )    )

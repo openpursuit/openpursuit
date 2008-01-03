@@ -17,4 +17,5 @@ urlpatterns = patterns('',
      (r'instructions', 'djangoOp.op.views.instructions'),
      (r'community', 'djangoOp.op.views.community'),
      (r'tagcloud', 'djangoOp.op.views.tagcloud'),
+     (r'autocomplete', 'djangoOp.op.views.autocomplete'),
 )
