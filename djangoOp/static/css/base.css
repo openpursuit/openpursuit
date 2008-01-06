@@ -1,29 +1,3 @@
-/*stili per il layout fisso con altezza minima*/
-html,body{margin: 0;padding:0;height:100%;}
-body{font-family: arial,sans-serif;font-size: 76%;text-align: center}
-div#container{position:relative; width: 760px; height: 100%;margin: 0 auto;
-    text-align: left; border-left: 2px solid #36c;border-right: 2px solid #36c}
-body>div#container{height:auto;min-height:100%}
-div#footer{position: absolute;bottom:0; width: 100%; padding: 0.5em 0;
-    background-color: #69c; color: #000;text-align:center;}
-
-/*stili generici, su header e footer*/
-div#header{background-color:#36C;color: #ff0}
-h1,h2{margin: 0;padding:0}
-h1{padding-left:0.5em;font: bold 2.3em/80px arial,serif}
-h2{color: #999;font-size: 1.5em}
-
-div#footer a{color: #fff;font-weight: bold;text-decoration: underline}
-
-/*stili specifici per il layout*/
-div#navigation{background-color:#9cf}
-div#content{padding: 1em 1em 5em}
+body,html {	margin:0;	padding:0;	background:#a7a09a;	color:#000;}body {	min-width:750px;}#wrap {	background:#99c;	margin:0 auto;	width:750px;}#header {	background:#ddd;}#header h1 {   	padding:5px;    margin:0;   }#nav {	background:#c99;	padding:5px;}#nav ul{	margin:0;	padding:0;	list-style:none;}#nav li{	display:inline;	margin:0;	padding:0;}#main {	background:#9c9;	float:left;	width:500px;}#main h2, #main h3, #main p {	padding:0 10px;   }#sidebar {	background:#99c;	float:right;	width:240px;}#sidebar ul {	margin-bottom:0;   }   #sidebar h3, #sidebar p {	padding:0 10px 0 0;   }#footer {	background:#cc9;	clear:both;}#footer p {	padding:5px;	margin:0;   }
 
 
-/*stili per la navigazione*/
-div#navigation ul{margin: 0;padding: 0; list-style-type: none;}
-div#navigation li{display: inline; margin: 0 0 0 1em;padding: 0} /*nota display: inline*/
-div#navigation a{color:#369;font: normal bold 1.2em/2.5em arial,sans-serif;text-decoration: none}
-div#navigation a:hover{color: #fff;text-decoration: underline}
-// div#navigation a#active{color: #033;text-decoration: none}
-div#navigation .active{color: #fff;text-decoration: none}

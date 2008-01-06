@@ -10,10 +10,11 @@
 </head>
 
 <body>
+  <div id="wrap">
     <div id="header">
         <h1>OpenPursuit</h1>
     </div>
-    <div id="navigation">
+    <div id="nav">
     {#% block sidebar %#}
     {% block navbar %}
     {% load tags %}
@@ -35,13 +36,18 @@
     </ul>
     {% endblock %}
     </div>
-    <div id="content">
+    <div id="main">
         {% block content %}{% endblock %}
     </div>
+    <div id="sidebar">
+        {% block sidebar %}{% endblock %}
+    </div>
+    
     <div id="footer">
     {% block footer %} 
      Footer Footer Footer<br>
     {% endblock %}
     </div>
+ </div>
 </body>
 </html>
