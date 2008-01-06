@@ -72,19 +72,22 @@ def addquestion(request):
 
 			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['language'], spamfeedback = 0, quarantine = False, mediatype = 'text')
 			
-			# VERY INSECURE!!!! Parse the file type
+			isFileOk = False
+			mfile = ''
+			filename = ''
 			if 'media_file' in request.FILES:  				mfile = request.FILES['media_file']				# Other data on the request.FILES dictionary:  				#filesize = len(file['content'])<br />  				#filetype = file['content-type']   				filename = mfile['filename']
+				# A better file parsing is needed
 				if mfile['content-type'] != 'audio/mpeg' and mfile['content-type'] !='image/jpeg':
-					return HttpResponse("BAD FILE TYPE")				fd = open('%s/%s' % (MEDIA_ROOT, filename), 'wb')				fd.write(mfile['content'])				fd.close()
-		
-			
-			
-			
-			q.save() #this is need to create the primary key for the question
+					return HttpResponse("BAD FILE TYPE")
+				else: 
+					isFileOk = True
+					
+					
+			new_question = q.save() #this is need to create the primary key for the question
 			q.tag.add(t)
-			#q.language.add(lang)
 			q.save()
-
+			if isFileOk:
+				fd = open('%s/%s' % (MEDIA_ROOT, new_question.id), 'wb')				fd.write(mfile['content'])				fd.close()
 			#return HttpResponseRedirect('/url/on_success/')
 			return HttpResponse("OK QUESTION ADDED")
 		else: 
@@ -143,4 +146,9 @@ def play(request):
 		return render_to_response('play.html', {'form': form},context_instance=RequestContext(request))
 
 from widgets.autocomplete import autocomplete_responsedef autocomplete(request):    #return autocomplete_response(request.REQUEST['text'], Tags, ('tag'))
-    return autocomplete_response(request.POST['text'], Tags , ('tag') )
+    lastTag = request.POST['text']
+    if lastTag.find(',') >= 0:
+    	tempTuple = lastTag.rpartition(',')
+    	lastTag = tempTuple[2]
+    print lastTag
+    return autocomplete_response(lastTag, Tags , ('tag') )
