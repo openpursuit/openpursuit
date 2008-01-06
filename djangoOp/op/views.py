@@ -11,6 +11,8 @@ from django.contrib.auth.views import redirect_to_login
 import datetime
 from  django.utils import simplejson
 from djangoOp.widgets.autocomplete import AutoCompleteField
+from struct import pack
+
 
 def index(request):
     return render_to_response('index.html', {},context_instance=RequestContext(request))
@@ -60,15 +62,25 @@ def addquestion(request):
 			# Do form processing here...	                
 			
 			#WARNING --- FIX THIS --- THIS LOGIC DOES NOT WORK
-			
-			#Se il tag non esiste lo aggiungo
-			try:
-				t = Tags.objects.get(tag=request.POST['tags'])
-
-			except ObjectDoesNotExist:
-				
-				t = Tags.objects.create(tag=request.POST['tags'])
-				t.save()
+			#split various tag
+			relatedtags = []
+			relatedtagsid = []
+			for t in request.POST['tags'].split(','):
+				t = t.strip()
+				if t == '':
+					continue
+				#Se il tag non esiste lo aggiungo
+				try:
+					if (relatedtags.count(t) > 0):
+						return HttpResponse("ERROR: USE A TAG FOR AT MOST ONE TIME")
+					else:
+						relatedtags.append(t)
+					tx = Tags.objects.get(tag=t)
+					relatedtagsid.append(tx)
+				except ObjectDoesNotExist:
+					tw = Tags.objects.create(tag=t)
+					tw.save()
+					
 
 			q = Question(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['language'], spamfeedback = 0, quarantine = False, mediatype = 'text')
 			
@@ -83,11 +95,13 @@ def addquestion(request):
 					isFileOk = True
 					
 					
-			new_question = q.save() #this is need to create the primary key for the question
-			q.tag.add(t)
-			q.save()
+			q.save() #this is need to create the primary key for the question
+			for tt in relatedtagsid:
+				q.tag.add(tt)
+			new_question = q.save()
 			if isFileOk:
-				fd = open('%s/%s' % (MEDIA_ROOT, new_question.id), 'wb')				fd.write(mfile['content'])				fd.close()
+				fileencname = str(q.id) + '.'+ filename.rpartition('.')[2].lower()
+				fd = open('%s/upload/%s' % (MEDIA_ROOT, fileencname ), 'wb')				fd.write(mfile['content'])				fd.close()
 			#return HttpResponseRedirect('/url/on_success/')
 			return HttpResponse("OK QUESTION ADDED")
 		else: 
