@@ -10,10 +10,10 @@ DIFFICULTY_LEVEL = (
 )
 
 MEDIA_TYPE = (
-    (1, 'Text'),
-    (2, 'Image'),
-    (3, 'Audio'),
-    (4, 'Video'),
+    (1, 'text'),
+    (2, 'image'),
+    (3, 'audio'),
+    (4, 'video'),
 )
 
 
