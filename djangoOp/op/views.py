@@ -13,6 +13,8 @@ from  django.utils import simplejson
 from djangoOp.widgets.autocomplete import AutoCompleteField
 import add, play
 
+# Index, PlayGame, AddQuestion, TheProject, TheCode, Login/Logout
+
 def index(request):
     return render_to_response('index.html', {},context_instance=RequestContext(request))
 
@@ -21,14 +23,13 @@ def intro(request):
    return render_to_response('intro.html', {},context_instance=RequestContext(request))
  
 
-def instructions(request):
-   return render_to_response('instructions.html', {},context_instance=RequestContext(request))
+def code(request):
+   return render_to_response('code.html', {},context_instance=RequestContext(request))
  
-def tagcloud(request):
-   return render_to_response('tagcloud.html', {},context_instance=RequestContext(request)) 
 
-def community(request):
-   return render_to_response('community.html', {},context_instance=RequestContext(request))
+
+def project(request):
+   return render_to_response('project.html', {},context_instance=RequestContext(request))
 
 
 @login_required 

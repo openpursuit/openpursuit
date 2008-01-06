@@ -14,8 +14,7 @@ urlpatterns = patterns('',
     # Uncomment this for admin:
      (r'add', 'djangoOp.op.views.addquestion'),
      (r'play', 'djangoOp.op.views.play'),
-     (r'instructions', 'djangoOp.op.views.instructions'),
-     (r'community', 'djangoOp.op.views.community'),
-     (r'tagcloud', 'djangoOp.op.views.tagcloud'),
+     (r'code', 'djangoOp.op.views.code'),
+     (r'project', 'djangoOp.op.views.project'),
      (r'autocomplete', 'djangoOp.op.views.autocomplete'),
 )
