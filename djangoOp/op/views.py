@@ -39,7 +39,8 @@ def addquestion(request):
 def play(request):
 	return play.playOnline(request)
 
-from widgets.autocomplete import autocomplete_responsedef autocomplete(request):
+from widgets.autocomplete import autocomplete_response
+def autocomplete(request):
     lastTag = request.POST['text']
     if lastTag.find(',') >= 0:
     	lastTag = lastTag.rpartition(',')[2]
