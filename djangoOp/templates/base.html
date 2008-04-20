@@ -20,7 +20,7 @@
     {% load tags %}
     <ul>
     <li><a class="{% active request "^/$" %}" href="/">Home</a></li>
-     <li><a class="{% active request "^/base/play/" %}" href="/base/play/">PlayOnline</a></li>
+     <li><a class="{% active request "^/base/play/" %}" href="/base/play/">Play</a></li>
     <li><a class="{% active request "^/base/add/" %}" href="/base/add/">AddQuestion</a></li>
     <li><a class="{% active request "^/base/project/" %}" href="/base/project/">TheProject</a></li>
     <li><a class="{% active request "^/base/code/" %}" href="/base/code/">Code</a></li>
@@ -49,5 +49,17 @@
     {% endblock %}
     </div>
  </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4177384-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+
+
 </body>
 </html>

@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
 {% block jscripts %}
-<SCRIPT>function writetag(str){
-	if (document.frm.id_tags.value == "") 		document.frm.id_tags.value=str;
+<SCRIPT>
+function writetag(str){
+	if (document.frm.id_tags.value == "")
+ 		document.frm.id_tags.value=str;
  	else
- 		document.frm.id_tags.value=document.frm.id_tags.value + ", " + str;}</SCRIPT>
+ 		document.frm.id_tags.value=document.frm.id_tags.value + ", " + str;
+}
+</SCRIPT>
 {% endblock %}
 
 
@@ -31,7 +35,8 @@
 {{ quiz.question }}<br>
 <form name='play' action='' method='POST'">
 {% for ans in ansarray %}
-	<input type="radio" name="answer" value="{{ ans }}">{{ ans }} <br>{% endfor %}
+	<input type="radio" name="answer" value="{{ ans }}">{{ ans }} <br>
+{% endfor %}
 <input type="hidden" name="question_id" value="{{ quiz.id }}">
 <input type="submit" name="action" value="play">
 </form>

@@ -11,7 +11,7 @@ from django.contrib.auth.views import redirect_to_login
 import datetime
 from  django.utils import simplejson
 from djangoOp.widgets.autocomplete import AutoCompleteField
-import add, play
+import add_module, play_module
 
 # Index, PlayGame, AddQuestion, TheProject, TheCode, Login/Logout
 
@@ -34,10 +34,10 @@ def project(request):
 
 @login_required 
 def addquestion(request):
-	return add.addnewquestion(request)
+	return add_module.addnewquestion(request)
 
 def play(request):
-	return play.playOnline(request)
+	return play_module.playOnline(request)
 
 from widgets.autocomplete import autocomplete_response
 def autocomplete(request):

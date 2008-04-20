@@ -37,7 +37,8 @@ LANGUAGES = (
 class Tags(models.Model):
 	tag = models.CharField(max_length=2000)
 	
-	def __str__(self):		return "%s" % (self.tag)
+	def __str__(self):	
+		return "%s" % (self.tag)
 
 
 
@@ -75,7 +76,8 @@ class Question(models.Model):
 	#class Admin:
 	#pass
 
-	def __str__(self):		return "%s" % (self.question)
+	def __str__(self):
+		return "%s" % (self.question)
 
 class UserProfile(models.Model):
 	"""
