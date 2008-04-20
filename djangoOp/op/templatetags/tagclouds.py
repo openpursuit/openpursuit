@@ -31,6 +31,6 @@ class LatestTagsNode(Node):
 		return ''
     
 def get_latest_cloudtag(parser, token):
-    	
 	return LatestTagsNode()
+
 get_latest_cloudtag= register.tag(get_latest_cloudtag)

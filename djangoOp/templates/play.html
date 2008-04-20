@@ -23,7 +23,7 @@ function writetag(str){
 </form>
 {% load tagclouds %}
 {% get_latest_cloudtag %}
-{% for tag in content_tagclouds|slice:"5" %}
+{% for tag in content_tagclouds|slice:"100" %}
 <div style="font-size:{{ tag.cloudsize }}; text-align:left;float:left" > <a href="JavaScript:writetag( '{{ tag.tag }}' );"> {{ tag.tag }}</a>, </div>
 {% endfor %}
 {% endif %}
