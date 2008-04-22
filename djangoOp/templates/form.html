@@ -5,28 +5,61 @@
 {% block jscripts %}
   <script src="/static/scripts/scriptaculous.js" type="text/javascript"></script>
 
-  <script src="/static/scripts/prototype.js" type="text/javascript"></script>  <script src="/static/scripts/effects.js" type="text/javascript"></script>  <script src="/static/scripts/dragdrop.js" type="text/javascript"></script>  <script src="/static/scripts/controls.js" type="text/javascript"></script>
+  <script src="/static/scripts/prototype.js" type="text/javascript"></script>
+  <script src="/static/scripts/effects.js" type="text/javascript"></script>
+  <script src="/static/scripts/dragdrop.js" type="text/javascript"></script>
+
+  <script src="/static/scripts/controls.js" type="text/javascript"></script>
   
 <SCRIPT>
 
-function writehelp(str){ 	document.frmhelp.id_help.value=str;}
+
+function writehelp(str){
+ 	document.frmhelp.id_help.value=str;
+}
 
 function addItemToTagsList(li){
 	if (document.frm.autocompleter.value.indexOf(',') > -1 ){
 		rest = document.frm.autocompleter.value.substring(0, document.frm.autocompleter.value.lastIndexOf(',') );
 		document.frm.autocompleter.value= rest + ", " +li.innerHTML;
 	} else
-		document.frm.autocompleter.value=li.innerHTML;}
+		document.frm.autocompleter.value=li.innerHTML;
+}
 
 function changeMedia(){
 	if (document.frm.id_media.options[0].selected)
 		document.frm.id_media_file.disabled = true;	
 	else 
 		document.frm.id_media_file.disabled = false;
-	}</SCRIPT>
+	}
+</SCRIPT>
 
 
- <style>  div.autocompleter {      position:absolute;      width:250px;      background-color:white;      border:1px solid #888;      margin:0px;      padding:0px;    }    div.autocompleter ul {      list-style-type:none;      margin:0px;      padding:0px;    }    div.autocompleter ul li.selected { background-color: #ffb;}    div.autocompleter ul li {      list-style-type:none;      display:block;      margin:0;      padding:2px;      height:32px;      cursor:pointer;    }  </style>
+ <style>
+  div.autocompleter {
+      position:absolute;
+      width:250px;
+      background-color:white;
+      border:1px solid #888;
+      margin:0px;
+      padding:0px;
+    }
+    div.autocompleter ul {
+      list-style-type:none;
+      margin:0px;
+      padding:0px;
+    }
+    div.autocompleter ul li.selected { background-color: #ffb;}
+    div.autocompleter ul li {
+      list-style-type:none;
+      display:block;
+      margin:0;
+      padding:2px;
+      height:32px;
+      cursor:pointer;
+    }
+
+  </style>
 
 {% endblock %}
 
@@ -37,9 +70,23 @@ function changeMedia(){
 </form>
 
 
-{# % if form.is_multipart % #}    <form enctype="multipart/form-data" method="post" action="" name="frm">{# % else %}    <form method="post" action="" name="frm">{% endif % #}
-<dl>{% for field in form %}    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>    <dd>{{ field }}</dd>    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}{% endfor %}
-</dl><input type="submit" /></form>
+{% if form.is_multipart %}
+    <form enctype="multipart/form-data" method="post" action="" name="frm">
+{% else %}
+    <form method="post" action="" name="frm">
+{% endif %}
+
+<dl>
+{% for field in form %}
+    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>
+    <dd>{{ field }}</dd>
+    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
+    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}
+{% endfor %}
+
+</dl>
+<input type="submit" />
+</form>
 
 
 {% endblock %}
