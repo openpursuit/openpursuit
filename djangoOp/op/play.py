@@ -17,27 +17,30 @@ def playOnline(request):
 	if request.method == 'POST':
 		if request.POST.has_key('action'):
 			# the result of the game
-			quest = Question.objects.filter(id=request.POST['question_id'])
+			quest = Quiz.objects.filter(id=request.POST['quiz_id'])
 			if quest.count() > 0:
 				if quest[0].right1 == request.POST['answer']:
-					return HttpResponse("Hai vinto")
+					return render_to_response('play.html', {'youwin': 1}, context_instance=RequestContext(request)) 
+					#return HttpResponse("Hai vinto")
 				else:
-					return HttpResponse("Hai perso")	
+					#return HttpResponse("Hai perso")	
+					return render_to_response('play.html', {'youloose': 1}, context_instance=RequestContext(request)) 
 			else:
 				return HttpResponse("BAD!")
 		else:
 			# Show the form with answers and question
 			form = PlayForm(request.POST)
 			if form.is_valid():
-				res = Question.objects.filter(tag__tag__startswith=request.POST['tags'])
+				res = Quiz.objects.filter(tags__tag__startswith=request.POST['tags'])
 				if res.count() > 0:
 					res.order_by('?')
-					quiz = res[0]
+					question = res[0]
 					ansarray = [quiz.right1, quiz.wrong1, quiz.wrong2 ,  quiz.wrong3]
 					random.shuffle( ansarray )
-					return render_to_response('play.html', {'ansarray' : ansarray, 'quiz' : quiz},context_instance=RequestContext(request))
+					return render_to_response('play.html', {'ansarray' : ansarray, 'question' : question},context_instance=RequestContext(request))
 				else:
-					return HttpResponse("No QUESTION FOUND FOR THIS TAG")
+					#return HttpResponse("No QUESTION FOUND FOR THIS TAG")
+					return render_to_response('play.html', {'noquizfound': 1}, context_instance=RequestContext(request)) 
 			else:
 				print form.errors
 				# TODO: report form errors in html
