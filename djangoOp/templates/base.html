@@ -21,7 +21,7 @@
     <ul>
     <li><a class="{% active request "^/$" %}" href="/">Home</a></li>
      <li><a class="{% active request "^/base/play/" %}" href="/base/play/">Play</a></li>
-    <li><a class="{% active request "^/base/add/" %}" href="/base/add/">AddQuestion</a></li>
+    <li><a class="{% active request "^/base/add/" %}" href="/base/add/">AddQuiz</a></li>
     <li><a class="{% active request "^/base/project/" %}" href="/base/project/">TheProject</a></li>
     <li><a class="{% active request "^/base/code/" %}" href="/base/code/">Code</a></li>
     {% if user.is_authenticated %}
@@ -31,7 +31,11 @@
     {% endif %}
     
     
-    {% if user.is_authenticated %}	    <li><p>Welcome, {{ user.username }}. Thanks for logging in.</p></li>	{% else %}	    <li><p>Welcome, new user. Please log in.</p></li>	{% endif %}
+    {% if user.is_authenticated %}
+	    <li><p>Welcome, {{ user.username }}. Thanks for logging in.</p></li>
+	{% else %}
+	    <li><p>Welcome, new user. Please log in.</p></li>
+	{% endif %}
 	
     </ul>
     {% endblock %}

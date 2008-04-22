@@ -37,10 +37,23 @@ function writetag(str){
 {% for ans in ansarray %}
 	<input type="radio" name="answer" value="{{ ans }}">{{ ans }} <br>
 {% endfor %}
-<input type="hidden" name="question_id" value="{{ quiz.id }}">
+<input type="hidden" name="quiz_id" value="{{ quiz.id }}">
 <input type="submit" name="action" value="play">
 </form>
 {% endif %}
+
+{% if noquizfound %}
+No Quiz found that match the tag(s).
+{% endif %}
+
+{% if youloose %}
+You loose!
+{% endif %}
+
+{% if youwin %}
+You win!
+{% endif %}
+
 
 {% endblock %}
 

@@ -14,11 +14,12 @@ minsize = 55 # minimum size of the least popular tag
 class LatestTagsNode(Node):
 	def gen_clouds(self):
 		p=Tags.objects.all()
-		
-		max1=max([int(myitem.question_set.count()) for myitem in p])
+		if p.count() == 0:
+			return ''
+		max1=max([int(myitem.quiz_set.count()) for myitem in p])
 		
 		for i in range(p.count()):
-			size =int(round(int(p[i].question_set.count())*maxsize/max1))
+			size =int(round(int(p[i].quiz_set.count())*maxsize/max1))
 			if size<minsize:
 				size=minsize
 			cloudsize =str(size) +"%"
