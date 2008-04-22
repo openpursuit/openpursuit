@@ -65,7 +65,7 @@ class Quiz(models.Model):
 	#statistics
 	difficulty = models.IntegerField("Difficulty", choices=DIFFICULTY_LEVEL) 
 	views = models.IntegerField("Views")
-	date = models.DateTimeField("Date of intertion")
+	date = models.DateTimeField("Insertion date")
 	author = models.ForeignKey(User)
 	# score
 	# referenced back by Score class
@@ -93,7 +93,7 @@ class Report(models.Model):
 	reason = models.TextField("Reason to reporting")
 	quiz = models.ForeignKey(Quiz)
 	reporter = models.ForeignKey(User)
-	date = models.DateTimeField("Date of intertion")
+	date = models.DateTimeField("Insertion date")
 	class Admin:
 		date_hierarchy = 'date'
 		list_display = ('quiz', 'reporter')
@@ -109,7 +109,7 @@ class Score:
 	value = models.IntegerField("Score value", choices=SCORE_TYPE)
 	voter = models.ForeignKey(User)
 	quiz = models.ForeignKey(Quiz)
-	date = models.DateTimeField("Date of intertion")
+	date = models.DateTimeField("Insertion date")
 	class Admin:
 		pass
 	
@@ -122,7 +122,7 @@ class UserProfile(models.Model):
 	# language, personalIcon, website  etc etc could be added later
 	#statistic
 	trusted_user = models.BooleanField("Trusted user status",default=False) 
-	gamescore =  models.IntegerField("User's game score") # for online game score
+	gamescore =  models.IntegerField("User's score in the online game") # for online game score
 	class Admin:
 		pass
 		
