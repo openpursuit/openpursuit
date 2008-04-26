@@ -19,9 +19,9 @@ function writehelp(str){
 }
 
 function addItemToTagsList(li){
-	if (document.frm.autocompleter.value.indexOf(',') > -1 ){
-		rest = document.frm.autocompleter.value.substring(0, document.frm.autocompleter.value.lastIndexOf(',') );
-		document.frm.autocompleter.value= rest + ", " +li.innerHTML;
+	if (document.frm.autocompleter.value.indexOf(' ') > -1 ){
+		rest = document.frm.autocompleter.value.substring(0, document.frm.autocompleter.value.lastIndexOf(' ') );
+		document.frm.autocompleter.value= rest + " " +li.innerHTML;
 	} else
 		document.frm.autocompleter.value=li.innerHTML;
 }

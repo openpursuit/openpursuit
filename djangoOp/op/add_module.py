@@ -38,7 +38,7 @@ def addnewquiz(request):
 			#split various tag
 			relatedtags = []
 			relatedtagsid = []
-			for t in request.POST['tags'].split(','):
+			for t in request.POST['tags'].split(' '):
 				t = t.strip()
 				if t == '':
 					continue
@@ -56,7 +56,7 @@ def addnewquiz(request):
 					relatedtagsid.append(tw)
 					
 
-			q = Quiz(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['language'], positive_feedbacks = 0,negative_feedbacks = 0,  quarantine = False, mediatype = request.POST['media'])
+			q = Quiz(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['language'],author=request.user ,quarantine = False, mediatype = request.POST['media'])
 			
 			isFileOk = False
 			mfile = ''
@@ -69,8 +69,8 @@ def addnewquiz(request):
 				#filetype = file['content-type']
 				filename = mfile['filename']
 
-
-				extension = filename.rpartition('.')[2].lower()
+				extension = filename.rsplit('.',1)[1].lower()
+				#extension = filename.rpartition('.')[2].lower()
 				isFileOk = checkContentType(mfile['content-type'], request.POST['media'], extension)
 				if not isFileOk:
 					return HttpResponse("BAD FILE TYPE")
@@ -86,7 +86,8 @@ def addnewquiz(request):
 				fd.write(mfile['content'])
 				fd.close()
 			#return HttpResponseRedirect('/url/on_success/')
-			return HttpResponse("OK QUESTION ADDED")
+			#	return HttpResponse("OK QUESTION ADDED")
+			return render_to_response('quizadded.html', {'added': 'ok' },context_instance=RequestContext(request))
 		else: 
 			return render_to_response('addquiz.html', {'form': form},context_instance=RequestContext(request))
 	else:
@@ -100,7 +101,8 @@ def checkContentType(ctype, mtype, ext):
 	ext_image = ['jpeg', 'jpg', 'gif', 'png']
 
 	mediaName  = MEDIA_TYPE[int(mtype) -1][1]
-	if ctype.partition('/')[0] != mediaName:
+	#if ctype.partition('/')[0] != mediaName:
+	if ctype.split('/')[0] != mediaName:
 		return False
 	if mediaName == 'audio' and not ext_audio.count(ext) :
 		return False

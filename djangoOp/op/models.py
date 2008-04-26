@@ -68,13 +68,16 @@ class Quiz(models.Model):
 	date = models.DateTimeField("Insertion date")
 	author = models.ForeignKey(User)
 	# score
+	pos_score = models.IntegerField("Positive scores" ,default = 0)
+	neg_score =  models.IntegerField("Negative scores", default = 0)
 	# referenced back by Score class
 	#Spam signalations signalled by "reporter" users, could put the question in quarantine
 	quarantine = models.BooleanField("Quarantine status", default=False)
 
 	#For multimedia question
 	mediatype = models.IntegerField("Media type", choices=MEDIA_TYPE)
-	attachment = models.FileField("Attachment", upload_to='multimedia')
+	filename = models.CharField("Name of the file", max_length=200)
+	attachment = models.FileField("Attachment", upload_to='multimedia', blank=True)
 	#Url with a reference of where to find the right answer and more info about the question topic
 	reference = models.URLField("A website url with in-depth information about the quiz")
 	class Admin:
@@ -82,7 +85,6 @@ class Quiz(models.Model):
 		list_display = ('question', 'author')
 		list_filter = ('author','date')
 		pass
-
 	def __unicode__(self):
 		return "%s" % (self.question)
 
@@ -102,7 +104,7 @@ class Report(models.Model):
 	def __unicode__(self):
 		return "%s" % (self.quiz)
 	
-class Score:
+class Score(models.Model):
 	"""
 	Users are allowed to vote quiz through positive or negative Score
 	"""
@@ -112,6 +114,22 @@ class Score:
 	date = models.DateTimeField("Insertion date")
 	class Admin:
 		pass
+	def save(self):
+		if not self.id:
+			pass	
+		if self.value == 1:
+			self.quiz.pos_score += 1 
+		elif self.value == 0:
+			self.quiz.neg_score += 1
+		self.quiz.save()
+		super(Score, self).save()
+	def delete(self):
+		if self.value == 1:
+			self.quiz.pos_score -= 1
+		elif self.value == 0:                      
+			self.quiz.neg_score -= 1
+		self.quiz.save()
+		super(Score, self).delete()	
 	
 class UserProfile(models.Model):
 	"""

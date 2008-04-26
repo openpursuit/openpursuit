@@ -12,9 +12,9 @@ import datetime
 from  django.utils import simplejson
 from djangoOp.widgets.autocomplete import AutoCompleteField
 
-from reportlab.pdfgen import canvas
 
-import add_module, play_module
+
+import add_module, play_module, genpdf_module
 
 # Index, PlayGame, AddQuestion, TheProject, TheCode, Login/Logout
 
@@ -31,25 +31,14 @@ def project(request):
 def addquiz(request):
 	return add_module.addnewquiz(request)
 
-def play(request):
+def playonline(request):
 	return play_module.playOnline(request)
 
-def gencardspdf(request):
-    # Create the HttpResponse object with the appropriate PDF headers.
-    response = HttpResponse(mimetype='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename=somefilename.pdf'
+def play(request):
+	return render_to_response('play.html', {},context_instance=RequestContext(request))
 
-    # Create the PDF object, using the response object as its "file."
-    p = canvas.Canvas(response)
-
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-    p.drawString(100, 100, "Hello world.")
-
-    # Close the PDF object cleanly, and we're done.
-    p.showPage()
-    p.save()
-    return response
+def generatepdf(request):
+	return genpdf_module.genpdf(request)
 
 from widgets.autocomplete import autocomplete_response
 def autocomplete(request):

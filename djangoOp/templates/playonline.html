@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+
+{% block jscripts %}
+<SCRIPT>
+function writetag(str){
+	if (document.frm.id_tags.value == "")
+ 		document.frm.id_tags.value=str;
+ 	else
+ 		document.frm.id_tags.value=document.frm.id_tags.value + ", " + str;
+}
+</SCRIPT>
+{% endblock %}
+
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<h1>Play</h1>
+{% if form %}
+<form method="post" action="" name="frm">
+<table>{{ form }}</table>
+<input type="submit" />
+</form>
+{% load tagclouds %}
+{% get_latest_cloudtag %}
+{% for tag in content_tagclouds|slice:"100" %}
+<div style="font-size:{{ tag.cloudsize }}; text-align:left;float:left" > <a href="JavaScript:writetag( '{{ tag.tag }}' );"> {{ tag.tag }}</a>, </div>
+{% endfor %}
+{% endif %}
+
+
+{% if ansarray %}
+{# Visualize question and answers #}
+<h1>Quiz</h1>
+{{ question }}<br>
+{% ifequal quiz.mediatype 2 %}
+<img src="http://www.openpursuit.org/media/upload/{{ quiz.filename}}" />
+{% endifequal %}
+<form name='play' action='' method='POST'">
+{% for ans in ansarray %}
+	<input type="radio" name="answer" value="{{ ans }}">{{ ans }} <br>
+{% endfor %}
+<input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+<input type="submit" name="action" value="play">
+</form>
+{% endif %}
+
+{% if noquizfound %}
+No Quiz found that match the tag(s).
+{% endif %}
+
+{% if youloose or youwin %}
+
+{% if youloose %}
+You loose!
+{% endif %}
+
+{% if youwin %}
+You win!
+{% endif %}
+
+{% if user.is_authenticated %}
+<br><br>
+Rate the quiz: <br>
+<form name='score' action='' method='POST'">
+<input type="hidden" name="quiz_id" value="{{ quiz_id }}">
+<input type="submit" name="score" value="positive">
+<input type="submit" name="score" value="negative">
+<input type="submit" name="score" value="noscore">
+</form>
+{% endif %}
+
+{% endif %}
+
+{% if noresp %}
+You give no response :-(
+{% endif %}
+
+{% endblock %}
+
