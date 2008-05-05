@@ -1,0 +1,42 @@
+Index: amf0.py
+===================================================================
+--- amf0.py     (revision 710)
++++ amf0.py     (revision 716)
+@@ -5,6 +5,8 @@
+ import datetime
+ import time
+ import socket
++import platform
++from math import pow
+ from decimal import Decimal
+ from types import *
+ try:
+@@ -58,6 +60,18 @@
+     AMF3_DATA_TYPE : 'read_amf3_data',
+ }
+ 
++def safe_htonl(v):
++    arch = platform.architecture()[0]
++    if arch == '64bit':
++        return int( socket.htonl(v) - (pow(2,32)) )
++    return socket.htonl(v)
++
++def safe_pack(s,v):
++    arch = platform.architecture()[0]
++    if s=='l' and arch == '64bit':
++        return struct.pack('i', v)
++    return struct.pack(s,v)
++
+ __number_to_int = False
+ 
+ def read_byte(input, context=None):
+@@ -257,7 +271,7 @@
+ 
+ def write_long(l, output):
+     amf.utils.logger().debug("amf0.write_long(%s)", repr(l))
+-    output.write(struct.pack('l', long(socket.htonl(l))))
++    output.write(safe_pack('l', long(safe_htonl(l)))) 
+ 
+ def write_utf(s, output):
+     s = encode_to_utf8(s)
+

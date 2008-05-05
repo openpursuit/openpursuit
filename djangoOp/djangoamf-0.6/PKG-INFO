@@ -1,0 +1,14 @@
+Metadata-Version: 1.0
+Name: djangoamf
+Version: 0.6
+Summary: Django AMF is a Middleware for Django web framework written in Python. It enables Flash/Flex applications to invoke Django's view functions with AMF(Action Message Format).
+Home-page: http://djangoamf.sourceforge.jp/
+Author: otsuka
+Author-email: otsuka@users.sourceforge.jp
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: GPL License
+Classifier: Intentded Audience :: Developers
