@@ -9,7 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
 import datetime
 from  django.utils import simplejson
-from djangoOp.widgets.autocomplete import AutoCompleteField
+from djangoOp.widgets.autocomplete import AutoCompleteWidget
+from django.conf.urls.defaults import *
+from django.core.urlresolvers import reverse
 
 
 def addnewquiz(request):
@@ -21,11 +23,24 @@ def addnewquiz(request):
 		wrongAnswer3 = forms.CharField(max_length=2000, label='Wrong answer')
 		reference = forms.URLField(max_length=2000, label='Provide a valid url (e.g. Wikipedia) where is possible to check the correctness of the answer')
 		difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL, label='Choose an appropriate difficulty level for the quiz')
-		tags = forms.CharField(required=False, widget=AutoCompleteField(url='/base/autocomplete/') , label='Insert one or more tags, separed by spaces')
+		tags = forms.CharField(required=False, label='Insert one or more tags, separed by spaces')
+		#tags = forms.CharField(required=True, widget=AutoCompleteWidget(reverse('djangoOp.op.views.json_lookup') ,'["resultset.results", "tag"]' ) , label='Insert one or more tags, separed by spaces')
 		language = forms.ChoiceField(choices=LANGUAGES, label='Select the language')
 		media = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'javascript:changeMedia();'}), choices=MEDIA_TYPE , label='Select the media type of the quiz')
-		media_file = forms.Field(widget=forms.FileInput(attrs={'disabled':'true'}), required=False, label='Select the multimedia resourcess related to the quiz (only for non textual quiz)')        
-	
+		media_file = forms.Field(widget=forms.FileInput(attrs={'disabled':'true'}), required=False, label='Select the multimedia resourcess related to the quiz (only for non textual quiz)')       
+
+		def __init__(self,*args, **kwargs ):
+			super(QuizForm, self).__init__(*args, **kwargs)
+			n_lookup_url = reverse('djangoOp.op.views.tags_ac')  # url to your view
+			#n_lookup_url = "http://www.openpursuit.org/base/tag_lookup/"
+			# see YUI docs to see what shema is. In general it 
+			#describes data returned from your view
+			n_schema = '["resultset.results", "tag", "occurrencies" ]' 
+			self.fields['tags'].widget = AutoCompleteWidget()
+			self.fields['tags'].widget.lookup_url = n_lookup_url
+			self.fields['tags'].widget.schema = n_schema
+
+		
 	if request.method == 'POST':
 		post_data = request.POST.copy()	
 		post_data.update(request.FILES)
@@ -40,6 +55,7 @@ def addnewquiz(request):
 			relatedtagsid = []
 			for t in request.POST['tags'].split(' '):
 				t = t.strip()
+				t = t.lower()
 				if t == '':
 					continue
 				#Se il tag non esiste lo aggiungo

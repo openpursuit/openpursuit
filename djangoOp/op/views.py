@@ -10,8 +10,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
 import datetime
 from  django.utils import simplejson
-from djangoOp.widgets.autocomplete import AutoCompleteField
+from django.template.defaultfilters import escape
 
+from django.core.serializers import serialize
+from django.db.models.query import QuerySet
+from django.db.models import Q
+import amf, amf.django
 
 
 import add_module, play_module, genpdf_module
@@ -40,9 +44,40 @@ def play(request):
 def generatepdf(request):
 	return genpdf_module.genpdf(request)
 
-from widgets.autocomplete import autocomplete_response
-def autocomplete(request):
-    lastTag = request.POST['text']
-    if lastTag.find(',') >= 0:
-    	lastTag = lastTag.rpartition(',')[2]
-    return autocomplete_response(lastTag, Tags , ('tag') )
+    
+class JsonResponse(HttpResponse):
+    def __init__(self, object):
+        if isinstance(object, QuerySet):
+            content = serialize('json', object)
+        else:
+            content = simplejson.dumps(object)
+        super(JsonResponse, self).__init__(content, mimetype='application/json')    
+    
+@login_required
+#@cache_control(no_cache=True)
+def tags_ac(request):
+    limit = 10
+    query = request.GET.get('query', None)
+    sep = ' ' # separator
+    if query.find(sep) != -1:
+        query = query.rsplit(sep, 1)[1]
+    qargs = []   
+    if query:
+        qargs = [Q(tag__contains=query) ]
+    tags = Tags.objects.filter(*qargs).order_by('tag')[:limit]
+    results = []
+    for tag in tags:
+        results.append({'id':tag.id,
+                        'tag':escape(tag.tag),
+                        'occurrencies':escape(tag.quiz_set.all().count())
+                        })
+    ret_dict = {'resultset':{'totalResultsReturned':len(results),
+                             'results':results}}
+    return JsonResponse(ret_dict)
+
+def getFlashQuestion(request):
+	return Quiz.objects.all()
+	
+def calculate(request, arg1, arg2): #1
+    return arg1 + arg2
+

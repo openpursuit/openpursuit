@@ -1,5 +1,7 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
+import amf.django
+
 
 urlpatterns = patterns('',
     # Example:
@@ -13,4 +15,6 @@ urlpatterns = patterns('',
 { 'document_root': settings.MEDIA_ROOT  }), 
      (r'^base/', include('djangoOp.op.urls')),
      (r'^accounts/', include('djangoOp.registration.urls')),
+     (r'^gateway/calculateService/(.*)', 'amf.django.views', {'views':'op.flashview'}), #1
+     (r'^gateway/getQuiz4Flash/(.*)', 'amf.django.views', {'views':'op.flashview'}), #1
 )

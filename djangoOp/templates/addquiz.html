@@ -3,14 +3,26 @@
 {% block title %}Index{% endblock %}
 
 {% block jscripts %}
-  <script src="/static/scripts/scriptaculous.js" type="text/javascript"></script>
+<!-- yui -->
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}scripts/yui/tabview/assets/skins/sam/tabview.css" />
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/utilities/utilities.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/autocomplete/autocomplete-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/datasource/datasource-beta-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/animation/animation-min.js"></script>
 
-  <script src="/static/scripts/prototype.js" type="text/javascript"></script>
-  <script src="/static/scripts/effects.js" type="text/javascript"></script>
-  <script src="/static/scripts/dragdrop.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}scripts/yui/autocomplete/assets/skins/sam/autocomplete-skin.css" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}scripts/yui/autocomplete/assets/skins/sam/autocomplete.css" />
 
-  <script src="/static/scripts/controls.js" type="text/javascript"></script>
-  
+<style type="text/css">
+ #autocomplete { text-align:center;width:20em; } 
+ #id_tags { position:static;width:20em; } /* to center, set static and explicit width: */ 
+ #id_tags_container { text-align:left;width:20em; } /* to center, set left-align and explicit width: */
+ .autocomplete_widget { text-align:left;width:20em; }
+
+
+</style>
+
+<!-- /yui-->
 <SCRIPT>
 
 
@@ -18,14 +30,15 @@ function writehelp(str){
  	document.frmhelp.id_help.value=str;
 }
 
-function addItemToTagsList(li){
-	if (document.frm.autocompleter.value.indexOf(' ') > -1 ){
-		rest = document.frm.autocompleter.value.substring(0, document.frm.autocompleter.value.lastIndexOf(' ') );
-		document.frm.autocompleter.value= rest + " " +li.innerHTML;
-	} else
-		document.frm.autocompleter.value=li.innerHTML;
-}
-
+/*
+//function addItemToTagsList(li){
+//	if (document.frm.autocompleter.value.indexOf(', ') > -1 ){
+//		rest = document.frm.autocompleter.value.substring(0, document.frm.autocompleter.value.lastIndexOf(' ') );
+//		document.frm.autocompleter.value= rest + " " + li.innerHTML;
+//	} else
+//		document.frm.autocompleter.value=li.innerHTML;
+//}
+*/
 function changeMedia(){
 	if (document.frm.id_media.options[0].selected)
 		document.frm.id_media_file.disabled = true;	
@@ -34,32 +47,6 @@ function changeMedia(){
 	}
 </SCRIPT>
 
-
- <style>
-  div.autocompleter {
-      position:absolute;
-      width:250px;
-      background-color:white;
-      border:1px solid #888;
-      margin:0px;
-      padding:0px;
-    }
-    div.autocompleter ul {
-      list-style-type:none;
-      margin:0px;
-      padding:0px;
-    }
-    div.autocompleter ul li.selected { background-color: #ffb;}
-    div.autocompleter ul li {
-      list-style-type:none;
-      display:block;
-      margin:0;
-      padding:2px;
-      height:32px;
-      cursor:pointer;
-    }
-
-  </style>
 
 {% endblock %}
 

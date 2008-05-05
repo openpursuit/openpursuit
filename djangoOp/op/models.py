@@ -10,8 +10,8 @@ DIFFICULTY_LEVEL = (
 MEDIA_TYPE = (
     (1, 'text'),
     (2, 'image'),
-    (3, 'audio'),
-    (4, 'video'),
+#    (3, 'audio'),
+#    (4, 'video'),
 )
 
 SCORE_TYPE = (
@@ -39,7 +39,8 @@ LANGUAGES = (
 
 class Tags(models.Model):
 	tag = models.CharField(max_length=2000)
-	
+	class Admin:
+		pass
 	def __str__(self):	
 		return "%s" % (self.tag)
 
@@ -76,7 +77,7 @@ class Quiz(models.Model):
 
 	#For multimedia question
 	mediatype = models.IntegerField("Media type", choices=MEDIA_TYPE)
-	filename = models.CharField("Name of the file", max_length=200)
+	filename = models.CharField("Name of the file", max_length=200, blank=True)
 	attachment = models.FileField("Attachment", upload_to='multimedia', blank=True)
 	#Url with a reference of where to find the right answer and more info about the question topic
 	reference = models.URLField("A website url with in-depth information about the quiz")
@@ -87,6 +88,8 @@ class Quiz(models.Model):
 		pass
 	def __unicode__(self):
 		return "%s" % (self.question)
+                
+                
 
 class Report(models.Model):
 	"""
