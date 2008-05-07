@@ -1,23 +1,150 @@
-{% extends "base.html" %}
 
-{% block title %}Index{% endblock %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Open Pursuit - The Open Quiz Game</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<meta name="generator" content="HAPedit 3.0">
+<style type="text/css">
+body{font: 76% arial,sans-serif;background-color: #FFFFFF}
+a:hover {
+	color: #FFFFFF;
+}
+a:link {
+	color: #FFFFFF;
+}
+a:visited {
+	color: #FFFFFF;
+}
+a:active {
+	color: #FFFFFF;
+}
+h1{clear: left;color: #ccc;font: normal 1.3em georgia,serif;letter-spacing: 2px}
+div.navigation{float:left;padding-top: 0px /*20*/}
+div.navigation ul{list-style-type: none;margin: 0;padding: 0}
+div.navigation li{margin:  0 0 0px;padding:0;border: 0px outset #000}
+div.navigation a{position:relative;display:block;width:180px;height:180px /*3 e 1*/}
+div.navigation a span{position:absolute;width:180px;height:180px;cursor: pointer; /*per IE*/ }
+div.navigation a:hover{color: #FFFFFF /*per IE*/}
+div.navigation a:hover span{background-position: -180px 0}
+div.navigation a#current span{background-position: -360px 0}
+li.one span{background: url("{{ MEDIA_URL }}img/rollprogetto.jpg")}
+li.two span{background: url("{{ MEDIA_URL }}img/rollforum.jpg")}
+li.three span{background: url("{{ MEDIA_URL }}img/rollfaq.jpg")}
+li.four span{background: url("{{ MEDIA_URL }}img/rollgioca.jpg")}
+li.five span{background: url("{{ MEDIA_URL }}img/rolllogo.jpg")}
+li.six span{background: url("{{ MEDIA_URL }}img/rollaggiungi.jpg")}
+li.seven span{background: url("{{ MEDIA_URL }}img/rollopensource.jpg")}
+li.eight span{background: url("{{ MEDIA_URL }}img/rollwidgets.jpg")}
+li.nine span{background: url("{{ MEDIA_URL }}img/rolllingua.jpg")}
+body {
+	background-image: url("{{ MEDIA_URL }}img/sfondo.jpg");
+}
 
-{% block content %}
-<h1>Welcome in OpenPursuit</h1>
-The first free and "open" database of question and answer, all released under Creative Commons licence. <br><br>
+
+table {
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 10px;
+}
+</style>
+<style type="text/css" media="print">
+div.navigation li a{height: auto;padding: 0.0em 0;font: bolder 1.4em "Arial Black",arial,sans-serif;
+    color: #000;text-decoration:none;text-align:center}
+div.navigation a span{display: none}
+</style>
+</head>
+<body>
+
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+
+<TD>
+<div class="navigation">
 <ul>
-<li><b>How does it works?</b> It's easy. Everyone can <a href="/accounts/register/">register</a> to the site and then populate a free database. 
-Each question/answer matches one or more <a href="http://en.wikipedia.org/wiki/Tags">tags</a> so it is possibile to play with friend with questions related to generic topics like "art" or "literature", or very specific ones such "internet", "math", "geeks".  
-</li><br>
-
-<li><b>How to play?</b>Everyone can use the database by plaing in this site, in othersite or dump some question and play it offline, for example on a mobile phone. More detailated info in the <a href="/accounts/instructions/">instructions</a> page.</li><br>
-
-<li><b>What do you mean with "Open"?</b> The OpenPursuit project follow an open architecture. Open source server side code released under GPL3 licence, quiz released under creative commons open licences, database open for input and output insert/queries, a community open to accept you in the staff for discussuss on the project and control the quality of the quiz.</li><br>
-
-<li><b>Can I partecipate?</b> Sure! You can partecipate adding new questions, joining the mailing list and  eventually enter in the openpursuit developing team</li>
-<li><b>What else?</b> Dunno! Just play and enjoy yourself! :-) </li>
+<li class="one"><a href="base/project.html"><span></span>Progetto</a></li>
 </ul>
+</div>
+</TD>
+
+<TD>
+<div class="navigation">
+<ul>
+<li class="two"><a href="http://www.bzzauz.org/forumdisplay.php?fid=11"><span></span>Forum</a></li>
+</ul>
+</div>
+</TD>
+
+<TD>
+<div class="navigation">
+<ul>
+<li class="three"><a href="base/faq.html"><span></span>FAQ</a></li>
+</ul>
+</div>
+</TD>
+
+</TR>
+	
+<TR>
+
+<TD>
+<div class="navigation">
+<ul>
+<li class="four"><a href="base/play.html"><span></span>Gioca</a></li>
+</ul>
+</div>
+</TD>
+
+<TD>
+<div class="navigation">
+<ul>
+<li class="five"><a href="#"><span>OpenPursuit</span></a></li>
+</ul>
+</div>
+</TD>
+
+<TD>
+<div class="navigation">
+<ul>
+<li class="six"><a href="base/add.html"><span></span>Aggiungi Quiz</a></li>
+</ul>
+</div>
+</TD>
+
+</TR>
+
+<TR>
+
+<TD>
+<div class="navigation">
+<ul>
+<li class="seven"><a href="base/code.html"><span></span>Open Source</a></li>
+</ul>
+</div>
+</TD>
+
+<TD>
+<div class="navigation">
+<ul>
+<li class="eight"><a href="base/widgets.html"><span></span>Widgets</a></li>
+</ul>
+</div>
+</TD>
+
+<TD>
+<div class="navigation">
+<ul>
+<li class="nine"><a href="#"><span></span>Language</a></li>
+</ul>
+</div>
+</TD>
+
+</TR>
 
 
+	
+</TABLE>
 
-{% endblock %}
+
+</body>
+</html>

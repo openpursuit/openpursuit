@@ -8,7 +8,13 @@ def calculate(request, arg1, arg2): #1
 def calculate2(request, obj):       #2
     obj['sum'] = obj['arg1'] + obj['arg2']
     return obj
-    
+
+def getTags(request):
+	mytags = []
+	tags = Tags.objects.all()
+	for tag in tags:
+		mytags.append(tag.tag)
+	return mytags
     
 def getQuiz4Flash(request, topic):
 	quiz = None
