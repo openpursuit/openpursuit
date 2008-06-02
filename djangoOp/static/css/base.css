@@ -1,3 +1,197 @@
-body,html {	margin:0;	padding:0;	background:#a7a09a;	color:#000;}body {	min-width:750px;}#wrap {	background:#99c;	margin:0 auto;	width:750px;}#header {	background:#ddd;}#header h1 {   	padding:5px;    margin:0;   }#nav {	background:#c99;	padding:5px;}#nav ul{	margin:0;	padding:0;	list-style:none;}#nav li{	display:inline;	margin:0;	padding:0;}#main {	background:#9c9;	float:left;	width:500px;}#main h2, #main h3, #main p {	padding:0 10px;   }#sidebar {	background:#99c;	float:right;	width:240px;}#sidebar ul {	margin-bottom:0;   }   #sidebar h3, #sidebar p {	padding:0 10px 0 0;   }#footer {	background:#cc9;	clear:both;}#footer p {	padding:5px;	margin:0;   }
+body,html {	margin:0;	padding:0;//	background:#000000;
+	background-image: url(http://www.openpursuit.org/media/img/sfondo.jpg);	color:#CCCCCC;
+	font-family: "Century Gothic", Arial;}
+
+body a {
+	color:#CCCCCC;
+	
+}
+
+body a:hover, a:focus, a:active{ 
+	color:#CCCCCC;
+	font-weight: bold;
+}
+
+
+#container {
+	width: 930px;
+	margin-right: auto;
+	margin-left: auto;
+}
+#header h1 {   	padding:5px;    margin:0;   }#nav {	//background:#c99;	padding:5px;}#nav ul{	margin:0;	padding:0;	list-style:none;}#nav li{	display:inline;	margin:0;	padding:0;}#main {	//background:#9c9;	//float:left;	//width:600px;
+	color: #999999;}
+
+
+#main h2, #main h3, #main p {	padding:0 10px;   }/*#footer {	background:#cc9;	clear:both;}#footer p {	padding:5px;	margin:0;   }
+*/ 
+#auth_message {
+	clear: left;
+	//width: 100%;
+	color:#CCCCCC;
+	}
+
+#header {
+	//background-image: url(http://www.openpursuit.org/media/img/header.png);
+	background-repeat: no-repeat;
+	height: 100px;
+	width: 700px;
+	margin-top: 15px;
+	float: left;
+}
+#header a {
+	border-style: none
+}
+
+#menu02o {
+	width: 100%;
+	font: 80% Century Gothic, Arial;
+	//margin: 10px;
+	float: left;
+}
+
+#menu02o ul{
+margin: 0;
+padding-left: 0;
+list-style: none;
+}
+
+#menu02o #play {
+	background-image: url(http://www.openpursuit.org/media/img/menu_giocadadi.jpg);
+}
+#menu02o #add {
+	background-image: url(http://www.openpursuit.org/media/img/menu_aggiungi+.jpg);
+}
+
+#menu02o a#project:hover,#menu02o  a#project:focus,#menu02o  a#project:active{
+	color: #FFFFFF;
+	background-image: url(http://www.openpursuit.org/media/img/menu_over_progetto.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+#menu02o a#play:hover,#menu02o  a#play:focus,#menu02o  a#play:active{
+	color: #FFFFFF;
+	background-image: url(http://www.openpursuit.org/media/img/menu_gioca_over.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+
+#menu02o a#add:hover,#menu02o  a#add:focus,#menu02o  a#add:active{
+	color: #FFFFFF;
+	background-image: url(http://www.openpursuit.org/media/img/menu_aggiungi_over.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+
+#menu02o a#forum:hover,#menu02o  a#forum:focus,#menu02o  a#forum:active{
+	color: #CCCCCC;
+	background-image: url(http://www.openpursuit.org/media/img/menu_over_forum.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+
+#menu02o a#faq:hover,#menu02o  a#faq:focus,#menu02o  a#faq:active{
+	color: #FFFFFF;
+	background-image: url(http://www.openpursuit.org/media/img/menu_over_faq.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+#menu02o a#opensource:hover,#menu02o  a#opensource:focus,#menu02o  a#opensource:active{
+	color: #FFFFFF;
+	background-image: url(http://www.openpursuit.org/media/img/menu_over_opensource.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+
+
+#menu02o a#widgets:hover,#menu02o  a#widgets:focus,#menu02o  a#widgets:active{
+	color: #FFFFFF;
+	background-image: url(http://www.openpursuit.org/media/img/menu_over_widgets.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+
+#menu02o li{
+font-size: 1.1em;
+display: inline;
+margin: 0;
+padding: 0;
+}
+#menu02o h1 {
+	font-family: "Century Gothic", Arial;
+	font-size: 14px;
+	color: #CCCCCC;
+	font-weight: 400;
+}
+
+#menu02o a:link, #menu02o a:visited{
+	background-image: url(http://www.openpursuit.org/media/img/menu_box.jpg);
+	background-repeat: no-repeat;
+	float: left;
+	height: 45px;
+	width: 100px;
+	text-align: center;
+	padding-top: 10px;
+	margin-right: 1px;
+	color: #999999;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+#login {
+	width: 200px;
+	float: right;
+	height: 100px;
+	text-align: right;
+	margin-top: 15px;
+	
+}
+
+#text_content{
+	width: 600px;
+	float: left;
+	}
+
+#text_helper{
+	width: 300px;
+	float: right;
+}
+
+#login dt {
+	margin-top: 3px;
+	}
+#login #button {
+	margin-top: 7px;
+	float: right;
+	
+	}
+
+
+.roundedcornr_box_247070 {
+	background: url(http://www.openpursuit.org/media/img/roundedcornr_247070_tl.png) no-repeat top left;
+}
+.roundedcornr_top_247070 {
+	background: url(http://www.openpursuit.org/media/img/roundedcornr_247070_tr.png) no-repeat top right;
+}
+.roundedcornr_bottom_247070 {
+	background: url(http://www.openpursuit.org/media/img/roundedcornr_247070_bl.png) no-repeat bottom left;
+}
+.roundedcornr_bottom_247070 div {
+	background: url(http://www.openpursuit.org/media/img/roundedcornr_247070_br.png) no-repeat bottom right;
+}
+.roundedcornr_content_247070 {
+	background: url(http://www.openpursuit.org/media/img/roundedcornr_247070_r.png) top right repeat-y;
+}
+
+.roundedcornr_top_247070 div,.roundedcornr_top_247070,
+.roundedcornr_bottom_247070 div, .roundedcornr_bottom_247070 {
+	width: 100%;
+	height: 15px;
+	font-size: 1px;
+}
+.roundedcornr_content_247070, .roundedcornr_bottom_247070 {
+	margin-top: -19px;
+}
+.roundedcornr_content_247070 { padding: 15px 15px; }
+
 
 

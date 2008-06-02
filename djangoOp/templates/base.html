@@ -10,50 +10,99 @@
 </head>
 
 <body>
-  <div id="wrap">
-    <div id="header">
-        <h1>OpenPursuit</h1>
-    </div>
-    <div id="nav">
-    {#% block sidebar %#}
-    {% block navbar %}
-    {% load tags %}
-    <ul>
-    <li><a class="{% active request "^/$" %}" href="/">Home</a></li>
-     <li><a class="{% active request "^/base/play/" %}" href="/base/play/">Play</a></li>
-    <li><a class="{% active request "^/base/add/" %}" href="/base/add/">AddQuiz</a></li>
-    <li><a class="{% active request "^/base/project/" %}" href="/base/project/">TheProject</a></li>
-    <li><a class="{% active request "^/base/code/" %}" href="/base/code/">Code</a></li>
-    <li><a class="{% active request "^admin/" %}" href="/admin/">Admin</a></li>
-    {% if user.is_authenticated %}
-    <li><a class="{% active request "^/accounts/logout/" %}" href="/accounts/logout/">Logout</a></li>
-    {% else %}
-    <li><a class="{% active request "^/accounts/login/" %}" href="/accounts/login/">Login</a></li>
-    {% endif %}
-    
-    
-    {% if user.is_authenticated %}
-	    <li><p>Welcome, {{ user.username }}. Thanks for logging in.</p></li>
-	{% else %}
-	    <li><p>Welcome, new user. Please log in.</p></li>
-	{% endif %}
-	
-    </ul>
-    {% endblock %}
-    </div>
+  <div id="container">
+  
+  
+  <div id="header">
+  <a href="http://www.openpursuit.org">
+  <img src="{{ MEDIA_URL }}img/header.png"  style="border-style: none"/>
+  </a>
+  </div>
+ 
+ 	<div id="login"><small>Accedi/<a href="/accounts/register/">Registrati</a>
+	 <form method="post" action="{% if next %}?next={{ next }}{% endif %}">
+		<dl>
+		<dt><label for="id_username">User:</label>
+		<input type="text" id="id_username" class="vTextField required" name="username" size="10" value="" maxlength="30" /></dt>
+		<dt><label for="id_password">Pass:</label>
+		<input type="password" id="id_password" class="vPasswordField required" name="password" size="10" value="" maxlength="30" /></dt>
+		<dt id="button"><input type="submit" value="Log in" /></dt>
+		</dl>
+		</form>
+	</small>
+	</div>
+ 
+ 
+ 
+  <div id="menu02o">
+
+ {% block navbar %}
+	    {% load tags %}
+		 <ul>
+		 <h1>
+		  <li><a class="{% active request "^/base/project/" %}" href="/base/project/" id="project">Progetto</a></li>
+		  <li><a class="{% active request "^/base/play/" %}" href="/base/play/" id="play">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gioca</a></li>
+		  <li><a class="{% active request "^/base/add/" %}" href="/base/add/" id="add" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add Quiz</a></li>
+		  <li><a href="http://www.bzzauz.org/forumdisplay.php?fid=11" id="forum">Forum</a></li>
+		  <li><a class="{% active request "^/base/faq/" %}" href="/base/faq/" id="faq">Faq</a></li>
+		   <li><a class="{% active request "^/base/code/" %}" href="/base/code/" id="opensource">OpenSource</a></li>
+		  <li><a href="#" id="widgets">Widgets</a></li>
+		  <!-- li><a class="{% active request "^admin/" %}" href="/admin/">Admin</a></li -->
+			{% if user.is_authenticated %}
+			<li><a class="{% active request "^/accounts/logout/" %}" href="/accounts/logout/">Logout</a></li>
+			{% else %}
+			<!-- li><a class="{% active request "^/accounts/login/" %}" href="/accounts/login/">Login</a></li -->
+			{% endif %}
+		 </h1>
+		 </ul>
+		 {% endblock %}
+
+</div>
+
+		 
+		 <div id="auth_message">
+		 {% if user.is_authenticated %}
+			<p>Benvenuto/a, {{ user.username }}.</p>
+			{% else %}
+			<p>Benvenuto/a, effettua il login.</p>
+			{% endif %}
+		 </div>
+
+
     <div id="main">
-        {% block content %}{% endblock %}
-    </div>
-    <div id="sidebar">
-        {% block sidebar %}{% endblock %}
+    
+    <div class="roundedcornr_box_247070" id="text_content">
+   <div class="roundedcornr_top_247070"><div></div></div>
+	      <div class="roundedcornr_content_247070">
+	         {% block content %}{% endblock %}
+	      </div>
+	   <div class="roundedcornr_bottom_247070"><div></div></div>
+	</div>
     </div>
     
-    <div id="footer">
+    <div class="roundedcornr_box_247070" id="text_helper">
+   <div class="roundedcornr_top_247070"><div></div></div>
+	      <div class="roundedcornr_content_247070">
+	        SITO IN COSTRUZIONE
+	         {% block sidebar %}{% endblock %}
+	      </div>
+	   <div class="roundedcornr_bottom_247070"><div></div></div>
+	</div>
+</div>	 
+ </div>
+    
+    
+    
+    <!-- div id="footer">
     {% block footer %} 
      Footer Footer Footer<br>
     {% endblock %}
-    </div>
- </div>
+    </div -->
+    
+    
+ <!-- /div -->
+ 
+ 
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
