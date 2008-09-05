@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet"
  href="{% block stylesheet %}{{ MEDIA_URL }}css/base.css{% endblock %}"/>
-    <title>{% block title %}OpenPursuit{% endblock %}</title>
+    <title>OpenPursuit - {% block title %}OpenPursuit{% endblock %}</title>
 {% block jscripts %}    
 {% endblock %}
 </head>
@@ -19,8 +19,14 @@
   </a>
   </div>
  
- 	<div id="login"><small>Accedi/<a href="/accounts/register/">Registrati</a>
-	 <form method="post" action="{% if next %}?next={{ next }}{% endif %}">
+ 	<div id="login">
+ 	
+ 	{% if user.is_authenticated %}
+ 	<a href="/accounts/logout/">Logout</a><br>
+ 	<a href="/admin/">Admin</a>
+ 	{% else %}
+ 	 <small>Accedi/<a href="/accounts/register/">Registrati</a>
+	 <form method="post" action="/accounts/login/?next={{ request.path }}">
 		<dl>
 		<dt><label for="id_username">User:</label>
 		<input type="text" id="id_username" class="vTextField required" name="username" size="10" value="" maxlength="30" /></dt>
@@ -30,6 +36,7 @@
 		</dl>
 		</form>
 	</small>
+	{% endif %}
 	</div>
  
  
@@ -46,13 +53,8 @@
 		  <li><a href="http://www.bzzauz.org/forumdisplay.php?fid=11" id="forum">Forum</a></li>
 		  <li><a class="{% active request "^/base/faq/" %}" href="/base/faq/" id="faq">Faq</a></li>
 		   <li><a class="{% active request "^/base/code/" %}" href="/base/code/" id="opensource">OpenSource</a></li>
-		  <li><a href="#" id="widgets">Widgets</a></li>
-		  <!-- li><a class="{% active request "^admin/" %}" href="/admin/">Admin</a></li -->
-			{% if user.is_authenticated %}
-			<li><a class="{% active request "^/accounts/logout/" %}" href="/accounts/logout/">Logout</a></li>
-			{% else %}
-			<!-- li><a class="{% active request "^/accounts/login/" %}" href="/accounts/login/">Login</a></li -->
-			{% endif %}
+		  <li><a class="{% active request "^/base/widgets/" %}" href="/base/widgets/" id="widgets">Widgets</a></li>
+		
 		 </h1>
 		 </ul>
 		 {% endblock %}
@@ -64,40 +66,55 @@
 		 {% if user.is_authenticated %}
 			<p>Benvenuto/a, {{ user.username }}.</p>
 			{% else %}
-			<p>Benvenuto/a, effettua il login.</p>
+			<p>Benvenuto/a, <a href="/accounts/register/">registrati</a> o effettua il <a href="/accounts/login/">login</a>.</p>
 			{% endif %}
 		 </div>
 
 
     <div id="main">
     
-    <div class="roundedcornr_box_247070" id="text_content">
-   <div class="roundedcornr_top_247070"><div></div></div>
-	      <div class="roundedcornr_content_247070">
-	         {% block content %}{% endblock %}
-	      </div>
-	   <div class="roundedcornr_bottom_247070"><div></div></div>
-	</div>
-    </div>
-    
-    <div class="roundedcornr_box_247070" id="text_helper">
-   <div class="roundedcornr_top_247070"><div></div></div>
-	      <div class="roundedcornr_content_247070">
-	        SITO IN COSTRUZIONE
-	         {% block sidebar %}{% endblock %}
-	      </div>
-	   <div class="roundedcornr_bottom_247070"><div></div></div>
-	</div>
-</div>	 
- </div>
+  <div id="text_content">   
+ 
+ <div class="my_corners_t">
+<div class="my_corners_l">
+<div class="my_corners_r">
+<div class="my_corners_b">
+<div class="my_corners_tl">
+<div class="my_corners_tr">
+<div class="my_corners_bl">
+<div class="my_corners_br">
+<div class="my_corners">
+{% block content %}{% endblock %}
+</div></div></div></div></div></div></div></div></div>
+
+</div>   
     
     
+ <div id="text_helper">   
+ 
+ <div class="my_corners_t">
+<div class="my_corners_l">
+<div class="my_corners_r">
+<div class="my_corners_b">
+<div class="my_corners_tl">
+<div class="my_corners_tr">
+<div class="my_corners_bl">
+<div class="my_corners_br">
+<div class="my_corners">
+ {% block sidebar %}{% endblock %}
+</div></div></div></div></div></div></div></div></div>
+
+</div>
+
+
+<!-- powered by http://mierendo.com/software/rounded_css_boxes/ -->
     
-    <!-- div id="footer">
+    
+    
+    <!-- div id="footer" -->
     {% block footer %} 
-     Footer Footer Footer<br>
     {% endblock %}
-    </div -->
+    <!-- /div -->
     
     
  <!-- /div -->

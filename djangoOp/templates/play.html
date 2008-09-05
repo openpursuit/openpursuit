@@ -1,11 +1,29 @@
 {% extends "base.html" %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Gioca{% endblock %}
 
 {% block content %}
-<h1>Play</h1>
-<a href="../onlinegame1">Online Game</a>
+<h1 class="playh">Play</h1>
+<!-- a href="/base/onlinegame1">Online Game</a -->
+<a href="/base/flash1">Gioca Online</a>
 <br>
-<a href="../generatepdf">Dowload PDF with cards</a>
+Gioca online con il gioco in Flash!
+<br>
+<br>
+
+<a href="/base/generatepdf">Scarica i quiz in PDF</a>
+<br>
+Scarica i quiz in pdf e gioca offline! <br> 
+(Attualmente in costruzione)
+<br>
+<br>
 {% endblock %}
 
+
+
+
+{% block sidebar %}
+<div style="text-align: center;">
+<img src="{{ MEDIA_URL }}img/logo.png" "/>
+</div>
+{% endblock %}

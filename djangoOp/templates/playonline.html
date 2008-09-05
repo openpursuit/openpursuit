@@ -16,7 +16,7 @@ function writetag(str){
 {% block title %}Index{% endblock %}
 
 {% block content %}
-<h1>Play</h1>
+<h1 class="play">Play</h1>
 {% if form %}
 <form method="post" action="" name="frm">
 <table>{{ form }}</table>
@@ -32,7 +32,7 @@ function writetag(str){
 
 {% if ansarray %}
 {# Visualize question and answers #}
-<h1>Quiz</h1>
+<h1 class="play">Quiz</h1>
 {{ question }}<br>
 {% ifequal quiz.mediatype 2 %}
 <img src="http://www.openpursuit.org/media/upload/{{ quiz.filename}}" />

@@ -1,27 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}Instructions{% endblock %}
+{% block title %}Open Source{% endblock %}
 
 {% block content %}
-<h1>Instructions</h1>
+<h1 class="opensourceh">Open Source</h1>
 
-<h2>Play</h2>
-How to play:
+<a name="develop"><h1 class="opensourceh">Sviluppare la propria applicazione</h1></a>
+Per sviluppare la propria applicazione e renderla in grando di interagire con il database di domande in OpenPursuit, dovete anzitutto scegliere il tipo di interfaccia che preferite per interagire con il database. Le alternative al momento sono:
+<br>
+MySQL: Potete effettuare delle query in sola lettura
+<br>
+AMF: Per far interagire le applicazioni in flash con il database
+<br>
+Assicuratevi di aver letto attentamente <a href="/base/project/#licences">la licenza</a> sotto la quale sono pubblicate le domande.
+<a name="contribute"><h1 class="opensourceh">Contribuire ad OpenPursuit</h1></a>
+Se volete contribuire allo sviluppo di OpenPursuit, potete darci una mano in diversi modi:
+<ul>
+<li>Introducendo nuove domande! </li>
+<li>Partecipando come moderatori, migliorando e revisionando le domande scritte da altri utenti</li>
+<li>Sviluppando o migliorando il sito web</li>
+</ul>
 
+Se siete interessati a quest'ultimo punto vi inviamo a chiedere sul forum un invito per la mailing list degli sviluppatori, e a visionare il <a href="">codice sorgente</a> del sito di OpenPursuit segnalando eventuali bug o introducendo migliorie.<br>
+Un utile guida potete trovarla anche sul <a href="http://wiki.ninux.org/OpenPursuit">wiki di ninux</a>.
 
-<h2>Rules of the game</h2>
-Feedback, spam etc etc
-
-
-<h2>Database:</h2>
-How the db works
-Feedback and rules of the game
-Howto dump the databse
-
-
-<h2>The Code</h2>
-
+<a name="help"><h1 class="opensourceh">Chiedere aiuto</h1></a>
+Per problemi, scrivete sul forum!
 
 
 {% endblock %}
 
+
+{% block sidebar %}
+<ul style="list" style="text-align: left;">
+<li><a href="#develop">Sviluppare applicazione</a></li>
+<li><a href="#contribute">Contribuire ad OpenPursuit</a></li>
+<li><a href="#help">Chiedere aiuto</a></li>
+</ul>
+{% endblock %}

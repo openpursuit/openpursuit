@@ -1,12 +1,68 @@
 {% extends "base.html" %}
 
-{% block title %}Community{% endblock %}
+{% block title %}Il Progetto{% endblock %}
 
 {% block content %}
-<h1>Community</h1>
-To join the Open Pursuit developers mailing list please ask for an invite to ziducaixao-at-autistici.org
+<a name="whatis"><h1 class="projecth">Che cos'è Open Pursuit</h1></a>
+Te lo diciamo in tre punti:<br>
+<ul>
+<li> 
+OpenPursuit è un <b>database libero</b> di domande e <b>quiz</b> rilasciati sotto licenza <b>Creative Commons</b>. Questo vuol dire che chiunque può accere al database <a href="/base/add/">aggiungere nuovi quiz</a>, utilizzarlo per creare una <a href="/base/code/">propria applicazione</a> o per <a href="/base/play/">giocare</a> sia online che offline (ad esempio stampando le domande su carta! ).<br>
+</li>
+<li>
+A ciascuna domanda sono assocciati dei <b>tag</b> in modo tale da poter inserire domande specifiche di qualunque settore, dall'arte barocca alla astrofisica e permettere sfide anche tra specialisti!
+Le domande possono essere <b>multimediali</b> ovvero possono contenere immagini, video, musica, consentendo praticamente ogni qual tipo di gioco a quiz! <br>
+</li>
+<li>
+Le domande possono essere votate positivamente o negativamente dalla <b>community</b> in modo tale che le migliori domande abbiano piu' possibilità di venire estratte. Quiz sbagliati o <i>off topic</i> possono essere segnalati ai moderatori che provvederanno ad accertarne la  correttezza. 
+</li>
+</ul>
+
+
+<a name="idea"><h1 class="projecth">Come nasce l'idea</h1></a>
+L'idea nasce all'interno della communità wireless <a href="http://www.ninux.org">Ninux.org</a> con lo scopo di fare sfide specialistiche (ovvero nerd!) insieme ai propri compagni di facolta'! Perchè giocare a Trivial Pursuit con le domande sul calcio se a nessun dei presenti interessa?
+
 <br>
-Open Pursuit will partecipate to the <a href="http://code.google.com/android/adc.html">Google Android contest</a>. In the remote,unprobably case we'll win, the money will help the realization of a free wireless network in Rome.
-More info about the project on <a href="http://www.ninux.org">Ninux.org</a>.
+
+
+<a name="licences"><h1 class="projecth">Che licenze adottate</h1></a>
+Le domande sono rilasciate secondo <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.it">questa licenza Creative Commons</a>. <br>
+Nel primo punto questa licenza specifica che devi dichiarare la paternita' nei modi scritti dall'autore. La nostra clausola è che se vuoi utilizzare le domande del database per una tua qualche applicazione, devi presentare in modo chiaro su ogni quiz, un rimando al logo e/o al sito di OpenPursuit. <br>
+Il codice del sito è <a href="https://svn.ninux.org/svn/ninuxdeveloping/openpursuit/">disponibile</a> sotto licenza <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPL 3</a> (vedere la sezione <a href="/base/code/">Open Source</a> per maggiori dettagli).
+
+<br>
+<a name="join"><h1 class="projecth">Come partecipare</h1></a>
+Il metodo più semplice per contribuire è aggiungere delle domande belle, corrette e divertenti. E' anche importante aiutare i "moderatori" segnalando le domande errate. Per diventare moderatore, basta richiederlo sul <a href="http://www.bzzauz.org/forumdisplay.php?fid=11">forum</a> dopo essersi presentati ed aver dato prova di affidabilità.
+
+<br>
+
+
+<a name="sola"><h1 class="projecth">Dov'è la fregatura</h1></a>
+Tema tipico italiano. Al momento non ci viene in mente...
+
+<br>
+<a name="credits"><h1 class="projecth">Crediti</h1></a>
+Le seguenti persone hanno contribuito alla realizzazione del progetto:<br>
+Lorenzo Bracciale - OrazioPirataDelloSpazio (idea - django framework)<br>
+Francesca Coppola - Scevra (grafica)<br>
+Francesco Saverio Proto - ZioProto (debugging)<br>
+Fabio Ruffolo - Sausikkia (consulente)<br>
+
+
+<a name="contact"><h1 class="projecth">Contatti</h1></a>
+Per contattarci puoi usare il forum oppure scriverci una mail a: <br>
+openpursuit - @ - openpursuit.org
+<br><br>
 {% endblock %}
 
+{% block sidebar %}
+<ul style="list">
+<li><a href="#whatis">Che cos'è OpenPursuit</a></li>
+<li><a href="#idea">Come nasce l'idea</a></li>
+<li><a href="#licences">Che licenze adottate</a></li>
+<li><a href="#join">Come partecipare</a></li>
+<li><a href="#sola">Dov'e' la fregatura</a></li>
+<li><a href="#credits">Crediti</a></li>
+<li><a href="#contact">Contatti</a></li>
+</ul>
+{% endblock %}
