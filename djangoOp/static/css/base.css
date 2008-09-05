@@ -1,6 +1,12 @@
-body,html {	margin:0;	padding:0;//	background:#000000;
-	background-image: url(http://www.openpursuit.org/media/img/sfondo.jpg);	color:#CCCCCC;
-	font-family: "Century Gothic", Arial;}
+body,
+html {
+	margin:0;
+	padding:0;
+
+	background-image: url(http://www.openpursuit.org/media/img/sfondo.jpg);
+	color:#CCCCCC;
+	font-family: "Century Gothic", Arial;
+}
 
 body a {
 	color:#CCCCCC;
@@ -12,22 +18,107 @@ body a:hover, a:focus, a:active{
 	font-weight: bold;
 }
 
+ul {
+	list-style: disc;
+	margin-left: 1em;
+	padding-left: 0em;
+	text-indent: 0em;
+}
 
-#container {
+
+#text_helper ul {
+	list-style: none;
+
+}
+
+
+
+#container {
 	width: 930px;
 	margin-right: auto;
 	margin-left: auto;
+	text-align: justify;
 }
-#header h1 {   	padding:5px;    margin:0;   }#nav {	//background:#c99;	padding:5px;}#nav ul{	margin:0;	padding:0;	list-style:none;}#nav li{	display:inline;	margin:0;	padding:0;}#main {	//background:#9c9;	//float:left;	//width:600px;
-	color: #999999;}
 
+#header h1 {
+   	padding:5px;
+    margin:0;
+   }
+#nav {
+	//background:#c99;
+	padding:5px;
+}
+#nav ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#nav li{
+	display:inline;
+	margin:0;
+	padding:0;
+}
+#main {
+	//background:#9c9;
+	//float:left;
+	//width:600px;
+	color: #999999;
+}
 
-#main h2, #main h3, #main p {	padding:0 10px;   }/*#footer {	background:#cc9;	clear:both;}#footer p {	padding:5px;	margin:0;   }
+#main h1 {
+	font-size: 22px;
+	font-weight: normal; 
+	text-decoration: none; 
+	margin-top: 20px;
+	margin-bottom: 5px;
+	}
+
+#main h2, #main h3, #main p {
+	padding:0 10px;
+   }
+/*
+#footer {
+	background:#cc9;
+	clear:both;
+}
+#footer p {
+	padding:5px;
+	margin:0;
+   }
 */ 
+
+.projecth {
+	color: #b9e02f;
+}
+.playh {
+	color: #b578b4;
+}
+.addh {
+	color: #30caa8;
+}
+.faqh {
+	color: #fc8c89;
+}
+.opensourceh {
+	color: #85c9fa;
+}
+.widgetsh {
+	color: #ff782c;
+}
+
+.myblock{
+
+	border-width: 1px;
+	border-color: #CCCCCC;
+	padding: 10px 10px 10px 10px;
+	}
+
 #auth_message {
 	clear: left;
+	padding-bottom: 13px;
 	//width: 100%;
 	color:#CCCCCC;
+	
 	}
 
 #header {
@@ -164,6 +255,85 @@ padding: 0;
 	float: right;
 	
 	}
+
+/* powered by http://mierendo.com/software/rounded_css_boxes/ */
+.my_corners_tl, .my_corners_t, .my_corners_tr, .my_corners_l, .my_corners_r, .my_corners_bl, .my_corners_b, .my_corners_br, .my_corners {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    position: relative;
+}
+.my_corners_t {
+    /*
+        change this div to layout the whole box (width, height, float, margin, ...)
+        example lines:
+        width: 60%;
+        margin: 7px 35px 0px 1px
+        to change distance to content/text scroll to class ".my_corners" and change the padding
+    */
+    background-color: #ffffff;
+    background-image: url("http://www.openpursuit.org/media/img/my_corners_border.png");
+    background-repeat: repeat-x;
+    background-position: top;
+}
+.my_corners_tl {
+    height: 100%;
+    background-image: url("http://www.openpursuit.org/media/img/my_corners_topleft.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+.my_corners_tr {
+    height: 100%;
+    background-image: url("http://www.openpursuit.org/media/img/my_corners_topright.png");
+    background-repeat: no-repeat;
+    background-position: right top;
+}
+.my_corners_bl {
+    height: 100%;
+    background-image: url("http://www.openpursuit.org/media/img/my_corners_bottomleft.png");
+    background-repeat: no-repeat;
+    background-position: left bottom;
+}
+.my_corners_br {
+    height: 100%;
+    background-image: url("http://www.openpursuit.org/media/img/my_corners_bottomright.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+}
+.my_corners {
+    height: 100%;
+    /* change this if you want to change the distance distance to text/content */
+    padding: 5px 6px 5px 6px;
+}
+
+.my_corners_l {
+    height: 100%;
+    background-image: url("http://www.openpursuit.org/media/img/my_corners_border.png");
+    background-repeat: repeat-y;
+    background-position: left;
+}
+.my_corners_r {
+    height: 100%;
+    background-image: url("http://www.openpursuit.org/media/img/my_corners_border.png");
+    background-repeat: repeat-y;
+    background-position: right;
+}
+.my_corners_b {
+    height: 100%;
+    background-image: url("http://www.openpursuit.org/media/img/my_corners_border.png");
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+.my_corners {
+	padding-top: 12px;
+	padding-right: 23px;
+	padding-bottom: 12px;
+	padding-left: 23px;
+	
+	}
+
 
 
 .roundedcornr_box_247070 {

@@ -80,7 +80,7 @@ class Quiz(models.Model):
 	filename = models.CharField("Name of the file", max_length=200, blank=True)
 	attachment = models.FileField("Attachment", upload_to='multimedia', blank=True)
 	#Url with a reference of where to find the right answer and more info about the question topic
-	reference = models.URLField("A website url with in-depth information about the quiz")
+	reference = models.URLField("A website url with in-depth information about the quiz", blank=True )
 	class Admin:
 		date_hierarchy = 'date'
 		list_display = ('question', 'author')

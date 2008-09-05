@@ -20,9 +20,12 @@ urlpatterns = patterns('',
      (r'add', 'djangoOp.op.views.addquiz'),
      (r'play', 'djangoOp.op.views.play'),
      (r'onlinegame1', 'djangoOp.op.views.playonline'),
+     (r'flash1', 'djangoOp.op.views.flash1'),
      (r'generatepdf', 'djangoOp.op.views.generatepdf'),
      (r'code', 'djangoOp.op.views.code'),
      (r'project', 'djangoOp.op.views.project'),
+     (r'widgets', 'djangoOp.op.views.widgets'),
+     (r'faq', 'djangoOp.op.views.faq'),
      (r'^tag_lookup/$', 'djangoOp.op.views.tags_ac'),
 
 )

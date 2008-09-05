@@ -89,7 +89,7 @@ AC_SNIPPET = """
              "<span style='text-align:left'>",
              sResult,
              "</span>",
-             "<span style='font-size:x-small;color:green;margin-left: 20em'>",
+             "<span style='font-size:x-small;color:green;'>",
              "(",
              sOcc,
              " results)",

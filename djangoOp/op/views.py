@@ -30,6 +30,12 @@ def code(request):
  
 def project(request):
    return render_to_response('project.html', {},context_instance=RequestContext(request))
+   
+def widgets(request):
+   return render_to_response('widgets.html', {},context_instance=RequestContext(request))
+
+def faq(request):
+   return render_to_response('faq.html', {},context_instance=RequestContext(request))
 
 @login_required 
 def addquiz(request):
@@ -40,6 +46,10 @@ def playonline(request):
 
 def play(request):
 	return render_to_response('play.html', {},context_instance=RequestContext(request))
+
+
+def flash1(request):
+	return render_to_response('flash1.html', {},context_instance=RequestContext(request))
 
 def generatepdf(request):
 	return genpdf_module.genpdf(request)

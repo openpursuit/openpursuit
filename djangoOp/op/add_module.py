@@ -16,18 +16,17 @@ from django.core.urlresolvers import reverse
 
 def addnewquiz(request):
 	class QuizForm(forms.Form):
-		question = forms.CharField(max_length=2000, label='The question', widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("ciao");', 'onblur':'javascript:writehelp("");'}))
-		rightAnswer = forms.CharField(max_length=2000, label='The right answer')
-		wrongAnswer1 = forms.CharField(max_length=2000, label='Wrong answer')
-		wrongAnswer2 = forms.CharField(max_length=2000, label='Wrong answer')
-		wrongAnswer3 = forms.CharField(max_length=2000, label='Wrong answer')
-		reference = forms.URLField(max_length=2000, label='Provide a valid url (e.g. Wikipedia) where is possible to check the correctness of the answer')
-		difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL, label='Choose an appropriate difficulty level for the quiz')
-		tags = forms.CharField(required=False, label='Insert one or more tags, separed by spaces')
-		#tags = forms.CharField(required=True, widget=AutoCompleteWidget(reverse('djangoOp.op.views.json_lookup') ,'["resultset.results", "tag"]' ) , label='Insert one or more tags, separed by spaces')
-		language = forms.ChoiceField(choices=LANGUAGES, label='Select the language')
-		media = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'javascript:changeMedia();'}), choices=MEDIA_TYPE , label='Select the media type of the quiz')
-		media_file = forms.Field(widget=forms.FileInput(attrs={'disabled':'true'}), required=False, label='Select the multimedia resourcess related to the quiz (only for non textual quiz)')       
+		question = forms.CharField(max_length=2000, label='Inserisci una domanda', widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una domanda abbastanza corta che abbia una sola risposta giusta");', 'onblur':'javascript:writehelp("");'}))
+		rightAnswer = forms.CharField(max_length=2000, label='Inserisci la risposta giusta',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci la risposta esatta");', 'onblur':'javascript:writehelp("");'}))	
+		wrongAnswer1 = forms.CharField(max_length=2000, label='Inserisci una risposta sbagliata',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))	
+		wrongAnswer2 = forms.CharField(max_length=2000, label='Inserisci una risposta sbagliata',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))
+		wrongAnswer3 = forms.CharField(max_length=2000, label='Inserisci una risposta sbagliata',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))
+		difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL, label='Scegli il livello di difficolta\' della domanda')
+		tags = forms.CharField(required=False, label='Inserisci uno o piu\' tag serparati da uno spazio',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))
+		language = forms.ChoiceField(choices=LANGUAGES, label='Scegli la lingua')
+		media = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'javascript:changeMedia();'}), choices=MEDIA_TYPE , label='Seleziona il tipo di domanda')
+		media_file = forms.Field(widget=forms.FileInput(attrs={'disabled':'true'}), required=False, label='Seleziona il file da allegare alla domanda (solo se la domanda non e\' testuale)')
+		reference = forms.URLField(max_length=2000, label='Inserisci un sito web di riferimento',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci un indirizzo web (ad esempio Wikipedia) dove poter ottenere maggiori informazioni sulla domanda ");', 'onblur':'javascript:writehelp("");'}))       
 
 		def __init__(self,*args, **kwargs ):
 			super(QuizForm, self).__init__(*args, **kwargs)
