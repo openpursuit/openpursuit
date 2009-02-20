@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from django import newforms as forms
+from django import forms
 from djangoOp.op.models import *
 from djangoOp.settings import MEDIA_ROOT  
 from django.core.exceptions import ObjectDoesNotExist

@@ -16,7 +16,7 @@
 # 3. Assign a widget to field (with schema and lookup_url parameters)
 # 4. Define view to do a data lookup for ajax queries
 #
-from django import newforms as forms
+from django import forms
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
         
