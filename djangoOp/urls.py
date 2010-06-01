@@ -18,4 +18,5 @@ urlpatterns = patterns('',
      (r'^base/', include('djangoOp.op.urls')),
      (r'^accounts/', include('djangoOp.registration.urls')),
      (r'^gateway/getQuiz4Flash/(.*)', 'amf.django.views', {'views':'op.flashview'}), #1
+      (r'^api/', include('api.urls')),
 )

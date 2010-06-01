@@ -2,6 +2,10 @@ from django.conf.urls.defaults import *
 from djangoOp.op.models import Quiz 
 from djangoOp.op.models import Tags
 
+
+#Quiz.objects.filter(tags__tag__startswith=request.POST['tags'])[:limit]
+
+
 info_dict = {
     'queryset': Quiz.objects.all(),
 }
