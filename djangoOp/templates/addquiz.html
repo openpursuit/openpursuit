@@ -57,8 +57,10 @@ function changeMedia(){
 
 {% if form.is_multipart %}
     <form enctype="multipart/form-data" method="post" action="" name="frm">
+	{% csrf_token %}
 {% else %}
     <form method="post" action="" name="frm">
+	{% csrf_token %}
 {% endif %}
 
 <dl>

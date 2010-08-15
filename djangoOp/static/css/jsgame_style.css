@@ -1,0 +1,60 @@
+/*******************************************************************************
+
+jQuery Radio Button Style v1.0
+
+http://www.weblee.co.uk
+
+Licensed under :
+    Creative Commons Attribution 3.0 http://creativecommons.org/licenses/by/3.0/
+
+Tested on the following browsers/platforms:
+-------------------------------------------
+XP/SP2:
+    IE 8.0      - No Bugs
+	IE 7.0      - No Bugs
+    IE 6.0      - no Bugs
+    FF 2.0      - No bugs
+	FF 3.0      - No bugs
+    Safari 3.0  - No bugs
+    Opera 9.2   - No bugs
+	Chrome 1.0	- No Bugs
+
+*******************************************************************************/
+
+body{ margin:50px; }
+
+#options{ margin:30px 50px 50px 0px; padding:0; }
+#options ul{ margin:0; padding:0; }
+
+#options li{
+	margin:0 0 5px 0;
+	padding:0;
+	list-style:none;
+	padding:0 0 0 42px;
+}
+
+#options li.active{
+	background:url('http://www.openpursuit.org/media/img/tick.png') no-repeat;
+}
+
+#options li a span{
+	display:none;
+}
+
+a.option1,  a.option2, a.option3, a.option4{
+	background-position:top;
+	display:block;
+	width:230px;
+	height:40px;
+}
+
+a.option1:hover, a.option2:hover, a.option3:hover, a.option4:hover{
+	background-position:bottom;
+}
+
+#options li a.active{
+	background-position:bottom !important;
+}
+
+#radioform{display:none}
+

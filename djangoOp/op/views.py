@@ -47,6 +47,8 @@ def playonline(request):
 def play(request):
 	return render_to_response('play.html', {},context_instance=RequestContext(request))
 
+def jsplay(request):
+	return render_to_response('jsgame.html', {},context_instance=RequestContext(request))
 
 def flash1(request):
 	return render_to_response('flash1.html', {},context_instance=RequestContext(request))

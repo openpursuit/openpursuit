@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     # Uncomment this for admin:
      (r'add', 'djangoOp.op.views.addquiz'),
      (r'play', 'djangoOp.op.views.play'),
+     (r'jsgame', 'djangoOp.op.views.jsplay'),
      (r'onlinegame1', 'djangoOp.op.views.playonline'),
      (r'flash1', 'djangoOp.op.views.flash1'),
      (r'generatepdf', 'djangoOp.op.views.generatepdf'),

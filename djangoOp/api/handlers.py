@@ -2,13 +2,47 @@ import re
 
 from piston.handler import BaseHandler
 from piston.utils import rc, throttle
+from django.db.models import Q
+from djangoOp.op.models import Quiz, Tags
+from sets import Set
 
-from djangoOp.op.models import Quiz
+class LangHandler(BaseHandler):
+    allowed_methods = ('GET')
+    fields = ('lang')
+    model = Quiz
+
+    @classmethod
+    def content_size(self, blogpost):
+        return len(blogpost.content)
+
+    def read(self, request):
+        post = Quiz.objects.all()
+        return post 
+
+
+class TagHandler(BaseHandler):
+    #allowed_methods = ('GET', 'PUT', 'DELETE')
+    allowed_methods = ('GET')
+    #fields = ('question','right', 'wrong1','wrong2','wrong3')
+        #('title', 'content', ('author', ('username', 'first_name')), 'content_size')
+    #exclude = ('id', re.compile(r'^private_'))
+    model = Tags
+
+    @classmethod
+    def content_size(self, blogpost):
+        return len(blogpost.content)
+
+    def read(self, request):
+        post = Tags.objects.all()
+        return post
+
+
+
 
 class QuizHandler(BaseHandler):
-    allowed_methods = ('GET', 'PUT', 'DELETE')
+    #allowed_methods = ('GET', 'PUT', 'DELETE')
+    allowed_methods = ('GET')
     #fields = ('question','right', 'wrong1','wrong2','wrong3')
-	#('title', 'content', ('author', ('username', 'first_name')), 'content_size')
     #exclude = ('id', re.compile(r'^private_'))
     model = Quiz 
 
@@ -16,8 +50,12 @@ class QuizHandler(BaseHandler):
     def content_size(self, blogpost):
         return len(blogpost.content)
 
-    def read(self, request, tag, limit):
-	post = Quiz.objects.filter(tags__tag__startswith=tag)[:limit]
+    def read(self, request):
+	#post = Quiz.objects.filter(tags__tag__startswith=tag)[:limit]
+	tag = request.GET.get('tag', 'all')
+	limit = request.GET.get('limit', 100)
+	glang = request.GET.get('lang', 'it')
+	post = Quiz.objects.filter(Q(tags__tag__startswith=tag) & Q(lang=glang)) [:limit]
         return post
 
     @throttle(5, 10*60) # allow 5 times in 10 minutes
