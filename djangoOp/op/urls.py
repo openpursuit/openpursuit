@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     # Uncomment this for admin:
      (r'add', 'djangoOp.op.views.addquiz'),
      (r'play', 'djangoOp.op.views.play'),
+     (r'jsgame2', 'djangoOp.op.views.jsplay2'),
      (r'jsgame', 'djangoOp.op.views.jsplay'),
      (r'onlinegame1', 'djangoOp.op.views.playonline'),
      (r'flash1', 'djangoOp.op.views.flash1'),
@@ -32,5 +33,6 @@ urlpatterns = patterns('',
      (r'widgets', 'djangoOp.op.views.widgets'),
      (r'faq', 'djangoOp.op.views.faq'),
      (r'^tag_lookup/$', 'djangoOp.op.views.tags_ac'),
-
+     (r'^profile', 'djangoOp.op.views.profile'),
+     (r'^calendar', 'djangoOp.op.views.calendar'),
 )

@@ -67,7 +67,7 @@ class Quiz(models.Model):
 	difficulty = models.IntegerField("Difficulty", choices=DIFFICULTY_LEVEL) 
 	views = models.IntegerField("Views")
 	date = models.DateTimeField("Insertion date")
-	author = models.ForeignKey(User)
+	author = models.ForeignKey(User,blank=True, null=True)
 	# score
 	pos_score = models.IntegerField("Positive scores" ,default = 0)
 	neg_score =  models.IntegerField("Negative scores", default = 0)

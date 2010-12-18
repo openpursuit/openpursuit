@@ -51,14 +51,24 @@ class QuizHandler(BaseHandler):
         return len(blogpost.content)
 
     def read(self, request):
-	#post = Quiz.objects.filter(tags__tag__startswith=tag)[:limit]
 	tag = request.GET.get('tag', 'all')
-	limit = request.GET.get('limit', 100)
+	limit = int(request.GET.get('limit', 100))
 	glang = request.GET.get('lang', 'it')
-	post = Quiz.objects.filter(Q(tags__tag__startswith=tag) & Q(lang=glang)) [:limit]
-        return post
+	post = Quiz.objects.filter(tags__tag__startswith=tag)[:limit]
+	return post
+	raise "stoc"
+	import random
+	count = Quiz.objects.filter(Q(tags__tag__startswith=tag) & Q(lang=glang)).count()
+	if (count > limit):
+		slice = random.randint(0, count  - limit)
+	else:
+		slice = 0
+	post = Quiz.objects.filter(Q(tags__tag__startswith=tag) & Q(lang=glang))[slice:slice+limit]
+	if (post.count() < 1):
+		return "aaa"
+	return post 
 
-    @throttle(5, 10*60) # allow 5 times in 10 minutes
+#    @throttle(5, 10*60) # allow 5 times in 10 minutes
     def update(self, request, post_slug):
         post = Blogpost.objects.get(slug=post_slug)
 

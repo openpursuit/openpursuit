@@ -13,42 +13,41 @@ from djangoOp.widgets.autocomplete import AutoCompleteWidget
 from django.conf.urls.defaults import *
 from django.core.urlresolvers import reverse
 
+class QuizForm(forms.Form):
+                question = forms.CharField(max_length=2000, label='Inserisci una domanda', widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una domanda abbastanza corta che abbia una sola risposta giusta");', 'onblur':'javascript:writehelp("");'}))
+                rightAnswer = forms.CharField(max_length=2000, label='Inserisci la risposta giusta',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci la risposta esatta");', 'onblur':'javascript:writehelp("");'}))    
+                wrongAnswer1 = forms.CharField(max_length=2000, label='Inserisci una risposta sbagliata',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))    
+                wrongAnswer2 = forms.CharField(max_length=2000, label='Inserisci una risposta sbagliata',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))
+                wrongAnswer3 = forms.CharField(max_length=2000, label='Inserisci una risposta sbagliata',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))
+                difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL, label='Scegli il livello di difficolta\' della domanda')
+                tags = forms.CharField(required=False, label='Inserisci uno o piu\' tag serparati da uno spazio',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))
+                language = forms.ChoiceField(choices=LANGUAGES, label='Scegli la lingua')
+                media = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'javascript:changeMedia();'}), choices=MEDIA_TYPE , label='Seleziona il tipo di domanda')
+                media_file = forms.Field(widget=forms.FileInput(attrs={'disabled':'true'}), required=False, label='Seleziona il file da allegare alla domanda (solo se la domanda non e\' testuale)')
+                reference = forms.URLField(max_length=2000, label='Inserisci un sito web di riferimento',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci un indirizzo web (ad esempio Wikipedia) dove poter ottenere maggiori informazioni sulla domanda ");', 'onblur':'javascript:writehelp("");'}))
+                capcha = forms.CharField(max_length=200, label='Scrivi il nome di questo sito/progetto (ovvero scrivi \'openp......\') per provare che sei umano',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Scrivi il nome del sito per verificare che non sei una locusta!");', 'onblur':'javascript:writehelp("");'}))
+
+                def __init__(self,*args, **kwargs ):
+                        super(QuizForm, self).__init__(*args, **kwargs)
+                        n_lookup_url = reverse('djangoOp.op.views.tags_ac')  # url to your view
+                        #n_lookup_url = "http://www.openpursuit.org/base/tag_lookup/"
+                        # see YUI docs to see what shema is. In general it
+                        #describes data returned from your view
+                        n_schema = '["resultset.results", "tag", "occurrencies" ]'
+                        self.fields['tags'].widget = AutoCompleteWidget()
+                        self.fields['tags'].widget.lookup_url = n_lookup_url
+                        self.fields['tags'].widget.schema = n_schema
 
 def addnewquiz(request):
-	class QuizForm(forms.Form):
-		question = forms.CharField(max_length=2000, label='Inserisci una domanda', widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una domanda abbastanza corta che abbia una sola risposta giusta");', 'onblur':'javascript:writehelp("");'}))
-		rightAnswer = forms.CharField(max_length=2000, label='Inserisci la risposta giusta',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci la risposta esatta");', 'onblur':'javascript:writehelp("");'}))	
-		wrongAnswer1 = forms.CharField(max_length=2000, label='Inserisci una risposta sbagliata',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))	
-		wrongAnswer2 = forms.CharField(max_length=2000, label='Inserisci una risposta sbagliata',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))
-		wrongAnswer3 = forms.CharField(max_length=2000, label='Inserisci una risposta sbagliata',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))
-		difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL, label='Scegli il livello di difficolta\' della domanda')
-		tags = forms.CharField(required=False, label='Inserisci uno o piu\' tag serparati da uno spazio',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci una risposta sbagliata ma verosimile!");', 'onblur':'javascript:writehelp("");'}))
-		language = forms.ChoiceField(choices=LANGUAGES, label='Scegli la lingua')
-		media = forms.ChoiceField(widget=forms.Select(attrs={'onchange':'javascript:changeMedia();'}), choices=MEDIA_TYPE , label='Seleziona il tipo di domanda')
-		media_file = forms.Field(widget=forms.FileInput(attrs={'disabled':'true'}), required=False, label='Seleziona il file da allegare alla domanda (solo se la domanda non e\' testuale)')
-		reference = forms.URLField(max_length=2000, label='Inserisci un sito web di riferimento',widget=forms.TextInput(attrs={'onfocus':'javascript:writehelp("Inserisci un indirizzo web (ad esempio Wikipedia) dove poter ottenere maggiori informazioni sulla domanda ");', 'onblur':'javascript:writehelp("");'}))       
-
-		def __init__(self,*args, **kwargs ):
-			super(QuizForm, self).__init__(*args, **kwargs)
-			n_lookup_url = reverse('djangoOp.op.views.tags_ac')  # url to your view
-			#n_lookup_url = "http://www.openpursuit.org/base/tag_lookup/"
-			# see YUI docs to see what shema is. In general it 
-			#describes data returned from your view
-			n_schema = '["resultset.results", "tag", "occurrencies" ]' 
-			self.fields['tags'].widget = AutoCompleteWidget()
-			self.fields['tags'].widget.lookup_url = n_lookup_url
-			self.fields['tags'].widget.schema = n_schema
-
-		
 	if request.method == 'POST':
 		post_data = request.POST.copy()	
 		post_data.update(request.FILES)
 		form = QuizForm(post_data)
 		
 		if form.is_valid():
-			# Do form processing here...	                
-			
-			#WARNING --- FIX THIS --- THIS LOGIC DOES NOT WORK
+			if request.POST['capcha'].find('openpursuit') < 0 :
+				# capcha method
+				return render_to_response('addquiz.html', {'form': form},context_instance=RequestContext(request))	
 			#split various tag
 			relatedtags = []
 			relatedtagsid = []
@@ -69,8 +68,10 @@ def addnewquiz(request):
 					tw = Tags.objects.create(tag=t)
 					tw.save()
 					relatedtagsid.append(tw)
-					
-
+			if not request.user.is_authenticated() :
+				from django.contrib.auth.models import AnonymousUser
+                		request.user = AnonymousUser()	
+				request.user = None
 			q = Quiz(question = request.POST['question'], right1=request.POST['rightAnswer'] , wrong1=request.POST['wrongAnswer1'], wrong2=request.POST['wrongAnswer2'], wrong3=request.POST['wrongAnswer3'], difficulty = request.POST['difficulty'], date = datetime.datetime.now(), views = 0,reference = request.POST['reference'], lang =request.POST['language'],author=request.user ,quarantine = False, mediatype = request.POST['media'])
 			
 			isFileOk = False

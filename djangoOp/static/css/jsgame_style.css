@@ -21,7 +21,32 @@ XP/SP2:
 
 *******************************************************************************/
 
-body{ margin:50px; }
+body{ margin:50px; font-size:small;}
+
+#logo {
+width: auto;
+height: 90px;
+}
+
+#win_or_lose {
+	font-size: large;
+
+}
+
+
+#ready_to_play, #ready_to_play_img {float: right;}
+
+#music {
+	position: absolute; 
+	bottom: 0px; 
+
+}
+
+#score {
+	color: red;
+	font-size: 120%;
+
+}
 
 #options{ margin:30px 50px 50px 0px; padding:0; }
 #options ul{ margin:0; padding:0; }
@@ -46,6 +71,11 @@ a.option1,  a.option2, a.option3, a.option4{
 	display:block;
 	width:230px;
 	height:40px;
+	padding: 30px 0px;
+}
+#link0, #link1, #link2, #link3 {
+	 padding: 7px 3px;
+
 }
 
 a.option1:hover, a.option2:hover, a.option3:hover, a.option4:hover{
@@ -58,3 +88,15 @@ a.option1:hover, a.option2:hover, a.option3:hover, a.option4:hover{
 
 #radioform{display:none}
 
+#play_left  {
+	float:left; 
+	width:50%;
+	margin-top:2px; 
+}
+
+#play_right {
+	float:right; 
+	width:30%; 
+	padding: 3px 5px;
+	margin-top:2px; 
+}
