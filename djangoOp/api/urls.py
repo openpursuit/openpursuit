@@ -14,7 +14,8 @@ lang_resource = Resource(handler=LangHandler)
 
 urlpatterns = patterns('',
 #    url(r'^(?P<tag>\w+)/(?P<limit>\d+)/$', quiz_resource, { 'emitter_format': 'xml' } ),
-     url(r'^getquiz$', quiz_resource, { 'emitter_format': 'xml' } ),
+     url(r'^getquiz$, djangoOp.api.view.getquiz),
+#     url(r'^getquiz$', quiz_resource, { 'emitter_format': 'xml' } ),
      url(r'^gettag$', tag_resource, { 'emitter_format': 'xml' } ),
      url(r'^getlang$', lang_resource, { 'emitter_format': 'xml' } ),
 #    url(r'^other/(?P<username>[^/]+)/(?P<data>.+)/$', arbitrary_resource), 

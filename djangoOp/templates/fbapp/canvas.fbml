@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>OpenPursuit Facebook App</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.qtip-1.0.0-rc3.min.js"></script>
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/fbapp.css"/>
+
+
+	<script type="text/javascript">
+	var currentpage = "main";
+	var selectedtags = new Array();
+	function load_main() { 
+	 	$("#ajax_loader").empty().html('<div id="loading"><img src="{{MEDIA_URL}}img/loading.gif" /></div>');
+		$('#ajax_loader').load('main #ajax_loaded', function(response, status, xhr) { after_main(); });
+		
+		currentpage = "main";
+	 }
+
+	 function load_play1() { 
+	 	$("#ajax_loader").empty().html('<div id="loading"><img src="{{MEDIA_URL}}img/loading.gif" /></div>');
+		$('#ajax_loader').load('play #ajax_loaded');
+		currentpage = "play1";
+	 }
+	function load_play2() { 
+	 	$("#ajax_loader").empty().html('<div id="loading"><img src="{{MEDIA_URL}}img/loading.gif" /></div>');
+		$('#ajax_loader').load('play2 #ajax_loaded');
+		currentpage = "play2";
+	 }
+
+	function load_challenge1() { 
+	 	$("#ajax_loader").empty().html('<div id="loading"><<img id="loading" src="{{MEDIA_URL}}img/loading.gif" /></div>');
+		$('#ajax_loader').load('challenge #ajax_loaded');
+	 }
+	function load_addquiz1() { 
+	 	$("#ajax_loader").empty().html('<div id="loading"><<img id="loading" src="{{MEDIA_URL}}img/loading.gif" /></div>');
+		$('#ajax_loader').load('addquiz #ajax_loaded');
+	 }
+	function op_logo() { 
+		if (currentpage == "main") {
+			$("#what_is").toggleClass( 'is_show' )
+			if ($("#what_is").is('.is_show') ) {
+				$("#what_is").show('slow');
+			} else {
+				$("#what_is").hide('slow');
+			}
+		} else {
+			$("#what_is").removeClass( 'is_show' )
+			load_main();
+
+
+		}
+	 }
+	function removetag( tag ) {
+		for (var count = 0; count < selectedtags.length; count++) {
+			selectedtags.splice(count,1); 
+		};	
+		$("#table-selected-tags td").remove(":contains("+tag+")");
+	}
+	function writetag( tag ) {
+		if (selectedtags.toString().search(tag) < 0) {
+			selectedtags.push(tag)
+			$("#table-selected-tags tr").append('<td scope="col"><div class="rounded-corners selected-tag"><a href=\"javascript:removetag(\''+tag+'\')\"><h3>' + tag + '</h3></a><div></td>');
+		}
+	}
+
+
+	function after_main() {
+		$('.opponent_msg').qtip({
+		   content: "La vita e' come una scatola di cioccolatini... ",
+		   position: {
+		      corner: {
+			 target: 'topRight',
+			 tooltip: 'bottomLeft'
+		      }
+   		   },
+		   style: { 
+      			name: 'cream' , // Inherit from preset style
+			border: {
+			width: 5,
+			radius: 10
+			},
+			padding: 10,
+			textAlign: 'center',
+			tip: true // Give it a speech bubble tip with automatic corner detection
+   		   },
+		   show: 'mouseover',
+		   hide: 'mouseout'
+		});
+	}
+
+	  $(document).ready(function() {
+	    // This is more like it!
+		$("#what_is").hide();
+		load_main();
+	  });
+
+
+	</script>
+    </head>
+    <body>
+	<div id="container">
+		<div id="oplogo">
+			<table>
+				<tr>
+				<td><a href="javascript:op_logo()"><img id='logo' src="{{ MEDIA_URL }}/img/logo.png" /></a></td>
+				<td><div id="what_is">
+					<b>Openpursuit</b> e' database libero di domande a quiz, suddivise su base tag.<br /> 
+					In questo modo potrai sfidare i tuoi amici su temi specifici, impossibili da trovare su qualunque altro gioco. <br />
+					Le domande sono immesse dagli utenti stessi (stile wikipedia). <br/> 
+					Per saperne di piu' visita il sito <a href="http://www.openpursuit.org">www.openpursuit.org</a>. <br /></div> </td>
+				</tr>
+			</table>
+		</div>
+	   <div id="ajax_loader">
+	   </div><!-- loaded by ajax -->
+	</div> <!-- container -->
+    </body>
+</html>

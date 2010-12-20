@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:fb="http://www.facebook.com/2008/fbml">
+  <body>
+	<fb:serverfbml>
+	<script type="text/fbml">
+	<fb:fbml>
+	
+	<fb:request-form 
+		action="http://www.openpursuit.org/boooh" 
+		method="POST" 
+		invite="true" 
+		type="XFBML" 
+		content="This is a test invitation from XFBML test app <fb:req-choice url='http://www.openpursuit.org/mahh' label='Ignore the Openpursuit test app!' />  " 
+		>  
+	<fb:multi-friend-selector showborder="false" actiontext="Invite your friends to use Openpursuit.">  
+	</fb:request-form> 
+	</fb:fbml>
+	</script>
+	</fb:serverfbml>
+	
+	<!- Here is the XFBML code ->
+	
+	This is <fb:name uid="{{ fbuser.id }}" useyou='false'> </fb:name>
+	My photo <fb:profile-pic uid="{{ fbuser.id }}" > </fb:profice-pic>
+
+	<div class="clearfix" style="float: left; border: 1px #d8dfea solid; padding: 10px 10px 10px 10px; margin-left: 30px; margin-bottom: 30px; width: 500px;">
+	  Your favorite language is {{ fbuser.language|escape }}.
+	  <br /><br />
+
+	  <div class="grayheader clearfix">
+	    <br /><br />
+
+	    <form action="." method="POST">
+	      <input type="text" name="language" value="{{ fbuser.language|escape }}" />
+	      <input type="submit" value="Change" />
+	    </form>
+	  </div>
+	</div>
+
+
+    <div id="fb-root"></div>
+    <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <script>
+      FB.init({appId: '9e70e6cc01a08e4e0b28be7e45ce9709', status: true,
+               cookie: true, xfbml: true});
+      FB.Event.subscribe('auth.login', function(response) {
+        window.location.reload();
+      });
+
+
+FB.ui(
+  {
+    method: 'stream.publish',
+    attachment: {
+      name: 'JSSDK',
+      caption: 'The Facebook JavaScript SDK',
+      description: (
+        'A small JavaScript library that allows you to harness ' +
+        'the power of Facebook, bringing the user\'s identity, ' +
+        'social graph and distribution power to your site.'
+      ),
+      href: 'http://fbrell.com/'
+    },
+    action_links: [
+      { text: 'fbrell', href: 'http://fbrell.com/' }
+    ]
+  },
+  function(response) {
+    if (response && response.post_id) {
+      alert('Post was published.');
+    } else {
+      alert('Post was not published.');
+    }
+  }
+);
+
+FB.Canvas.setSize({ width: 340, height: 480 });
+
+
+
+    </script>
+  </body>
+</html>
+
+

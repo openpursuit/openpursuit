@@ -1,5 +1,5 @@
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render_to_response
 from django import forms
 from djangoOp.op.models import *
@@ -13,6 +13,7 @@ import datetime
 from  django.utils import simplejson
 from django.template.defaultfilters import escape
 from django.http import HttpResponseRedirect
+from django.core import serializers
 
 from django.core.serializers import serialize
 from django.db.models.query import QuerySet
@@ -55,6 +56,23 @@ def jsplay(request):
 
 def jsplay2(request):
 	return render_to_response('jsgame2.html', {},context_instance=RequestContext(request))
+
+def getquizapi(request):
+	import random
+	query_tags = request.GET.get('tags', None)
+	query_limit = request.GET.get('limit', 0 )
+	query_limit = int(query_limit)
+	query_lang = request.GET.get('lang', None)
+	if (query_tags == None) :
+		return HttpResponseBadRequest("No tags specified")
+	tags = query_tags.split(',')
+	qs = []
+	for t in tags:
+		#qs +=  Quiz.objects.filter(tags__tag__contains = t)[:int(query_limit/len(tags))] if qs == None else qs | Quiz.objects.filter(tags__tag__contains = t)[:int(query_limit/len(tags))]
+		qs += list(Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))])
+		
+	data = serializers.serialize('json', qs, fields=('question','right1','wrong1','wrong2','wrong3' ))
+	return HttpResponse(data, mimetype="text/json")
 
 def jsplay_fb(request):
 	form = QuizForm()

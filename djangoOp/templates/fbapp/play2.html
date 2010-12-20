@@ -1,0 +1,48 @@
+<div id="ajax_loaded">
+	<script>
+	function loadQuiz() {
+    $.ajax({
+                type: "GET",
+                url: "http://www.openpursuit.org/api/getquiz?tag=" + topic + "&limit=1&lang=it&format=yaml",
+                dataType: "xml",
+                success: function(xml) {
+                        $(xml).find('response').each(function(){
+                                $(xml).find('resource').each(function(){
+                                        var rnd = Math.floor(Math.random()*4)
+                                        right_ans = String(rnd);
+                                        question = $(this).find('question').text();
+                                        right1 = $(this).find('right1').text();
+                                        wrong1 = $(this).find('wrong1').text();
+                                        wrong2 = $(this).find('wrong2').text();
+                                        wrong3 = $(this).find('wrong3').text();
+                                        $("#link"+rnd).text(right1);
+                                        $("#link"+rnd).addClass('mr');
+                                        $("#link"+((rnd+1)%4)).text(wrong1);
+                                        $("#link"+((rnd+2)%4)).text(wrong2);
+                                        $("#link"+((rnd+3)%4)).text(wrong3);
+                                        $("#question").text(question);
+
+                                });
+                        });
+                }
+        });
+  };
+
+	</script>
+	<p>
+	Scegli una serie di argomenti per i quiz:
+	</p>
+	<div id='play_left'>
+                        <p id='question'>Scegli prima l'argomento dei quiz! </p>
+                        <div id="options" >
+                            <ul id="quiz">
+                                <li> <button id="link0" class="option1 active">A button element 1</button> </li>
+                                <li> <button id="link1" class="option2">A button element 2</button> </li>
+                                <li> <button id="link2" class="option3">A button element 3</button> </li>
+                                <li> <button id="link3" class="option4">A button element 4</button> </li>
+                            </ul>
+                        </div>
+                        <br />
+        </div>
+	<a href="javascript:loadQuiz()">Carica domanda</a>
+</div>

@@ -1,0 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% load facebook_tags %}
+<head>
+{% facebook_js %}
+{% initialize_facebook_connect %}
+</head>
+<body>
+{% if USER_LOGGED_IN %}
+	Welcome {% show_facebook_first_name user %} {% show_logout %}
+{% else %}
+	{% show_connect_button %}
+{% endif %}
+{% block content %} Page content here {% endblock %}
+</body>
+</html>

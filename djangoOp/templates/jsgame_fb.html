@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% load facebook_tags %}
+<head>
+{% facebook_js %}
+{% initialize_facebook_connect %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jsgame_style.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<title>OpenPursuit</title>
+<!-- yui -->
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}scripts/yui/tabview/assets/skins/sam/tabview.css" />
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/utilities/utilities.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/autocomplete/autocomplete-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/datasource/datasource-beta-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/animation/animation-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.progressbar.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}scripts/yui/autocomplete/assets/skins/sam/autocomplete-skin.css" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}scripts/yui/autocomplete/assets/skins/sam/autocomplete.css" />
+
+<style type="text/css">
+ #autocomplete { text-align:center;width:20em; }
+ #id_tags { position:static;width:20em; } /* to center, set static and explicit width: */
+ #id_tags_container { text-align:left;width:20em; } /* to center, set left-align and explicit width: */
+ .autocomplete_widget { text-align:left;width:20em; }
+</style>
+
+<!-- /yui-->
+<script>
+jQuery.fn.countDown = function(settings,to) {
+	settings = jQuery.extend({
+		startFontSize: '36px',
+		endFontSize: '12px',
+		duration: 1000,
+		startNumber: 10,
+		endNumber: 0,
+		callBack: function() { }
+	}, settings);
+	return this.each(function() {
+		
+		//where do we start?
+		if(!to && to != settings.endNumber) { to = settings.startNumber; }
+		
+		//set the countdown to the starting number
+		$(this).text(to).css('fontSize',settings.startFontSize);
+		
+		//loopage
+		$(this).animate({
+			'fontSize': settings.endFontSize
+		},settings.duration,'',function() {
+			if(to > settings.endNumber + 1) {
+				$(this).css('fontSize',settings.startFontSize).text(to - 1).countDown(settings,to - 1);
+			}
+			else
+			{
+				settings.callBack(this);
+			}
+		});
+				
+	});
+};
+
+$('#countdown').countDown({
+	startNumber: 10,
+	callBack: function(me) {
+		$(me).text('All done! This is where you give the reward!').css('color','#090');
+	}
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#pb1").progressBar();
+	$("#uploadprogressbar").progressBar();
+});     
+</script>
+
+<SCRIPT>
+function changeMedia(){
+        if (document.frm.id_media.options[0].selected)
+                document.frm.id_media_file.disabled = true;
+        else
+                document.frm.id_media_file.disabled = false;
+        }
+function accordionLoadGame() {
+	$('#accordion').accordion('activate',1);
+
+}
+
+function writehelp(str){
+ 	document.getElementById("tips").innerHTML=str;
+}
+
+</SCRIPT>
+
+<script>
+ var userchoice = null;
+ var right_ans = null;
+ var topic = null;
+ var score = 0;
+ function loadQuiz () {
+    $.ajax({
+                type: "GET",
+                url: "http://www.openpursuit.org/api/getquiz?tag=" + topic + "&limit=1&lang=it&format=yaml",
+                dataType: "xml",
+                success: function(xml) {
+                        $(xml).find('response').each(function(){
+                                $(xml).find('resource').each(function(){
+                                        var rnd = Math.floor(Math.random()*4)
+					right_ans = String(rnd);
+                                        question = $(this).find('question').text();
+                                        right1 = $(this).find('right1').text();
+                                        wrong1 = $(this).find('wrong1').text();
+                                        wrong2 = $(this).find('wrong2').text();
+                                        wrong3 = $(this).find('wrong3').text();
+                                        $("#link"+rnd).text(right1);
+                                        $("#link"+rnd).addClass('mr');
+                                        $("#link"+((rnd+1)%4)).text(wrong1);
+                                        $("#link"+((rnd+2)%4)).text(wrong2);
+                                        $("#link"+((rnd+3)%4)).text(wrong3);
+                                        $("#question").text(question);
+
+                                });
+                        });
+                }
+        });
+  }
+
+  $(document).ready(function() {
+    $("button").button();
+    $("#confirm").button(
+	{ icons: {primary:'ui-icon-check'}}
+	).click(function () { 
+	if (userchoice == right_ans) {
+		score = score + 1;
+		$('#score').text(String(score));
+		$('#win_or_lose').text('You Win!');
+		$('#win_or_lose').css('color', 'green');
+		$('#pb1').progressBar(score);
+	} else {
+		score = score - 2;
+                $('#score').text(String(score));
+		$('#win_or_lose').text('You Lose!');
+		$('#win_or_lose').css('color', 'red');
+		$('#pb1').progressBar(score);
+	}
+	loadQuiz();
+    });
+  });
+
+function writetag(str){
+     $("#topic_tag").text(str);
+     topic = str;
+     $("#ready_to_play").text("Gioca");
+     $("#ready_to_play_img").attr("src","{{ MEDIA_URL }}/img/down-arrow-red.png");
+}
+</script>
+   <script>
+  function accordionChange(e, ui) {
+	if ( $(ui.newContent).attr("id") == 'a_play')
+		loadQuiz();
+    }
+  $(document).ready(function() {
+    $("#accordion").accordion({
+	 autoHeight: false,
+	 change: function(event, ui) { accordionChange(event, ui); }
+    });
+  });
+  </script>
+  <script>
+  var userchoice = null;
+  $(document).ready(function () {
+	
+    $("#quiz li > button").live('click', function (event) {
+        // First disable the normal link click
+        //event.preventDefault();
+
+        // Remove all list and links active class.
+        $('#quiz .active').removeClass("active");
+
+        // Grab the link clicks ID
+        var id = this.id;
+	userchoice = String(id).substring(4);
+
+        // The id will now be something like "link1"
+        // Now we need to replace link with option (this is the ID's of the checkbox)
+        var newselect = id.replace('link', 'option');
+
+        // Make newselect the option selected.
+        $('#'+newselect).attr('checked', true);
+
+        // Now add active state to the link and list item
+        $(this).addClass("active").parent().addClass("active");
+
+        return false;
+    });
+    	// Toggle Form so you can see it working
+	$("a.toggleform").click(function (event){
+		event.preventDefault();
+		$('#radioform').toggle("slow");
+
+    });
+	
+});
+  </script>
+</head>
+
+<body>
+
+  
+<div id="accordion">
+	<h3><a href="#">Cambia Quiz</a></h3>
+	<div id='a_quizchange'>
+		<table>
+		<tr>
+		<td><img id='logo' src="{{ MEDIA_URL }}/img/logo.png" /></td>
+		<td>Openpursuit e' database libero di domande a quiz, suddivise su base tag. In questo modo potrai sfidare i tuoi amici su temi specifici, impossibili da trovare su qualunque altro gioco. Le domande sono immesse dagli utenti stessi (stile wikipedia). Per iniziare a giocare scegli il tema dei quiz e fai click su Gioca! </td>
+		</tr>
+		</table>
+{% if USER_LOGGED_IN %}
+		<div id="tagCloud">
+			<table style="margin-left:auto; margin-right:auto;">
+			<tr>
+			<td><img src={{ MEDIA_URL }}/img/down-arrow.png /></td><td<p style="text-align: center;">Seleziona uno degli argomenti qui sotto</p></td><td><img src={{ MEDIA_URL }}/img/down-arrow.png /></td>
+			</tr>
+			</table>
+			<p>Argomento del quiz: <span id='topic_tag' style="font-weight : bold;"></span> <a target='_self' href="javascript:accordionLoadGame();"> <span id='ready_to_play'> </span> <img id='ready_to_play_img' /> </a> </p>
+			{% load tagclouds %}
+			{% get_latest_cloudtag %}
+			{% for tag in content_tagclouds|slice:"100" %}
+			<div style="font-size:{{ tag.cloudsize }}; text-align:left;float:left" > <a href="JavaScript:writetag( '{{ tag.tag }}' );"> {{ tag.tag }}</a>, </div>
+			{% endfor %}
+			<br />
+			<p style="font-color:red;"> >> Attenzione << </p>
+			<p>L'applicazione è ancora in fase sperimentale e necessita di pazienza. Per migliorarla <a href=http://www.openpursuit.org/forum/index.php"">segnalate i bug qui </a></p>	
+		</div>
+	</div>
+	<h3><a href="#">Gioca</a></h3>
+	<div id='a_play'>
+		<div id='play_left'>
+			<p id='question'>Scegli prima l'argomento dei quiz! </p>
+			<div id="options" >
+			    <ul id="quiz">
+				<li> <button id="link0" class="option1 active">A button element 1</button> </li>
+				<li> <button id="link1" class="option2">A button element 2</button> </li>
+				<li> <button id="link2" class="option3">A button element 3</button> </li>
+				<li> <button id="link3" class="option4">A button element 4</button> </li>
+			    </ul>
+			</div>
+			<br />
+			<img src="{{MEDIA_URL}}/img/facebook-icon.jpg" /> {% show_invite_link %}
+		</div>
+		<div id="play_right">
+			{% show_facebook_photo user %}
+			<span class="progressBar" id="pb1">0%</span> 
+			<br />
+			<span id="win_or_lose"> </span>
+			<p> {% show_facebook_first_name user %} score is: <span id="score"> 0 </span> </p>
+			<br />
+			<button id="confirm"><strong>Conferma</strong></button>
+			<div id='music'> 
+				<object type="application/x-shockwave-flash" data="http://flash-mp3-player.net/medias/player_mp3_mini.swf" width="200" height="20">
+				    <param name="movie" value="http://flash-mp3-player.net/medias/player_mp3_mini.swf" />
+				    <param name="bgcolor" value="#000000" />
+				    <param name="FlashVars" value="mp3=http%3A//www.openpursuit.org/media/multimedia/tokyo.mp3&amp;autoplay=1" />
+				</object>
+			</div>	
+		</div>
+	</div>
+	<h3><a href="#">Aggiungi Domande</a></h3>
+        <div id='a_add'>
+		<div id="form_add" style="float:left; width: 60%;">
+		{% if form.is_multipart %}
+		    <form enctype="multipart/form-data" method="post" action="http://www.openpursuit.org/base/add" name="frm">
+			{% csrf_token %}
+		{% else %}
+		    <form method="post" action="http://www.openpursuit.org/base/add" name="frm">
+			{% csrf_token %}
+		{% endif %}
+
+		<dl style='font-size:14px; '>
+		{% for field in form %}
+		    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>
+		    <dd>{{ field }}</dd>
+		    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
+		    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}
+		{% endfor %}
+
+		</dl>
+		<input type="submit" />
+		</form>
+		</div>
+		<div id="tips" style="float:right; width:30%;"> </div>
+		{% else %}
+		{% show_connect_button %}
+	</div>
+		{% endif %}	
+	</div>
+	
+</div>
+
+</body>
+</html>
