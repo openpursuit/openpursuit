@@ -11,7 +11,7 @@
 			{% load tagclouds %}
 			{% get_latest_cloudtag %}
 			{% for tag in content_tagclouds|slice:"100" %}
-				<div style="font-size:{{ tag.cloudsize }}; text-align:left;float:left" > <a href="javascript:writetag('{{ tag.tag }}')"> {{ tag.tag }}</a>, </div>
+				<div style="font-size:{{ tag.cloudsize }}; text-align:left;float:left" > <a href="javascript:writetag('{{ tag.tag }}','{{ tag.id }}')"> {{ tag.tag }}</a>, </div>
 			{% endfor %}
 		</div>
 	</div>

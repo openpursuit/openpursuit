@@ -3,104 +3,41 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>OpenPursuit Facebook App</title>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-	<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.qtip-1.0.0-rc3.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+	<script src="{{ MEDIA_URL }}scripts/jquery.qtip-1.0.0-rc3.min.js"></script>
+	<script src="{{ MEDIA_URL }}scripts/fbapp.js"></script>
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
+	<!-- link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/ -->
+    <link href="{{ MEDIA_URL }}css/ui-lightness/jquery-ui-1.8.7.custom.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/fbapp.css"/>
 
+<!-- yui -->
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}scripts/yui/tabview/assets/skins/sam/tabview.css" />
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/utilities/utilities.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/autocomplete/autocomplete-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/datasource/datasource-beta-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/yui/animation/animation-min.js"></script>
 
-	<script type="text/javascript">
-	var currentpage = "main";
-	var selectedtags = new Array();
-	function load_main() { 
-	 	$("#ajax_loader").empty().html('<div id="loading"><img src="{{MEDIA_URL}}img/loading.gif" /></div>');
-		$('#ajax_loader').load('main #ajax_loaded', function(response, status, xhr) { after_main(); });
-		
-		currentpage = "main";
-	 }
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}scripts/yui/autocomplete/assets/skins/sam/autocomplete-skin.css" />
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}scripts/yui/autocomplete/assets/skins/sam/autocomplete.css" />
 
-	 function load_play1() { 
-	 	$("#ajax_loader").empty().html('<div id="loading"><img src="{{MEDIA_URL}}img/loading.gif" /></div>');
-		$('#ajax_loader').load('play #ajax_loaded');
-		currentpage = "play1";
-	 }
-	function load_play2() { 
-	 	$("#ajax_loader").empty().html('<div id="loading"><img src="{{MEDIA_URL}}img/loading.gif" /></div>');
-		$('#ajax_loader').load('play2 #ajax_loaded');
-		currentpage = "play2";
-	 }
-
-	function load_challenge1() { 
-	 	$("#ajax_loader").empty().html('<div id="loading"><<img id="loading" src="{{MEDIA_URL}}img/loading.gif" /></div>');
-		$('#ajax_loader').load('challenge #ajax_loaded');
-	 }
-	function load_addquiz1() { 
-	 	$("#ajax_loader").empty().html('<div id="loading"><<img id="loading" src="{{MEDIA_URL}}img/loading.gif" /></div>');
-		$('#ajax_loader').load('addquiz #ajax_loaded');
-	 }
-	function op_logo() { 
-		if (currentpage == "main") {
-			$("#what_is").toggleClass( 'is_show' )
-			if ($("#what_is").is('.is_show') ) {
-				$("#what_is").show('slow');
-			} else {
-				$("#what_is").hide('slow');
-			}
-		} else {
-			$("#what_is").removeClass( 'is_show' )
-			load_main();
+<style type="text/css">
+ #autocomplete { text-align:center;width:20em; }
+ #id_tags { position:static;width:20em; } /* to center, set static and explicit width: */
+ #id_tags_container { text-align:left;width:20em; } /* to center, set left-align and explicit width: */
+ .autocomplete_widget { text-align:left;width:20em; }
 
 
-		}
-	 }
-	function removetag( tag ) {
-		for (var count = 0; count < selectedtags.length; count++) {
-			selectedtags.splice(count,1); 
-		};	
-		$("#table-selected-tags td").remove(":contains("+tag+")");
-	}
-	function writetag( tag ) {
-		if (selectedtags.toString().search(tag) < 0) {
-			selectedtags.push(tag)
-			$("#table-selected-tags tr").append('<td scope="col"><div class="rounded-corners selected-tag"><a href=\"javascript:removetag(\''+tag+'\')\"><h3>' + tag + '</h3></a><div></td>');
-		}
-	}
+</style>
+
+<!-- /yui-->
 
 
-	function after_main() {
-		$('.opponent_msg').qtip({
-		   content: "La vita e' come una scatola di cioccolatini... ",
-		   position: {
-		      corner: {
-			 target: 'topRight',
-			 tooltip: 'bottomLeft'
-		      }
-   		   },
-		   style: { 
-      			name: 'cream' , // Inherit from preset style
-			border: {
-			width: 5,
-			radius: 10
-			},
-			padding: 10,
-			textAlign: 'center',
-			tip: true // Give it a speech bubble tip with automatic corner detection
-   		   },
-		   show: 'mouseover',
-		   hide: 'mouseout'
-		});
-	}
-
-	  $(document).ready(function() {
-	    // This is more like it!
-		$("#what_is").hide();
-		load_main();
-	  });
-
-
-	</script>
     </head>
     <body>
 	<div id="container">
+		<div id="fb-root"></div>
 		<div id="oplogo">
 			<table>
 				<tr>
@@ -116,5 +53,22 @@
 	   <div id="ajax_loader">
 	   </div><!-- loaded by ajax -->
 	</div> <!-- container -->
+<script>
+	FB.init({
+		appId  : '9e70e6cc01a08e4e0b28be7e45ce9709',
+		status : true, // check login status
+		cookie : true, // enable cookies to allow the server to access the session
+		xfbml  : true  // parse XFBML
+	});
+	FB.getLoginStatus(function(response) {
+		if (response.session) {
+			muid = response.session.uid;
+		} else {
+			// no user session available, someone you dont know
+		}
+		$("#what_is").hide();
+                load_main();
+	});
+</script>
     </body>
 </html>

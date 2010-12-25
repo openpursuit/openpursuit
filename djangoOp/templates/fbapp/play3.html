@@ -1,0 +1,73 @@
+<div id="ajax_loaded">
+
+	<p>
+		Hai totalizzato <span id="score-in-game-value"> </span> punti
+	</p>
+	<div id="menu_registered">
+		<p> Per salvare la partita e giocare con i tuoi amici e' necessario registrarti</p>
+		<a href="javascript:do_login()">Registrati!</a><br />
+    </div>
+	<a href="javascript:load_main()">Torna al menu principale</a> <br/>
+        <h2>Classifica</h2>
+
+    <div id="tabs">
+        <ul>
+            <!-- li><a href="#global_chart_friends"><span>Amici</span></a></li>
+            <li><a href="#tag_chart_friends"><span>Amici Per Argomento</span></a></li -->
+            <li><a href="#global_chart"><span>Generale</span></a></li>
+            {% for key, value in tag_general_chart.items %}
+            <li><a href="#tag_chart_{{key}}"><span>{{key}}</span></a></li>
+            {% endfor %}
+        </ul>
+        <div id="global_chart">
+            <table>
+                {% for element in general_chart %}
+                <tr>
+                    <td>
+                        <fb:profile-pic uid={{ element.uid}} linked='false' size='q'></fb:profice-pic>
+                    </td>
+                    <td>
+                        {{ element.first_name }}
+                    </td>
+                    <td>
+                        {{ element.score }} punti
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% for key, value in tag_general_chart.items %}
+        <div id="tag_chart_{{key}}">
+            {% if value %}
+            <table>
+            {% for element in value %}
+                <tr>
+                    <td>
+                        <fb:profile-pic uid={{ element.uid}} linked='false' size='q'></fb:profice-pic>
+                    </td>
+                    <td>
+                        {{ element.first_name }}
+                    </td>
+                    <td>
+                        {{element.tag}}  
+                    </td> 
+                    <td>
+                        {{ element.score }} Punti
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+            {% else %}
+                    <p>Non ci sono record per questo argomento</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <!-- div id="global_chart_friends">
+            Prova3
+        </div>
+        <div id="tag_chart_friends">
+            Prova4
+        </div -->
+    </div>
+        
+</div>

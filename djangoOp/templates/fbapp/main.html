@@ -1,11 +1,15 @@
 <div id="ajax_loaded">
 	<div id="score" >
 		<div id="score-head">
-			<p>Ciao <b>Lorenzo!</b></p> 
+			<p>Ciao <b>Anonimo!</b></p> 
 		</div>
 		<div id="score-body">
-			<p>hai totalizzato <b>34344</b> punti</p>
-			<p>sei il campione su <b>due</b> argomenti</p>
+			{% if fbuser %}
+				<p>hai totalizzato <b>{{fbuser.score}}</b> punti</p>
+				<p>sei il campione su <b>{{fbuser.bestof}}</b> argomenti: {% if fbuser.best_tags %}{% for t in fbuser.best_tags %}{{t}} {% endfor %} {% endif %}</p>
+			{% else %}
+				<p><a href="javascript:do_login()">Fai il login per vedere la tua classifica</a></p>
+			{% endif %}
 		</div>
 	</div>
 
