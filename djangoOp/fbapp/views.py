@@ -11,9 +11,10 @@ import os
 from django.conf import settings
 from django.forms import ModelForm
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 # Import the Django helpers
 # import facebook.djangofb as facebook
-
+import datetime 
 # The User model defined in models.py
 #from models import User
 from forms import FBQuizForm
@@ -109,6 +110,29 @@ def addquiz(request):
     if request.method == 'POST':
         post_data = request.POST.copy()
         form = FBQuizForm(post_data)    
+        uid = int(form.data['uid'])
+        if uid != 0: 
+            fbuser = FBProfile.objects.get(uid=uid) 
+            relatedtags = []
+            relatedtagsid = []
+            for t in form.data['tags'].split(' '):
+                t = t.strip().lower()
+                try:
+                    if (relatedtags.count(t) > 0):
+                        return HttpResponse("ERROR: USE A TAG FOR AT MOST ONE TIME")
+                    relatedtags.append(t)
+                    tx = Tags.objects.get(tag=t)
+                    relatedtagsid.append(tx)
+                except ObjectDoesNotExist:
+                    tw = Tags.objects.create(tag=t)
+                    tw.save()
+                    relatedtagsid.append(tw)
+            q = Quiz(question=form.data['question'], right1=form.data['right1'], wrong1=form.data['wrong1'], wrong2=form.data['wrong2'], wrong3=form.data['wrong3'], lang='it', views=0, difficulty=form.data['difficulty'], date=datetime.datetime.now() , author=fbuser.user ,mediatype=1)
+            q.save()
+            q.tags = relatedtagsid
+            return HttpResponse('Quiz aggiunto!')
+        else:
+            return HttpResponse('Errore uid nullo ')
     else:
         form = FBQuizForm()
     return direct_to_template(request, 'fbapp/addquiz.html', extra_context={'form':form})

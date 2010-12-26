@@ -15,19 +15,20 @@ from django.core.urlresolvers import reverse
 
 
 class FBQuizForm(forms.Form):
-	question = forms.CharField(max_length=2000)
-	rightAnswer = forms.CharField(max_length=2000)
-	wrongAnswer1 = forms.CharField(max_length=2000)
-	wrongAnswer2 = forms.CharField(max_length=2000)
-	wrongAnswer3 = forms.CharField(max_length=2000)
-	difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
-	tags = forms.CharField(max_length=2000)
-	reference = forms.URLField(max_length=2000)
+    question = forms.CharField(max_length=2000)
+    right1 = forms.CharField(max_length=2000)
+    wrong1 = forms.CharField(max_length=2000)
+    wrong2 = forms.CharField(max_length=2000)
+    wrong3 = forms.CharField(max_length=2000)
+    difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
+    tags = forms.CharField(max_length=2000)
+    uid = forms.IntegerField(widget=forms.HiddenInput() )
+#	reference = forms.URLField(max_length=2000)
 	
-	def __init__(self,*args, **kwargs ):
-		super(FBQuizForm, self).__init__(*args, **kwargs)
-		n_lookup_url = reverse('djangoOp.op.views.tags_ac')  # url to your view
-		n_schema = '["resultset.results", "tag", "occurrencies" ]'
-		self.fields['tags'].widget = AutoCompleteWidget()
-		self.fields['tags'].widget.lookup_url = n_lookup_url
-		self.fields['tags'].widget.schema = n_schema
+    def __init__(self,*args, **kwargs ):
+        super(FBQuizForm, self).__init__(*args, **kwargs)
+        n_lookup_url = reverse('djangoOp.op.views.tags_ac')  # url to your view
+        n_schema = '["resultset.results", "tag", "occurrencies" ]'
+        self.fields['tags'].widget = AutoCompleteWidget()
+        self.fields['tags'].widget.lookup_url = n_lookup_url
+        self.fields['tags'].widget.schema = n_schema
