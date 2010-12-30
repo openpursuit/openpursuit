@@ -1,0 +1,442 @@
+body,
+html {
+    font-family: 'BlackboysonmopedsRegular', arial, sans-serif;;
+	margin:0;
+	padding:0;
+    font-size: 18px;
+}
+
+.big-parag {
+    font-size:32px;
+}
+
+a:link { color: #000000; text-decoration: none}
+
+img
+{  border-style: none;
+}
+
+input[type=text] { 
+         width: 300px;
+}
+
+input[type=submit]{
+    background: transparent;
+}
+
+#container {
+	height: 500px;
+	width: 640px;
+	background-image: url(http://www.openpursuit.org/media/img/sfondo.jpg);
+	border-width:3px;
+	border-style:solid;
+	border-color:#ff9900;
+	padding: 10px;
+    -moz-box-shadow: 10px 10px 5px #888;
+    -webkit-box-shadow: 10px 10px 5px #888;
+    box-shadow: 10px 10px 5px #888;
+}
+
+
+#buttons {
+	margin-top: 10px;
+	width: 80%;
+    margin-left: auto;
+	margin-right: auto;
+	clear: both;
+}
+
+
+#what_is {
+	background-color: #FFFFFF;
+	border-color: #E4DF4D;
+	border-width:2px;
+	border-style:solid;
+	padding: 10px;
+	width: 520px;
+}
+
+#table_button td:first-child {padding-right: 45px;}
+
+
+#table_button td {
+	text-align: center;
+	vertical-align:bottom;
+	width: 500px;	
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+#loading {
+	width: 50%;
+	margin: auto;
+}
+
+#score {
+    -moz-box-shadow: 10px 10px 5px #888;
+    -webkit-box-shadow: 10px 10px 5px #888;
+    box-shadow: 10px 10px 5px #888;
+}
+
+
+
+#score-head {
+	height: 30px;
+	width: 100%;
+	margin: auto;
+	background-color: #059B80;
+	border-width:1px;
+    border-style:solid;
+    border-color:#000000;
+    text-align: center;
+}
+
+#score-body {
+	height: 100%;
+	padding-top: 10px;
+    background-color: #FFFFFF;
+}
+
+#score {
+	width: 120px;
+	float: right;
+	font-size: 12px;
+	padding: 4px;
+	min-height: 150px;
+	margin: auto;
+	background-color: #FFFFFF;
+	opacity:0.65;
+    filter:alpha(opacity=65)
+	border-width:1px;
+	border-style:solid;
+	border-color:#000000;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 9px;
+
+}
+
+
+
+
+
+.rounded-corners {
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-khtml-border-radius: 20px;
+	border-radius: 20px;
+}
+
+#opponent {
+}
+
+#footer{
+    margin-top:35px;
+    margin-left:10px;
+}
+
+#audiocontrol img {
+   margin: auto; 
+   padding-left: 20px;
+   padding-right: 20px;
+}
+
+#challenges-list{
+    padding: 5px;
+	width: 100%;
+   	border-width:2px;
+	border-style:dashed;
+	border-color:#999999;
+}
+
+#vs_img{
+    padding-left: 6px;
+    padding-right: 12px;
+}
+
+#challenges-list td{
+    padding-left:6px;
+    padding-right:6px;
+}
+
+#oplogo {
+	float: left;
+
+}
+
+#tagcloud-head {
+	height: 50px;
+	width: 100%;
+	margin: auto;
+	background-color: #840274;
+	border-width:1px;
+    border-style:solid;
+    border-color:#000000;
+    text-align: center;
+}
+
+
+
+#tagcloud-body {
+	height: 100%;
+	padding-top: 10px;
+    background-color: #FFFFFF;
+    font-size:22px;
+}
+
+
+#tagcloud {
+	min-height: 300px;
+	width: 500px;
+	margin: auto;
+    margin-left:90px;
+	background-color: #FFFFFF;
+	opacity:0.65;
+    filter:alpha(opacity=65)
+	border-width:1px;
+	border-style:solid;
+	border-color:#000000;
+	padding-left: 12px;
+	padding-right: 12px;
+	padding-top: 10px;
+    -moz-box-shadow: 10px 10px 5px #888;
+    -webkit-box-shadow: 10px 10px 5px #888;
+    box-shadow: 10px 10px 5px #888;
+
+}
+
+#tagcloud a {
+	/* color: #059B80;*/
+}
+
+#selected-tags{
+	padding-top:10px;
+
+}
+#select-label {
+    font-size: 20px;
+    padding-left: 90px;
+}
+
+/*
+.selected-tag{
+	background-color: #ff9900;	
+	height:50px;
+	width:140px;
+	text-align: center;
+	padding-bottom:10px;
+	opacity:0.65;
+        filter:alpha(opacity=65)
+	border-width:1px;
+        border-style:dashed;
+        border-color:#000000;
+	color: #000000;
+}
+*/
+
+a.selected-tag {
+    font-weight: bold;
+    color: #840274;
+}
+
+#play {
+	position:absolute;
+	left:440px;
+	top:435px;
+}
+
+table#answers {
+	margin-top: 0px;
+	width: 50%;
+    margin-left: 35px;
+}
+
+#answers td{
+	width: 250px;
+	padding-top:20px; 
+	padding-right:20px; 
+	padding-bottom:20px; 
+	padding-left:20px; 
+	
+}
+
+.answer {
+	background: #ff9900;
+	text-align: center;
+    font-size: 20px;
+	width: 230px;
+	height: 70px;
+	padding-top: 3px;
+	border-width:5px;
+	/* border-style:dashed;
+	border-color:#999999;*/
+	border-style:solid;
+	border-color:#000000;
+	opacity:0.75;
+    filter:alpha(opacity=75)
+}
+
+#question {
+	border-width:2px;
+	border-style:dashed;
+	border-color:#999999;
+	height: 130px;
+	width: 410px;
+	margin-left: 100px;
+	margin-top: 4px;
+    font-size:20px;
+    padding: 5px;
+}
+
+#timer {
+	text-align: center;
+	border-width:2px;
+	border-style:dashed;
+    border-color:#999999;
+	width: 100px;
+    float: right;
+	font-size: 54px;
+}
+
+
+
+.timer-hurry {
+	color: #FF0000;
+}
+
+#author {
+    clear:right;
+    margin-top: 25px;
+    text-align: center;
+	border-width:2px;
+	border-style:dashed;
+    border-color:#999999;
+	width: 100px;
+    float: right;
+	font-size: 14px;
+    height: 75px;
+}
+
+.right {
+	background: #00FF00;
+}
+
+.wrong {
+	background: #FF0000;
+}
+
+#play_profile {
+	width: 640px;
+	margin-top:0px;
+	/* background: #FF0000; */
+	border-width:2px;
+    border-style:dashed;
+    border-color:#999999;
+
+}
+
+#play_profile_name {
+	width:12%;
+	/* background: #00FF00; */
+
+}
+
+#play_profile_tag {
+	width:70%;
+	font-size: 10px;
+	border-color: #000000;
+	border-width: 2px;
+}
+
+#tagscore {
+	width: 100%;
+	/* background: #0F000F;*/
+}
+
+
+.tag-bar {
+	width: 200px;
+}
+
+.tag-bar-row {
+	height: 5px;
+}
+
+.score-in-game {
+	width: 40px;
+	text-align: left;
+}
+
+#tabs {
+    font-size: 12px;
+    margin-top: 50px;
+}
+
+
+#addformdiv-head {
+	height: 50px;
+	width: 100%;
+	margin: auto;
+	background-color: #840274;
+	border-width:1px;
+    border-style:solid;
+    border-color:#000000;
+    text-align: center;
+}
+
+#addformdiv-body {
+	height: 100%;
+	padding-top: 10px;
+    background-color: #FFFFFF;
+}
+
+.fieldWrapper{
+    padding-bottom: 10px;
+}
+
+#addformdiv {
+	min-height: 250px;
+	width: 450px;
+	margin: auto;
+    margin-left:110px;
+	background-color: #FFFFFF;
+	opacity:0.65;
+    filter:alpha(opacity=65)
+	border-width:1px;
+	border-style:solid;
+	border-color:#000000;
+	padding-left: 12px;
+	padding-right: 12px;
+	padding-top: 10px;
+    -moz-box-shadow: 10px 10px 5px #888;
+    -webkit-box-shadow: 10px 10px 5px #888;
+    box-shadow: 10px 10px 5px #888;
+
+}
+
+#addformdiv a {
+	color: #059B80;
+}
+
+.formerror {
+    border-width:2px;
+    border-style:solid;
+    border-color:#FF0000;
+}
+
+.big-word{ 
+    font-size: 60px;
+}
+
+#padding1 {
+    width:20px;
+}
+
+.card-title {
+    font-size: 42px;
+    text-align:center; 
+    color: #FFFFFF; 
+}
+
+

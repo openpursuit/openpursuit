@@ -168,7 +168,7 @@ function after_addquiz1() {
 
 function after_play2() {
 	if (muid !== 0) {
-		$("#play_profile_name").empty().append("<fb:profile-pic uid="+muid+" linked='false' size='q'> </fb:profice-pic>");
+		$("#play_profile_name").empty().append("<fb:profile-pic uid="+muid+" linked='true' size='q'> </fb:profice-pic>");
 		FB.XFBML.parse(document.getElementById('play_profile_name'));
 	}
 	$.ajax({
@@ -176,7 +176,10 @@ function after_play2() {
 	  async: false,
 	  dataType: 'json',
 	  success: function(data) {
-		quizdata = data;
+		quizdata = [];
+        for (index in data){
+            quizdata.push(data[index]);
+        }
 		quiz_n = quizdata.length;
 		for (i=0;i<selectedtags.length;i=i+1) {
 			scoretag[selectedtags[i]] = 50;
@@ -184,14 +187,19 @@ function after_play2() {
 		f_question = Math.floor(Math.random()*quiz_n);
 		current_quiz = f_question;
 
-		$('#question').html(quizdata[current_quiz].fields.question);
+		$('#question').html(quizdata[current_quiz].question);
 		var rnd = Math.floor(Math.random()*4);
-		$('#answer'+(rnd%4) ).html(quizdata[current_quiz].fields.right1);
+		$('#answer'+(rnd%4) ).html(quizdata[current_quiz].right);
 		$('#answer'+(rnd%4) ).addClass('ra');
-		$('#answer'+((rnd+1)%4)).html(quizdata[current_quiz].fields.wrong1);
-		$('#answer'+((rnd+2)%4)).html(quizdata[current_quiz].fields.wrong2);
-		$('#answer'+((rnd+3)%4)).html(quizdata[current_quiz].fields.wrong3);
-        $('#author').html(quizdata[current_quiz].fields.author);
+		$('#answer'+((rnd+1)%4)).html(quizdata[current_quiz].wrong1);
+		$('#answer'+((rnd+2)%4)).html(quizdata[current_quiz].wrong2);
+		$('#answer'+((rnd+3)%4)).html(quizdata[current_quiz].wrong3);
+        if (quizdata[current_quiz].author.fb_uid) {
+            $('#author').html("Autore: " + quizdata[current_quiz].author.name + "<br><fb:profile-pic uid="+quizdata[current_quiz].author.fb_uid+" linked='false' size='q'> </fb:profice-pic>" );
+        } else {
+            $('#author').html("Autore: "+ quizdata[current_quiz].author.name);
+        }
+        FB.XFBML.parse(document.getElementById('author'));
 		$('.answer').click( function() { 
 				if (answered === true) {
 					return false;
@@ -353,9 +361,9 @@ function form_validate(formData, jqForm, options) {
 
 function next_quiz() {
 	goNextTimer = null;
-	for(var index in quizdata[current_quiz].fields.tags) {
+	for(var index in quizdata[current_quiz].tags) {
 		for(var index2 in id2tag) {
-			if (quizdata[current_quiz].fields.tags[index] == index2 ) {
+			if (quizdata[current_quiz].tags[index] == index2 ) {
 				if (is_winner === true ) {
 					scoretag[ id2tag[index2] ] += timer;
 					score += timer;
@@ -373,13 +381,20 @@ function next_quiz() {
 		load_play3(); // end of game
 	}
     $('.answer').removeClass('ra');
-	$('#question').html(quizdata[current_quiz].fields.question);
+	$('#question').html(quizdata[current_quiz].question);
 	var rnd = Math.floor(Math.random()*4);
-	$('#answer'+(rnd%4) ).html(quizdata[current_quiz].fields.right1);
+	$('#answer'+(rnd%4) ).html(quizdata[current_quiz].right);
 	$('#answer'+(rnd%4) ).addClass('ra');
-	$('#answer'+((rnd+1)%4)).html(quizdata[current_quiz].fields.wrong1);
-	$('#answer'+((rnd+2)%4)).html(quizdata[current_quiz].fields.wrong2);
-	$('#answer'+((rnd+3)%4)).html(quizdata[current_quiz].fields.wrong3);
+	$('#answer'+((rnd+1)%4)).html(quizdata[current_quiz].wrong1);
+	$('#answer'+((rnd+2)%4)).html(quizdata[current_quiz].wrong2);
+	$('#answer'+((rnd+3)%4)).html(quizdata[current_quiz].wrong3);
+    if (quizdata[current_quiz].author.fb_uid) {
+            $('#author').html("Autore: " + quizdata[current_quiz].author.name + "<br><fb:profile-pic uid="+quizdata[current_quiz].author.fb_uid+" linked='true' size='q'> </fb:profice-pic>" );
+        } else {
+            $('#author').html("Autore: "+ quizdata[current_quiz].author.name);
+        }
+        FB.XFBML.parse(document.getElementById('author'));
+
 	start_timer();
 }
 

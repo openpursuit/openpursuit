@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 DIFFICULTY_LEVEL = (
     (1, 'easy'),
@@ -41,7 +42,7 @@ class Tags(models.Model):
 	tag = models.CharField(max_length=2000)
 	class Admin:
 		pass
-	def __str__(self):	
+	def __unicode__(self):	
 		return "%s" % (self.tag)
 
 
@@ -149,3 +150,26 @@ class UserProfile(models.Model):
 		
 	def __unicode__(self):
 		return "%s" % (self.user)
+
+
+
+class FBProfile(models.Model):
+    uid = models.BigIntegerField(primary_key=True) 
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    user = models.ForeignKey(User, unique=True)
+    pic_url = models.URLField()
+    email = models.EmailField()
+    pic = models.ImageField(upload_to='fbpics/')
+    score = models.IntegerField()
+    def __unicode__(self):
+                return "%s %s" % (self.first_name, self.last_name)
+
+class TagsScore(models.Model):
+    user = models.ForeignKey(FBProfile)
+    tag = models.ForeignKey(Tags)
+    date = models.DateField(auto_now=True)
+    score = models.IntegerField()
+    def __unicode__(self):
+                return "%s %s" % (self.user, self.tag)
+

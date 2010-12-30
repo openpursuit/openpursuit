@@ -20,7 +20,7 @@ from django.db.models.query import QuerySet
 from django.db.models import Q
 import amf, amf.django
 from django.contrib.auth import REDIRECT_FIELD_NAME
-
+from django.utils import simplejson
 
 import add_module, play_module, genpdf_module
 
@@ -58,21 +58,35 @@ def jsplay2(request):
 	return render_to_response('jsgame2.html', {},context_instance=RequestContext(request))
 
 def getquizapi(request):
-	import random
-	query_tags = request.GET.get('tags', None)
-	query_limit = request.GET.get('limit', 0 )
-	query_limit = int(query_limit)
-	query_lang = request.GET.get('lang', None)
-	if (query_tags == None) :
-		return HttpResponseBadRequest("No tags specified")
-	tags = query_tags.split(',')
-	qs = []
-	for t in tags:
-		#qs +=  Quiz.objects.filter(tags__tag__contains = t)[:int(query_limit/len(tags))] if qs == None else qs | Quiz.objects.filter(tags__tag__contains = t)[:int(query_limit/len(tags))]
-		qs += list(Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))])
-		
-	data = serializers.serialize('json', qs, fields=('question','right1','wrong1','wrong2','wrong3' ))
-	return HttpResponse(data, mimetype="text/json")
+    import random
+    query_tags = request.GET.get('tags', None)
+    query_limit = request.GET.get('limit', 0 )
+    query_limit = int(query_limit)
+    query_lang = request.GET.get('lang', None)
+    if (query_tags == None) :
+        return HttpResponseBadRequest("No tags specified")
+    tags = query_tags.split(',')
+    #qs = []
+    #for t in tags:
+    #    q = Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))]
+    #    qs += list(q)
+    #data = serializers.serialize('json', qs, fields=('question','right1','wrong1','wrong2','wrong3','tags'))
+
+    data = {} 
+    for t in tags:
+        qs = Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))]
+        for q in qs:
+            tag_dict = {}
+            for mt in q.tags.all():
+                tag_dict[mt.tag] = mt.id  
+            author = {}
+            author['name'] = q.author.username if q.author.first_name == "" else q.author.first_name
+            if q.author.fbprofile_set.count() > 0:
+                author['fb_uid'] = q.author.fbprofile_set.get().uid
+            mlist =  {'question':  q.question, 'right': q.right1,'wrong1': q.wrong1 , 'wrong2': q.wrong2 , 'wrong3': q.wrong3, 'tags': tag_dict, 'author': author  } 
+            if not data.has_key(q.id):
+                data[q.id] = mlist
+    return HttpResponse(simplejson.dumps(data) , mimetype="text/json")
 
 def jsplay_fb(request):
 	form = QuizForm()

@@ -12,6 +12,7 @@ from django.conf import settings
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+import math
 # Import the Django helpers
 # import facebook.djangofb as facebook
 import datetime 
@@ -34,7 +35,11 @@ def main(request):
         uid = request.GET.get('uid', None)
         bestof = 0
         if uid and uid != '0':
-              fbuser = FBProfile.objects.get(uid=uid)
+              try:
+                fbuser = FBProfile.objects.get(uid=uid)
+              except:
+                  fbuser = None
+                  return direct_to_template(request, 'fbapp/main.html', extra_context={'fbuser': fbuser})
               best_tags = []
               for t in Tags.objects.all():
                   for ts in TagsScore.objects.filter(tag=t).order_by('-score')[:1]:
@@ -73,6 +78,13 @@ def save_score(request):
             except:
                t = TagsScore(user=fbuser, tag=t, score=e.split(':')[1])
                t.save()
+        score = 0
+        tags = TagsScore.objects.filter(user=fbuser)
+        for t in tags: 
+            score = score + t.score
+        score = int(float(score) * math.log(tags.count() ) / float(tags.count()))
+        fbuser.score = score
+        fbuser.save()
     return HttpResponse("Ok")
 
 def play(request):
@@ -115,18 +127,19 @@ def addquiz(request):
             fbuser = FBProfile.objects.get(uid=uid) 
             relatedtags = []
             relatedtagsid = []
-            for t in form.data['tags'].split(' '):
+            for t in form.data['tags'].replace(",", " ").split(' '):
                 t = t.strip().lower()
-                try:
-                    if (relatedtags.count(t) > 0):
-                        return HttpResponse("ERROR: USE A TAG FOR AT MOST ONE TIME")
-                    relatedtags.append(t)
-                    tx = Tags.objects.get(tag=t)
-                    relatedtagsid.append(tx)
-                except ObjectDoesNotExist:
-                    tw = Tags.objects.create(tag=t)
-                    tw.save()
-                    relatedtagsid.append(tw)
+                if len(t)>0:
+                    try:
+                        if (relatedtags.count(t) > 0):
+                            return HttpResponse("ERROR: USE A TAG FOR AT MOST ONE TIME")
+                        relatedtags.append(t)
+                        tx = Tags.objects.get(tag=t)
+                        relatedtagsid.append(tx)
+                    except ObjectDoesNotExist:
+                        tw = Tags.objects.create(tag=t)
+                        tw.save()
+                        relatedtagsid.append(tw)
             q = Quiz(question=form.data['question'], right1=form.data['right1'], wrong1=form.data['wrong1'], wrong2=form.data['wrong2'], wrong3=form.data['wrong3'], lang='it', views=0, difficulty=form.data['difficulty'], date=datetime.datetime.now() , author=fbuser.user ,mediatype=1)
             q.save()
             q.tags = relatedtagsid

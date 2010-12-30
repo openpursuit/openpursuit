@@ -24,9 +24,9 @@ AC_SNIPPET = """
 <div id = "autocomplete" class="id_tags_container">
     <input id="%s" name="%s" value="%s" />
     <div id="%s_container" class="yui-skin-sam"></div>
-  
 
     <script type="text/javascript">
+  function do_autocomplete() {
         // An XHR DataSource
         var acServer_%s = "%s";
         var acSchema_%s = %s;
@@ -49,7 +49,7 @@ AC_SNIPPET = """
         
         
         // Container will expand and collapse vertically 
-        acAutoComp_%s.animVert = true
+        acAutoComp_%s.animVert = true;
         
         // Container will expand and collapse horizontally 
         acAutoComp_%s.animHoriz = false; 
@@ -83,7 +83,7 @@ AC_SNIPPET = """
         acAutoComp_%s.typeAhead = true; 
         acAutoComp_%s.formatResult = function(oResultItem, sQuery) {
            var sResult = oResultItem[0];
-           var sOcc = oResultItem[1]
+           var sOcc = oResultItem[1];
            if(sResult) {
              var aMarkup = ["<div>",
              "<span style='text-align:left'>",
@@ -110,6 +110,8 @@ AC_SNIPPET = """
  
         %s
         %s
+};
+do_autocomplete();
     </script>
 </div>
 """

@@ -15,13 +15,13 @@ from django.core.urlresolvers import reverse
 
 
 class FBQuizForm(forms.Form):
-    question = forms.CharField(max_length=2000)
-    right1 = forms.CharField(max_length=2000)
-    wrong1 = forms.CharField(max_length=2000)
-    wrong2 = forms.CharField(max_length=2000)
-    wrong3 = forms.CharField(max_length=2000)
+    question = forms.CharField(max_length=200)
+    right1 = forms.CharField(max_length=75)
+    wrong1 = forms.CharField(max_length=75)
+    wrong2 = forms.CharField(max_length=75)
+    wrong3 = forms.CharField(max_length=75)
     difficulty = forms.ChoiceField(choices=DIFFICULTY_LEVEL)
-    tags = forms.CharField(max_length=2000)
+    tags = forms.CharField(max_length=100)
     uid = forms.IntegerField(widget=forms.HiddenInput() )
 #	reference = forms.URLField(max_length=2000)
 	
