@@ -1,46 +1,55 @@
 <div id="ajax_loaded">
-	<div id="score" >
+    <div id="openpursuit_banner"><img src="{{MEDIA_URL}}img/openpursuit.png" /></div>
+	<!-- div id="score" >
 		<div id="score-head">
 			<p>Ciao <b>Anonimo!</b></p> 
 		</div>
 		<div id="score-body">
 			{% if fbuser %}
-				<p>hai totalizzato <b>{{fbuser.score}}</b> punti</p>
+				<p>Punteggio: <b>{{fbuser.score}}</b></p>
 				<p>sei il campione su <b>{{fbuser.bestof}}</b> argomenti: {% if fbuser.best_tags %}{% for t in fbuser.best_tags %}{{t}} {% endfor %} {% endif %}</p>
 			{% else %}
 				<p><a href="javascript:do_login()">Fai il login per vedere la tua classifica</a></p>
 			{% endif %}
 		</div>
-	</div>
+	</div -->
 
 	<div id="buttons">
 	<table id="table_button">
 		<tbody>
 		   <tr>
-		      <td scope="col"><a href="javascript:load_play1()"><img src="{{MEDIA_URL}}img/peanuts.jpg" /> </a></td>
-		      <td scope="col"><a href="javascript:load_challenge1()"><img src="{{MEDIA_URL}}img/peanuts.jpg" /> </a></td>
-		      <td scope="col"><a href="javascript:load_addquiz1()"><img src="{{MEDIA_URL}}img/peanuts.jpg" /> </a></td>
+               <td scope="col"><img src="{{MEDIA_URL}}img/gioca.png" /></td>
+               <td scope="col"><img src="{{MEDIA_URL}}img/sfida.png" /></td>
+               <td scope="col"><img src="{{MEDIA_URL}}img/aggiungi.png" /></td>
 		   </tr>
 		   <tr>
-		      <td scope="col"><h4>Gioca</h4></td>
-		      <td scope="col"><h4>Sfida</h4></td>
-		      <td scope="col"><h4>Aggiungi Quiz</h4></td>
+		      <td scope="col"><a href="javascript:load_play1()"><img src="{{MEDIA_URL}}img/op_play.png" /></a></td>
+		      <td scope="col"><a href="javascript:load_challenge1()"><img src="{{MEDIA_URL}}img/op_vs.png" /></a></td>
+              <td scope="col"><a id="addlink" href="javascript:do_login()"><img src="{{MEDIA_URL}}img/op_add.png" /></a></td>
 		   </tr>
 		</tbody>
 	</table>
 	</div>	
-	<div id="challenges-list">
-		<table id="opponents">
-			<tbody>
-			   <tr>
-			      <th scope="col">Sfide ricevute:</th> 
-			      <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p1.jpg" /></td>
-			      <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p2.jpg" /></td>
-			      <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p3.jpg" /></td>
-			      <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p4.jpg" /></td>
-			      <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p5.jpg" /></td>
-			   </tr>
-			</tbody>
-		</table>
-	</div>	
+	<table id="footer">
+        <tr>
+            <td id="challenges-list">
+                    <table id="opponents">
+                        <tbody>
+                           <tr>
+                               <th scope="col" id="vs_img"><a href="javascript:load_play1()"><img src="{{MEDIA_URL}}img/sfide_ricevute.png" /></a></th> 
+                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p1.jpg" /></td>
+                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p2.jpg" /></td>
+                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p3.jpg" /></td>
+                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p4.jpg" /></td>
+                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p5.jpg" /></td>
+                           </tr>
+                        </tbody>
+                    </table>
+            </td>
+            <td id="audiocontrol" class="audioon">
+                <a href="javascript:switch_audio()"><img src="{{MEDIA_URL}}img/audioon.png" /></a>
+            </td>
+        </tr>
+    </table>
+
 </div>

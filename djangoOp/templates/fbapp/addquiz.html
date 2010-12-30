@@ -1,7 +1,49 @@
 <div id="ajax_loaded">
-
-	<form id="addform" action="/fbapp/addquiz?uid=726917085" method="post">
-	{{ form.as_p }}
-	<input type="submit" value="Submit" />
-	</form>
+    <div id="addformdiv">
+        <div id="addformdiv-head">
+            <span class="card-title">Aggiungi Quiz</span>
+        </div>
+        <div id="addformdiv-body">
+            <form id="addform" action="/fbapp/addquiz" method="post">
+                <div class="fieldWrapper">
+                     <label for="id_question">Inserisci una domanda con una sola risposta giusta:</label>
+                     <div id="id_question_error"></div>
+                     {{ form.question}}
+                </div>
+                <div class="fieldWrapper">
+                     <label for="id_right1">Inserisci la risposta <span style="color: green; font-style: bold; ">giusta</span>:</label>
+                     <div id="id_right1_error"></div>
+                     {{ form.right1}}
+                </div>
+                <div class="fieldWrapper">
+                     <label for="id_wrong1">Inserisci una risposta <span style="color: red; font-style: bold;">sbagliata</span> ma verosimile:</label>
+                     <div id="id_wrong1_error"></div>
+                     {{ form.wrong1}}
+                </div>
+                <div class="fieldWrapper">
+                     <label for="id_wrong2">Inserisci una risposta <span style="color: red; font-style: bold;">sbagliata</span> ma verosimile:</label>
+                     <div id="id_wrong2_error"></div>
+                     {{ form.wrong2}}
+                </div>
+                <div class="fieldWrapper">
+                    <label for="id_wrong3">Inserisci una risposta <span style="color: red; font-style: bold;">sbagliata</span> ma verosimile:</label>
+                     <div id="id_wrong3_error"></div>
+                     {{ form.wrong3}}
+                </div>
+                <div class="fieldWrapper">
+                     <label for="id_difficulty">Seleziona il livello di difficolta' del quiz:</label>
+                     <div id="id_difficulty_error"></div>
+                     {{ form.difficulty}}
+                </div>
+                <div class="fieldWrapper">
+                    <label for="id_tags">Inserisci dei tags separati da uno spazio (inserisci tags generici tipo <i>spettacolo</i> o <i>musica</i>e tags spefici tipo <i>wooodyallen</i> o <i>u2</i>):</label>
+                     <div id="id_tags_error"></div>
+                     {{ form.tags}}
+                </div>
+                     {{ form.uid }}
+                <br />
+            <input type="submit" value="Aggiungi il Quiz!" />
+            </form>
+        </div>
+    </div>
 </div>

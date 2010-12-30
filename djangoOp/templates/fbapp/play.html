@@ -1,17 +1,16 @@
 <div id="ajax_loaded">
-
-	<p>
-	Scegli una serie di argomenti per i quiz:
+	<p id="select-label">
+	    Seleziona fino a 4 argomenti per i tuoi quiz o non selezionarne nessuno per giocare con tutti gli argomenti:
 	</p>
 	<div id="tagcloud" >
 		<div id="tagcloud-head">
-			<h2>Argomenti</h2>	
+			<span class="card-title">Argomenti</span>	
 		</div>
 		<div id="tagcloud-body">
 			{% load tagclouds %}
 			{% get_latest_cloudtag %}
 			{% for tag in content_tagclouds|slice:"100" %}
-				<div style="font-size:{{ tag.cloudsize }}; text-align:left;float:left" > <a href="javascript:writetag('{{ tag.tag }}','{{ tag.id }}')"> {{ tag.tag }}</a>, </div>
+            <div style="font-size:{{ tag.cloudsize }}; text-align:left;float:left" > <a id="tag_{{ tag.id }}" href="javascript:writetag('{{ tag.tag }}','{{ tag.id }}')">{{ tag.tag }}</a>, </div>
 			{% endfor %}
 		</div>
 	</div>
@@ -28,8 +27,9 @@
 	<div id="play">
 		<table> 
 		    <tbody> <tr> 
-			<td> <a href="javascript:load_play2()"> <h2>Gioca!</h2></a>  </td>
-			<td> <a href="javascript:load_play2()"> <img src="{{MEDIA_URL}}img/logo_turned.png" /> </a> </td>
+			<td> <a href="javascript:load_play2()" class="big-word">Gioca</a>  </td>
+            <td id="padding1"></td>
+			<td> <a href="javascript:load_play2()"> <img src="{{MEDIA_URL}}img/op_cake.png" /> </a> </td>
 		    </tr> </tbody>
 		</table>
 	</div>

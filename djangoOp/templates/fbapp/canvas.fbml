@@ -6,7 +6,11 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 	<script src="{{ MEDIA_URL }}scripts/jquery.qtip-1.0.0-rc3.min.js"></script>
+    <!-- script src="http://cdn.jquerytools.org/1.2.5/jquery.tools.min.js"></script -->
 	<script src="{{ MEDIA_URL }}scripts/jquery.form.js"></script>
+    <!-- script src="{{ MEDIA_URL }}scripts/soundmanager2-jsmin.js"></script -->
+    <script src="{{ MEDIA_URL }}scripts/soundmanager2-nodebug-jsmin.js"></script>
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/stylesheet.css" type="text/css" charset="utf-8" />
 	<script src="{{ MEDIA_URL }}scripts/fbapp.js"></script>
 	<script src="http://connect.facebook.net/en_US/all.js"></script>
 	<!-- link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/ -->
@@ -54,22 +58,5 @@
 	   <div id="ajax_loader">
 	   </div><!-- loaded by ajax -->
 	</div> <!-- container -->
-<script>
-	FB.init({
-		appId  : '9e70e6cc01a08e4e0b28be7e45ce9709',
-		status : true, // check login status
-		cookie : true, // enable cookies to allow the server to access the session
-		xfbml  : true  // parse XFBML
-	});
-	FB.getLoginStatus(function(response) {
-		if (response.session) {
-			muid = response.session.uid;
-		} else {
-			// no user session available, someone you dont know
-		}
-		$("#what_is").hide();
-                load_main();
-	});
-</script>
     </body>
 </html>
