@@ -1,5 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import render_to_response
 from django.views.generic.simple import direct_to_template
+from django.template import RequestContext
 #uncomment the following two lines and the one below
 #if you dont want to use a decorator instead of the middleware
 #from django.utils.decorators import decorator_from_middleware
@@ -34,12 +36,17 @@ def main(request):
     if request.method == 'GET':
         uid = request.GET.get('uid', None)
         bestof = 0
+        players_list = FBProfile.objects.order_by('?')[:5]
+        opponents_list = [ {'uid': 37419699200 } ,  {'uid': 100000980465757 } ,  {'uid': 100001650755172 } , {'uid': 1403147446 }  ]
+        top_contributors_list  = FBProfile.objects.annotate(quiz_n=Count('user__quiz')).order_by('-quiz_n')[:5]
+
         if uid and uid != '0':
               try:
                 fbuser = FBProfile.objects.get(uid=uid)
               except:
                   fbuser = None
-                  return direct_to_template(request, 'fbapp/main.html', extra_context={'fbuser': fbuser})
+                  #return direct_to_template(request, 'fbapp/main.html', extra_context={'fbuser': fbuser})
+                  return render_to_response('fbapp/main.html', {'fbuser': fbuser,  'players_list': players_list, 'opponents_list': opponents_list, 'top_contributors_list': top_contributors_list },context_instance=RequestContext(request))
               best_tags = []
               for t in Tags.objects.all():
                   for ts in TagsScore.objects.filter(tag=t).order_by('-score')[:1]:
@@ -61,7 +68,9 @@ def main(request):
                   fbuser.best_tags = best_tags[:3] + [ " e altri" ]
               else:
                   fbuser.best_tags = best_tags 
-    return direct_to_template(request, 'fbapp/main.html', extra_context={'fbuser': fbuser})
+
+    return render_to_response('fbapp/main.html', {'fbuser': fbuser, 'players_list': players_list, 'opponents_list': opponents_list, 'top_contributors_list': top_contributors_list},context_instance=RequestContext(request))
+    #return direct_to_template(request, 'fbapp/main.html', extra_context={'fbuser': fbuser})
 
 def save_score(request):
     if request.method == 'POST':
@@ -104,17 +113,18 @@ def play3(request):
     if request.method == 'GET':
         uid = request.GET.get('uid', None)
         if uid and uid != '0':
-            general_chart = FBProfile.objects.order_by( '-score')[:6]
-
+            general_chart = FBProfile.objects.order_by( '-score')[:50]
             tag_chart = []  
             for t in tags:
-                qs = TagsScore.objects.filter(tag__tag=t).order_by( '-score')[:6]
+                qs = TagsScore.objects.filter(tag__tag=t).order_by( '-score')[:50]
                 for q in qs:
                     el = { }
                     el = {'uid': q.user.uid, 'tag' : q.tag, 'score' : q.score, 'first_name': q.user.first_name }
                     tag_chart.append(el)
                 tag_general_chart[t] = tag_chart
                 tag_chart = [ ]
+    if len(tags[0]) == 0:
+        tag_general_chart = None
     return direct_to_template(request, 'fbapp/play3.html', extra_context={'general_chart' : general_chart,'tag_general_chart': tag_general_chart })
 
 
@@ -200,7 +210,8 @@ def canvas(request):
     # User is guaranteed to be logged in, so pass canvas.fbml
     # an extra 'fbuser' parameter that is the User object for
     # the currently logged in user.
-    return direct_to_template(request, 'fbapp/canvas.fbml')#  extra_context={'fbuser': user})
+    return render_to_response('fbapp/canvas.fbml', {},context_instance=RequestContext(request))
+    #return direct_to_template(request, 'fbapp/canvas.fbml')#  extra_context={'fbuser': user})
 
 #@facebook.require_login()
 def ajax(request):

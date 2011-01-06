@@ -4,67 +4,82 @@
 		Punteggio: <span id="score-in-game-value"> </span> 
 	</p>
 	<div id="menu_registered">
-		<p> Per salvare la partita e giocare con i tuoi amici e' necessario registrarti</p>
-		<a href="javascript:do_login()">Registrati!</a><br />
+        <a href="javascript:publish_score()"><img src="{{MEDIA_URL}}img/publish_wall.png" />Pubblica il punteggio sulla tua bacheca</a>
+        <br />
+        <div id="save_status"><a href="javascript:save_score()"><img src="{{MEDIA_URL}}img/save.png" /><span>Salva</span></a></div>
     </div>
-	<a href="javascript:load_main()">Torna al menu principale</a> <br/>
-        Classifica
+    <a href="javascript:load_main()"><img src="{{MEDIA_URL}}img/back.gif" />Torna al menu principale</a> <br/>
 
-    <div id="tabs">
-        <ul>
-            <!-- li><a href="#global_chart_friends"><span>Amici</span></a></li>
-            <li><a href="#tag_chart_friends"><span>Amici Per Argomento</span></a></li -->
-            <li><a href="#global_chart"><span>Generale</span></a></li>
-            {% for key, value in tag_general_chart.items %}
-            <li><a href="#tag_chart_{{key}}"><span>{{key}}</span></a></li>
-            {% endfor %}
-        </ul>
-        <div id="global_chart">
-            <table>
-                {% for element in general_chart %}
-                <tr>
-                    <td>
-                        <fb:profile-pic uid={{ element.uid}} linked='false' size='q'></fb:profice-pic>
-                    </td>
-                    <td>
-                        {{ element.first_name }}
-                    </td>
-                    <td>
-                        {{ element.score }} punti
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+    <div id="chart-main">
+      <div class="chart-row">
+        <div class="chart-title">
+                Classifica<br/>
+                Generale
         </div>
+        <div class="chart-body">
+            <a class="prev browse left"></a>
+            <div class="scrollable">
+                    <div class="items">
+                        <div class="scrollable-item">
+                            {% for element in general_chart %}
+                                <div class="chart-element">
+                                    <div class="chart-pic">
+                                        <fb:profile-pic uid="{{element.uid}}" linked="true" size="q"></fb:profile-pic>
+                                    </div>
+                                    <div class="chart-name">
+                                        <p>{{element.first_name}}</p>
+                                    </div>
+                                    <div class="chart-score">
+                                        {{ element.score }} 
+                                    </div>
+                                </div> <!-- end chart-element-->
+                                {% if forloop.counter|divisibleby:"7" %}
+                                </div> <!-- end scrollablei-item -->
+                                <div class="scrollable-item">
+                                {% endif %}
+                            {% endfor %}
+                        </div> <!-- end scrollablei-item -->
+                    </div> <!-- end items -->
+                </div> <!-- end scrollable --> 
+            <a class="next browse right"></a>
+        </div> <!-- end chart body -->
+      </div> <!-- end chart row -->
+    {% if tag_general_chart.items %}
         {% for key, value in tag_general_chart.items %}
-        <div id="tag_chart_{{key}}">
-            {% if value %}
-            <table>
-            {% for element in value %}
-                <tr>
-                    <td>
-                        <fb:profile-pic uid={{ element.uid}} linked='false' size='q'></fb:profice-pic>
-                    </td>
-                    <td>
-                        {{ element.first_name }}
-                    </td>
-                    <td>
-                        {{ element.score }} Punti
-                    </td>
-                </tr>
-            {% endfor %}
-            </table>
-            {% else %}
-                    <p>Non ci sono record per questo argomento</p>
-            {% endif %}
+      <div class="chart-row">
+        <div class="chart-title">
+                Classifica<br/>
+                {{key}} 
         </div>
+        <div class="chart-body">
+            <a class="prev browse left"></a>
+            <div class="scrollable">
+                    <div class="items">
+                        <div class="scrollable-item">
+                            {% for element in value %}
+                                <div class="chart-element">
+                                    <div class="chart-pic">
+                                        <fb:profile-pic uid="{{element.uid}}" linked="true" size="q"></fb:profile-pic>
+                                    </div>
+                                    <div class="chart-name">
+                                        <p>{{element.first_name}}</p>
+                                    </div>
+                                    <div class="chart-score">
+                                        {{ element.score }} 
+                                    </div>
+                                </div> <!-- end chart-element-->
+                                {% if forloop.counter|divisibleby:"7" %}
+                                </div> <!-- end scrollablei-item -->
+                                <div class="scrollable-item">
+                                {% endif %}
+                            {% endfor %}
+                        </div> <!-- end scrollablei-item -->
+                    </div> <!-- end items -->
+                </div> <!-- end scrollable --> 
+            <a class="next browse right"></a>
+        </div> <!-- end chart body -->
+      </div> <!-- end chart row -->
         {% endfor %}
-        <!-- div id="global_chart_friends">
-            Prova3
-        </div>
-        <div id="tag_chart_friends">
-            Prova4
-        </div -->
-    </div>
-        
+      {% endif %}
+    </div><!-- end chart main -->
 </div>

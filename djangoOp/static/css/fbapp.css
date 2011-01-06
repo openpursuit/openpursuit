@@ -106,8 +106,8 @@ input[type=submit]{
 	min-height: 150px;
 	margin: auto;
 	background-color: #FFFFFF;
-	opacity:0.65;
-    filter:alpha(opacity=65)
+	opacity: 0.65;
+    filter:alpha(opacity=65);
 	border-width:1px;
 	border-style:solid;
 	border-color:#000000;
@@ -128,12 +128,11 @@ input[type=submit]{
 	border-radius: 20px;
 }
 
-#opponent {
-}
 
 #footer{
     margin-top:35px;
     margin-left:10px;
+    height: 100px;
 }
 
 #audiocontrol img {
@@ -142,17 +141,20 @@ input[type=submit]{
    padding-right: 20px;
 }
 
-#challenges-list{
-    padding: 5px;
+#challenges-list {
+    /* padding: 5px;*/
 	width: 100%;
    	border-width:2px;
 	border-style:dashed;
 	border-color:#999999;
+
 }
 
-#vs_img{
+
+.footer-title {
     padding-left: 6px;
     padding-right: 12px;
+    font-size: 30px;
 }
 
 #challenges-list td{
@@ -193,7 +195,7 @@ input[type=submit]{
     margin-left:90px;
 	background-color: #FFFFFF;
 	opacity:0.65;
-    filter:alpha(opacity=65)
+    filter:alpha(opacity=65);
 	border-width:1px;
 	border-style:solid;
 	border-color:#000000;
@@ -227,7 +229,7 @@ input[type=submit]{
 	text-align: center;
 	padding-bottom:10px;
 	opacity:0.65;
-        filter:alpha(opacity=65)
+        filter:alpha(opacity=65);
 	border-width:1px;
         border-style:dashed;
         border-color:#000000;
@@ -274,7 +276,7 @@ table#answers {
 	border-style:solid;
 	border-color:#000000;
 	opacity:0.75;
-    filter:alpha(opacity=75)
+    filter:alpha(opacity=75);
 }
 
 #question {
@@ -402,7 +404,7 @@ table#answers {
     margin-left:110px;
 	background-color: #FFFFFF;
 	opacity:0.65;
-    filter:alpha(opacity=65)
+    filter:alpha(opacity=65);
 	border-width:1px;
 	border-style:solid;
 	border-color:#000000;
@@ -435,8 +437,209 @@ table#answers {
 
 .card-title {
     font-size: 42px;
-    text-align:center; 
-    color: #FFFFFF; 
+    text-align:center;
+    color: #FFFFFF;
 }
 
+.images {
+    /* border:1px solid #ccc; */
+    /*position:relative;*/
+    /* CSS3 tweaks for modern browsers */
+    /*
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-box-shadow:0 0 25px #666;
+    -webkit-box-shadow:0 0 25px #666;
+    */
+}
+    
+/* single slide */
+.images div {
+    /* display:none;
+    position:absolute; 
+    margin-top:0px;
+    background:#FFFF00; */
+    display: none;
+    position: absolute;
+    top: 440px;
+    left: 40;
+}
+
+
+/* tabs (those little circles below slides) */
+
+/*
+.slidetabs {
+    clear:both;
+    margin-left:330px;
+}
+*/
+/*
+.slidetabs a {
+
+    width:8px;
+    height:8px;
+    float:left;
+    margin:3px;
+    display:block;
+    font-size:1px;
+}
+*/
+/*
+.slidetabs a:hover {
+    background-position:0 -8px;      
+}
+
+.slidetabs a.current {
+    background-position:0 -16px;     
+}   
+
+
+*/
+
+.chart-main {
+}
+
+div.chart-row{
+    width:100%;
+    height:150px;
+   	border-width:2px;
+	border-style:dashed;
+	border-color:#999999;
+    padding: 4px;
+    margin-top: 10px;
+}
+
+.chart-title {
+    float: left;
+    width:85px;
+    margin: auto;
+}
+
+div.chart-body {
+    float: left;
+}
+
+div.chart-element {
+    float:left;
+    width:65px;
+}
+
+
+
+div.chart-name {
+    /*height: 20px;*/
+    text-align: center;
+}
+
+div.chart-score {
+    /* height: 20px; */
+    text-align: center;
+}
+
+div.chart-pic {
+   /* height: 55px;*/
+}
+
+/*
+ *  root element for the scrollable.
+ *      when scrolling occurs this element stays still.
+ *      */
+.scrollable {
+
+    /* required settings */
+    position:relative;
+    overflow:hidden;
+    width: 465px;
+    height:140px;
+    /* custom decorations */
+    border:1px solid #ccc;
+    /* background:url(/img/global/gradient/h300.png) repeat-x; */
+}
+
+/*
+*  root element for scrollable items. Must be absolutely positioned
+*      and it should have a extremely large width to accomodate scrollable items.
+*          it's enough that you set the width and height for the root element and
+*              not for this element.
+*              */
+.scrollable .items {
+/* this cannot be too large */
+    width:20000em;
+    position:absolute;
+    clear:both;
+}
+
+.scrollable-item {
+    float:left;
+    width:465px;
+}
+
+/* single scrollable item */
+.scrollable img {
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+}
+/* active item */
+.scrollable .active {
+    border:2px solid #000;
+    position:relative;
+    cursor:default;
+}
+
+/* BUTTON */
+
+/* this makes it possible to add next button beside scrollable */
+.scrollable {
+    float:left; 
+}
+
+/* prev, next, prevPage and nextPage buttons */
+a.browse {
+    background:url(http://static.flowplayer.org/tools/img/scrollable/arrow/hori_large.png) no-repeat;
+    display:block;
+    width:30px;
+    height:30px;
+    float:left;
+    margin:40px 10px;
+    cursor:pointer;
+    font-size:1px;
+}
+
+/* right */
+a.right                 { background-position: 0 -30px; clear:right; margin-right: 0px;}
+a.right:hover       { background-position:-30px -30px; }
+a.right:active  { background-position:-60px -30px; } 
+
+
+/* left */
+a.left              { margin-left: 0px; } 
+a.left:hover        { background-position:-30px 0; }
+a.left:active   { background-position:-60px 0; }
+
+/* up and down */
+a.up, a.down        { 
+background:url(http://static.flowplayer.org/tools/img/scrollable/arrow/vert_large.png) no-repeat; 
+float: none;
+margin: 10px 50px;
+}
+
+/* up */
+a.up:hover          { background-position:-30px 0; }
+a.up:active         { background-position:-60px 0; }
+
+/* down */
+a.down              { background-position: 0 -30px; }
+a.down:hover        { background-position:-30px -30px; }
+a.down:active   { background-position:-60px -30px; } 
+
+
+/* disabled navigational button */
+a.disabled {
+    visibility:hidden !important;       
+}   
+
+
+
+/* END BUTTON */
 

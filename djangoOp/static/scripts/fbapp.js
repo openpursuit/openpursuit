@@ -36,6 +36,13 @@ function after_main() {
                 FB.XFBML.parse(document.getElementById('score-head'));
         }
 
+    $(".slidetabs").tabs(".images > div", {
+                effect: 'fade',
+                fadeOutSpeed: "slow",
+                rotate: true
+    }).slideshow();
+    $(".slidetabs").data("slideshow").play();
+/*
 	$('.opponent_msg').qtip({
 	   content: "La vita e' come una scatola di cioccolatini... ",
 	   position: {
@@ -57,6 +64,8 @@ function after_main() {
 	   show: 'mouseover',
 	   hide: 'mouseout'
 	});
+
+*/
     if (! audio_on) {
                 $("#audiocontrol img").attr("src",'http://www.openpursuit.org/media/img/audiooff.png' );
     }
@@ -81,11 +90,14 @@ function after_play1(){
 }
 
 function after_play3() {
-	if (muid !== 0 ) {
-		$('#menu_registered').empty().html('<a href="javascript:publish_score()"> Pubblica il tuo punteggio </a><br /><div id="save_status"><a href="javascript:save_score()">Salva</a></div>');
-        $("#tabs").tabs();
+	if (muid === 0 ) {
+		//$('#menu_registered').empty().html('<a href="javascript:publish_score()"> Pubblica il tuo punteggio </a><br /><div id="save_status"><a href="javascript:save_score()">Salva</a></div>');
+            $(' menu_registered').empty().html(' <p> Per salvare la partita e giocare con i tuoi amici devi registrarti</p> <a href="javascript:do_login()">Registrati!</a><br />');
+        // $("#tabs").tabs();
 	}
+
     soundManager.stopAll();
+
     if (! soundManager.getSoundById('score')) {
         soundManager.createSound({
                     id: 'score',
@@ -97,12 +109,17 @@ function after_play3() {
                 soundManager.play('score');
     }
 
-    FB.XFBML.parse(document.getElementById('tabs'));
+    FB.XFBML.parse(document.getElementById('chart-main'));
     var score_text = "";
     for (i=0;i<selectedtags.length;i=i+1) {
          score_text = score_text + " " + selectedtags[i] + " " + scoretag[selectedtags[i]] + "punti - ";
     }
 	$("#score-in-game-value").empty().text(score_text);
+
+    $("div.scrollable").scrollable({ speed: 700, circular: true});
+
+
+
 }
 
 
@@ -218,6 +235,7 @@ function after_play2() {
 					clearTimeout(mtimer);
 				}
 				goNextTimer = setTimeout("$('.answer').removeClass('ra').removeClass('right').removeClass('wrong');next_quiz();answered=false;",800);	
+                return true;
 			} 
 		);
 		load_tagscore();
@@ -234,7 +252,7 @@ function after_play2() {
 function load_main() { 
 	$("#ajax_loader").empty().html('<div id="loading"><img src="http://www.openpursuit.org/media/img/loading.gif" /></div>');
 	$('#ajax_loader').load('main?uid='+muid+' #ajax_loaded', function(response, status, xhr) { after_main(); });
-    
+    soundManager.stopAll(); 
     // sound_intro.play({onfinish:loopSound });
 	scoretag = [];
 	id2tag = [];		
@@ -303,6 +321,7 @@ function load_play3() {
 }
 
 function load_tagscore() {
+    return;
 	$("#tagscore tbody").empty();
 	for(var index in scoretag) {
 		$("#tagscore tbody").prepend("<tr style='height: 10px;' class='tag-bar-row'><td>"+index+"</td><td>" + scoretag[index] + "</td><td> <div style='height:5px;' id='score_" + index + "_bar' class='tag-bar'></div></td></tr>");
@@ -369,7 +388,7 @@ function next_quiz() {
 					score += timer;
 				} else {
 					scoretag[ id2tag[index2] ] -= 15;
-					timer += timer;
+				    score -= 15;
 				}
 
 			}
@@ -520,7 +539,6 @@ function writetag( tag, tagid ) {
 }
 
 
-
 $(document).ready(function() {
     // Fb init 
     FB.init({
@@ -571,6 +589,8 @@ $(document).ready(function() {
     });
 //	load_main();
 //	called in fb getlogin status
+
+
 });
 
 /**********************/
@@ -594,7 +614,6 @@ function do_login() {
 			function(data) {
                 muid = data[0].uid;
 				$.post("/fbapp/facebook_login", { 'uid': data[0].uid, 'first_name': data[0].first_name, 'last_name': data[0].last_name, 'pic_url': data[0].pic_square, 'email': data[0].email }, function(data) {
-                            //window.location.replace("http://apps.facebook.com/openpursuit/?uid=" + muid ); 
                             load_main();
                       });
 			}
@@ -644,10 +663,15 @@ function publish_score() {
 }
 
 function save_score() {	
-	$("#save_status").empty().html('Salvataggio in corso...');
+	$("#save_status span").empty().html('Salvataggio in corso...');
+	$("#save_status a").attr('href', "")
+
 	var scores = [];
 	for(var index in scoretag) {
 		scores.push(index+":"+scoretag[index]);	
 	}
-	$.post("/fbapp/save_score ", { 'uid' : muid, 'scores' : scores  } , function(response) { $("#save_status").html('Salvato!'); });
+	$.post("/fbapp/save_score ", { 'uid' : muid, 'scores' : scores  } , function(response) { 
+            $("#save_status img").attr('src', "http://www.openpursuit.org/media/img/saved.png");
+	        $("#save_status span").empty().html("Il tuo punteggio e' stato salvato");
+            });
 }

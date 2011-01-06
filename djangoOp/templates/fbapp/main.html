@@ -15,41 +15,70 @@
 	</div -->
 
 	<div id="buttons">
-	<table id="table_button">
-		<tbody>
-		   <tr>
-               <td scope="col"><img src="{{MEDIA_URL}}img/gioca.png" /></td>
-               <td scope="col"><img src="{{MEDIA_URL}}img/sfida.png" /></td>
-               <td scope="col"><img src="{{MEDIA_URL}}img/aggiungi.png" /></td>
-		   </tr>
-		   <tr>
-		      <td scope="col"><a href="javascript:load_play1()"><img src="{{MEDIA_URL}}img/op_play.png" /></a></td>
-		      <td scope="col"><a href="javascript:load_challenge1()"><img src="{{MEDIA_URL}}img/op_vs.png" /></a></td>
-              <td scope="col"><a id="addlink" href="javascript:do_login()"><img src="{{MEDIA_URL}}img/op_add.png" /></a></td>
-		   </tr>
-		</tbody>
-	</table>
+        <table id="table_button">
+            <tbody>
+               <tr>
+                   <td scope="col"><img src="{{MEDIA_URL}}img/gioca.png" /></td>
+                   <td scope="col"><img src="{{MEDIA_URL}}img/sfida.png" /></td>
+                   <td scope="col"><img src="{{MEDIA_URL}}img/aggiungi.png" /></td>
+               </tr>
+               <tr>
+                  <td scope="col"><a href="javascript:load_play1()"><img src="{{MEDIA_URL}}img/op_play.png" /></a></td>
+                  <td scope="col"><a href="javascript:load_challenge1()"><img src="{{MEDIA_URL}}img/op_vs.png" /></a></td>
+                  <td scope="col"><a id="addlink" href="javascript:do_login()"><img src="{{MEDIA_URL}}img/op_add.png" /></a></td>
+               </tr>
+            </tbody>
+        </table>
 	</div>	
+
 	<table id="footer">
         <tr>
             <td id="challenges-list">
-                    <table id="opponents">
-                        <tbody>
-                           <tr>
-                               <th scope="col" id="vs_img"><a href="javascript:load_play1()"><img src="{{MEDIA_URL}}img/sfide_ricevute.png" /></a></th> 
-                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p1.jpg" /></td>
-                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p2.jpg" /></td>
-                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p3.jpg" /></td>
-                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p4.jpg" /></td>
-                              <td scope="col"><img class="opponent_msg" src="{{MEDIA_URL}}img/p5.jpg" /></td>
-                           </tr>
-                        </tbody>
-                    </table>
+                  <div class="images">
+                        <div>
+                            <table>
+                                   <tr>
+                                      <th scope="col" class="footer-title">Sfide Ricevute:</th> 
+                                      {% for opponent in opponents_list %}
+                                        <td scope="col"><fb:profile-pic uid="{{opponent.uid}}" linked='true' size='q'> </fb:profice-pic></td>
+                                      {% endfor %}
+                                   </tr>
+                            </table>
+                        </div>
+                        <div>
+                            <table>
+                                   <tr>
+                                      <th scope="col" class="footer-title">Giocano anche:</th> 
+                                      {% for players in players_list %}
+                                        <td scope="col"><fb:profile-pic uid="{{players.uid}}" linked='true' size='q'> </fb:profice-pic></td>
+                                      {% endfor %}
+                                   </tr>
+                            </table>
+                       </div>
+                        <div>
+                            <table>
+                                   <tr>
+                                      <th scope="col" class="footer-title">Classifica autori:</th> 
+                                      {% for contributor in top_contributors_list %}
+                                        <td scope="col"><fb:profile-pic uid="{{contributor.uid}}" linked='true' size='q'> </fb:profice-pic></td>
+                                      {% endfor %}
+                                   </tr>
+                            </table>
+                       </div>
+                        <div>
+                            <p>Stiamo facendo ancora un po' di bordello</p> 
+                       </div>
+                    </div>
+                    <div class="slidetabs">
+                            <a href="#"></a>
+                            <a href="#"></a>
+                            <a href="#"></a>
+                            <a href="#"></a>
+                     </div>
             </td>
             <td id="audiocontrol" class="audioon">
                 <a href="javascript:switch_audio()"><img src="{{MEDIA_URL}}img/audioon.png" /></a>
             </td>
         </tr>
     </table>
-
 </div>

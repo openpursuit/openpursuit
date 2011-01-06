@@ -3,14 +3,27 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>OpenPursuit Facebook App</title>
+
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 	<script src="{{ MEDIA_URL }}scripts/jquery.qtip-1.0.0-rc3.min.js"></script>
-    <!-- script src="http://cdn.jquerytools.org/1.2.5/jquery.tools.min.js"></script -->
+
+
+    <script src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script>
+
+{% comment %}
+    <link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/tabs-slideshow.css"/>
+    <link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/standalone.css"/>   
+{% endcomment %}
+
+    <!-- link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/scrollable-horizontal.css" />
+    <link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/scrollable-buttons.css" / -->
+
 	<script src="{{ MEDIA_URL }}scripts/jquery.form.js"></script>
     <!-- script src="{{ MEDIA_URL }}scripts/soundmanager2-jsmin.js"></script -->
     <script src="{{ MEDIA_URL }}scripts/soundmanager2-nodebug-jsmin.js"></script>
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/stylesheet.css" type="text/css" charset="utf-8" />
+
 	<script src="{{ MEDIA_URL }}scripts/fbapp.js"></script>
 	<script src="http://connect.facebook.net/en_US/all.js"></script>
 	<!-- link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/ -->
@@ -58,5 +71,6 @@
 	   <div id="ajax_loader">
 	   </div><!-- loaded by ajax -->
 	</div> <!-- container -->
+
     </body>
 </html>
