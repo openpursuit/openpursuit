@@ -6,7 +6,7 @@
 	<div id="menu_registered">
         <a href="javascript:publish_score()"><img src="{{MEDIA_URL}}img/publish_wall.png" />Pubblica il punteggio sulla tua bacheca</a>
         <br />
-        <div id="save_status"><a href="javascript:save_score()"><img src="{{MEDIA_URL}}img/save.png" /><span>Salva</span></a></div>
+        <!--div id="save_status"><a href="javascript:save_score()"><img src="{{MEDIA_URL}}img/save.png" /><span>Salva</span></a></div -->
     </div>
     <a href="javascript:load_main()"><img src="{{MEDIA_URL}}img/back.gif" />Torna al menu principale</a> <br/>
 
@@ -18,19 +18,19 @@
         </div>
         <div class="chart-body">
             <a class="prev browse left"></a>
-            <div class="scrollable">
+            <div class="scrollable-chart scrollable">
                     <div class="items">
                         <div class="scrollable-item">
                             {% for element in general_chart %}
                                 <div class="chart-element">
-                                    <div class="chart-pic">
+                                    <div class="chart-pic" >
                                         <fb:profile-pic uid="{{element.uid}}" linked="true" size="q"></fb:profile-pic>
                                     </div>
                                     <div class="chart-name">
-                                        <p>{{element.first_name}}</p>
+                                       {{element.first_name}}
                                     </div>
                                     <div class="chart-score">
-                                        {{ element.score }} 
+                                       {{ element.score }}
                                     </div>
                                 </div> <!-- end chart-element-->
                                 {% if forloop.counter|divisibleby:"7" %}
@@ -53,7 +53,7 @@
         </div>
         <div class="chart-body">
             <a class="prev browse left"></a>
-            <div class="scrollable">
+            <div class="scrollable-chart scrollable">
                     <div class="items">
                         <div class="scrollable-item">
                             {% for element in value %}
@@ -62,7 +62,7 @@
                                         <fb:profile-pic uid="{{element.uid}}" linked="true" size="q"></fb:profile-pic>
                                     </div>
                                     <div class="chart-name">
-                                        <p>{{element.first_name}}</p>
+                                        {{element.first_name}}
                                     </div>
                                     <div class="chart-score">
                                         {{ element.score }} 

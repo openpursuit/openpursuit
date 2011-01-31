@@ -69,6 +69,7 @@ function after_main() {
     if (! audio_on) {
                 $("#audiocontrol img").attr("src",'http://www.openpursuit.org/media/img/audiooff.png' );
     }
+         //   $(".slidetabs").tabs(".images > div", { effect: 'fade', fadeOutSpeed: "slow", rotate: true }).slideshow();
     soundManager.stopAll();
     if (! soundManager.getSoundById('intro')) {
         soundManager.createSound({
@@ -80,7 +81,6 @@ function after_main() {
     } else {
         soundManager.play('intro');
     }
-     //   $(".slidetabs").tabs(".images > div", { effect: 'fade', fadeOutSpeed: "slow", rotate: true }).slideshow();
 }
 
 
@@ -94,8 +94,9 @@ function after_play3() {
 		//$('#menu_registered').empty().html('<a href="javascript:publish_score()"> Pubblica il tuo punteggio </a><br /><div id="save_status"><a href="javascript:save_score()">Salva</a></div>');
             $(' menu_registered').empty().html(' <p> Per salvare la partita e giocare con i tuoi amici devi registrarti</p> <a href="javascript:do_login()">Registrati!</a><br />');
         // $("#tabs").tabs();
-	}
-
+	} else {
+        save_score();
+    }
     soundManager.stopAll();
 
     if (! soundManager.getSoundById('score')) {
@@ -115,7 +116,6 @@ function after_play3() {
          score_text = score_text + " " + selectedtags[i] + " " + scoretag[selectedtags[i]] + "punti - ";
     }
 	$("#score-in-game-value").empty().text(score_text);
-
     $("div.scrollable").scrollable({ speed: 700, circular: true});
 
 
@@ -563,6 +563,9 @@ $(document).ready(function() {
     soundManager.onready(function() {
         if (soundManager.supported()) {
             // SM2 has loaded - now you can create and play sounds!
+            //
+           
+
             soundManager.createSound({
                               id: 'sound_wrong',
                               url: '/static/sound/wrong.mp3'

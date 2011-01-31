@@ -46,7 +46,7 @@ def main(request):
               except:
                   fbuser = None
                   #return direct_to_template(request, 'fbapp/main.html', extra_context={'fbuser': fbuser})
-                  return render_to_response('fbapp/main.html', {'fbuser': fbuser,  'players_list': players_list, 'opponents_list': opponents_list, 'top_contributors_list': top_contributors_list },context_instance=RequestContext(request))
+                  return render_to_response('fbapp/main.html', {'fbuser': fbuser,  'players_list': players_list, 'opponents_list': opponents_list, 'top_contributors_list': top_contributors_list, 'quizcount': Quiz.objects.count() },context_instance=RequestContext(request))
               best_tags = []
               for t in Tags.objects.all():
                   for ts in TagsScore.objects.filter(tag=t).order_by('-score')[:1]:
@@ -69,7 +69,7 @@ def main(request):
               else:
                   fbuser.best_tags = best_tags 
 
-    return render_to_response('fbapp/main.html', {'fbuser': fbuser, 'players_list': players_list, 'opponents_list': opponents_list, 'top_contributors_list': top_contributors_list},context_instance=RequestContext(request))
+    return render_to_response('fbapp/main.html', {'fbuser': fbuser, 'players_list': players_list, 'opponents_list': opponents_list, 'top_contributors_list': top_contributors_list, 'quizcount': Quiz.objects.count()},context_instance=RequestContext(request))
     #return direct_to_template(request, 'fbapp/main.html', extra_context={'fbuser': fbuser})
 
 def save_score(request):

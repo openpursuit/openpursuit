@@ -1,5 +1,5 @@
 <div id="ajax_loaded">
-    <div id="openpursuit_banner"><img src="{{MEDIA_URL}}img/openpursuit.png" /></div>
+    <div id="openpursuit-banner">OpenPursuit<!-- img src="{{MEDIA_URL}}img/openpursuit.png" / --></div>
 	<!-- div id="score" >
 		<div id="score-head">
 			<p>Ciao <b>Anonimo!</b></p> 
@@ -18,9 +18,9 @@
         <table id="table_button">
             <tbody>
                <tr>
-                   <td scope="col"><img src="{{MEDIA_URL}}img/gioca.png" /></td>
-                   <td scope="col"><img src="{{MEDIA_URL}}img/sfida.png" /></td>
-                   <td scope="col"><img src="{{MEDIA_URL}}img/aggiungi.png" /></td>
+                   <td scope="col"><span class="main-button-text">Gioca</span><!-- img src="{{MEDIA_URL}}img/gioca.png" / --></td>
+                   <td scope="col"><span class="main-button-text">Sfida</span><!-- img src="{{MEDIA_URL}}img/sfida.png" / --></td>
+                   <td scope="col"><span class="main-button-text">Aggiungi</span><!-- img src="{{MEDIA_URL}}img/aggiungi.png" / --></td>
                </tr>
                <tr>
                   <td scope="col"><a href="javascript:load_play1()"><img src="{{MEDIA_URL}}img/op_play.png" /></a></td>
@@ -66,7 +66,7 @@
                             </table>
                        </div>
                         <div>
-                            <p>Stiamo facendo ancora un po' di bordello</p> 
+                            <span class="footer-title" >Quiz presenti: {{quizcount}}</span> 
                        </div>
                     </div>
                     <div class="slidetabs">
