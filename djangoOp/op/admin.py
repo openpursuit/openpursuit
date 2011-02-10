@@ -12,6 +12,8 @@ admin.site.register(Quiz, QuizAdmin)
 admin.site.register(FBProfile)
 admin.site.register(TagsScore)
 admin.site.register(Tags)
+admin.site.register(QuizCollection)
+admin.site.register(FBChallenge)
 #class Admin:
 #                date_hierarchy = 'date'
 #                list_display = ('question', 'author')

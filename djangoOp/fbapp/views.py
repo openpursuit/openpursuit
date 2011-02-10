@@ -160,8 +160,17 @@ def addquiz(request):
         form = FBQuizForm()
     return direct_to_template(request, 'fbapp/addquiz.html', extra_context={'form':form})
 
-def challenge(request):
-    return direct_to_template(request, 'fbapp/challenge.html', extra_context={})
+def challenge_create(request):
+    return direct_to_template(request, 'fbapp/challenge-create.html', extra_context={})
+
+def challenge_menu(request):
+    return direct_to_template(request, 'fbapp/challenge-menu.html', extra_context={})
+
+def challenge_pending(request):
+    return direct_to_template(request, 'fbapp/challenge-pending.html', extra_context={})
+
+def challenge_history(request):
+    return direct_to_template(request, 'fbapp/challenge-history.html', extra_context={})
 
 def fb_login(request):
     if request.method == 'POST':

@@ -147,7 +147,6 @@ class UserProfile(models.Model):
 	gamescore =  models.IntegerField("User's score in the online game") # for online game score
 	class Admin:
 		pass
-		
 	def __unicode__(self):
 		return "%s" % (self.user)
 
@@ -163,7 +162,22 @@ class FBProfile(models.Model):
     pic = models.ImageField(upload_to='fbpics/')
     score = models.IntegerField()
     def __unicode__(self):
-                return "%s %s" % (self.first_name, self.last_name)
+        return "%s %s" % (self.first_name, self.last_name)
+
+class QuizCollection(models.Model):
+    quizes =  models.CharField(max_length=1000)
+    insertion_date = models.DateTimeField(default=datetime.datetime.now)
+
+class FBChallenge(models.Model):
+    request_id = models.BigIntegerField()
+    sender = models.BigIntegerField() #fb id of the originator of the request
+    sender_score = models.IntegerField()
+    receiver = models.BigIntegerField() #fb id of the receiver of the request
+    receiver_score = models.IntegerField()
+    insertion_date = models.DateTimeField(default=datetime.datetime.now)
+    quizes = models.ForeignKey(QuizCollection)
+    def __unicode__(self):
+        return "%s->%s" % (self.sender , self.receiver)
 
 class TagsScore(models.Model):
     user = models.ForeignKey(FBProfile)

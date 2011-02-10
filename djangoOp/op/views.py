@@ -59,23 +59,42 @@ def jsplay2(request):
 
 def getquizapi(request):
     import random
+    uid = request.GET.get('uid', None)
     query_tags = request.GET.get('tags', None)
     query_limit = request.GET.get('limit', 0 )
     query_limit = int(query_limit)
     query_lang = request.GET.get('lang', None)
+    challenge = request.GET.get('challenge', None)
+    opponents = request.GET.getlist('opponents')
+    request_ids = request.GET.getlist('request_ids')
+
     if (query_tags == None) :
         return HttpResponseBadRequest("No tags specified")
     tags = query_tags.split(',')
-    #qs = []
-    #for t in tags:
-    #    q = Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))]
-    #    qs += list(q)
-    #data = serializers.serialize('json', qs, fields=('question','right1','wrong1','wrong2','wrong3','tags'))
-
     data = {} 
-    for t in tags:
-        qs = Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))]
-        for q in qs:
+
+    if challenge: # Id of the received challenge or NEW
+        if challenge == "new" and opponents: #fbid of opponents
+            quizes = []
+            for t in tags:
+                qs = Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))]
+                for q in qs:
+                    quizes.append(q.id)
+            q = QuizCollection(quizes = ','.join(str(quiz) for quiz in quizes) )
+            q.save()
+            # new challenge
+            for r,o in zip(request_ids, opponents):
+                c = FBChallenge(sender = uid, sender_score = 0, receiver = o, receiver_score = 0, request_id = r, quizes = q)
+                c.save()
+
+        else:
+            # play a pending challenge
+            challenge_id = challenge
+            c = FBChallenge.objects.filter(challenge_id=challenge, receiver = uid)
+            quizes = c.quizes.split(',')
+
+        for q_id in quizes:
+            q = Quiz.objects.get(pk = q_id)
             tag_dict = {}
             for mt in q.tags.all():
                 tag_dict[mt.tag] = mt.id  
@@ -86,6 +105,23 @@ def getquizapi(request):
             mlist =  {'question':  q.question, 'right': q.right1,'wrong1': q.wrong1 , 'wrong2': q.wrong2 , 'wrong3': q.wrong3, 'tags': tag_dict, 'author': author  } 
             if not data.has_key(q.id):
                 data[q.id] = mlist
+
+    else:
+        # n t a challenge
+        for t in tags:
+            qs = Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))]
+            for q in qs:
+                tag_dict = {}
+                for mt in q.tags.all():
+                    tag_dict[mt.tag] = mt.id  
+                author = {}
+                author['name'] = q.author.username if q.author.first_name == "" else q.author.first_name
+                if q.author.fbprofile_set.count() > 0:
+                    author['fb_uid'] = q.author.fbprofile_set.get().uid
+                mlist =  {'question':  q.question, 'right': q.right1,'wrong1': q.wrong1 , 'wrong2': q.wrong2 , 'wrong3': q.wrong3, 'tags': tag_dict, 'author': author  } 
+                if not data.has_key(q.id):
+                    data[q.id] = mlist
+
     return HttpResponse(simplejson.dumps(data) , mimetype="text/json")
 
 def jsplay_fb(request):
