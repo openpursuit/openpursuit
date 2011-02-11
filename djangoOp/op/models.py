@@ -166,6 +166,7 @@ class FBProfile(models.Model):
 
 class QuizCollection(models.Model):
     quizes =  models.CharField(max_length=1000)
+    tags = models.CharField(max_length=1000, blank=True, null=True) 
     insertion_date = models.DateTimeField(default=datetime.datetime.now)
 
 class FBChallenge(models.Model):
@@ -174,6 +175,7 @@ class FBChallenge(models.Model):
     sender_score = models.IntegerField()
     receiver = models.BigIntegerField() #fb id of the receiver of the request
     receiver_score = models.IntegerField()
+    message = models.CharField(max_length=500, blank=True, null=True)
     insertion_date = models.DateTimeField(default=datetime.datetime.now)
     quizes = models.ForeignKey(QuizCollection)
     def __unicode__(self):

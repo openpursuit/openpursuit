@@ -78,19 +78,22 @@ def save_score(request):
         scores = request.POST.getlist('scores[]')
         fbuser = FBProfile.objects.get(uid=uid)
         for e in scores:
-            t = Tags.objects.get(tag=e.split(':')[0])
+            score_new = int(e.split(':')[1])
+            score_tag = e.split(':')[0]
+            t = Tags.objects.get(tag = score_tag)
             try:
                x = TagsScore.objects.get(user=fbuser, tag=t)
-               if x.score < e.split(':')[1] :
-                 x.score = e.split(':')[1]
+               if x.score < score_new :
+                 x.score = score_new 
                  x.save()
             except:
-               t = TagsScore(user=fbuser, tag=t, score=e.split(':')[1])
+               t = TagsScore(user=fbuser, tag=t, score=score_new )
                t.save()
         score = 0
         tags = TagsScore.objects.filter(user=fbuser)
         for t in tags: 
             score = score + t.score
+        # formula for calculating the general score for all the tags
         score = int(float(score) * math.log(tags.count() ) / float(tags.count()))
         fbuser.score = score
         fbuser.save()
@@ -105,6 +108,9 @@ def play2(request):
     return direct_to_template(request, 'fbapp/play2.html', extra_context={})
 
 def play3(request):
+    '''
+       Chart 
+    '''
     general_chart = [] 
     friend_chart = []
     tag_friend_chart = []
@@ -167,7 +173,12 @@ def challenge_menu(request):
     return direct_to_template(request, 'fbapp/challenge-menu.html', extra_context={})
 
 def challenge_pending(request):
-    return direct_to_template(request, 'fbapp/challenge-pending.html', extra_context={})
+    uid = request.GET.get('uid', None)
+    if uid:
+        pending = FBChallenge.objects.filter(receiver = uid, receiver_score = -1 )
+        return direct_to_template(request, 'fbapp/challenge-pending.html', extra_context={'pending': pending})
+    else:
+        return HttpResponse("Error")
 
 def challenge_history(request):
     return direct_to_template(request, 'fbapp/challenge-history.html', extra_context={})

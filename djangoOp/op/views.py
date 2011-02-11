@@ -65,8 +65,9 @@ def getquizapi(request):
     query_limit = int(query_limit)
     query_lang = request.GET.get('lang', None)
     challenge = request.GET.get('challenge', None)
-    opponents = request.GET.getlist('opponents')
-    request_ids = request.GET.getlist('request_ids')
+    message = request.GET.get('message', None)
+    opponents = request.GET.get('opponents',None)
+    request_ids = request.GET.get('request_ids',None)
 
     if (query_tags == None) :
         return HttpResponseBadRequest("No tags specified")
@@ -75,23 +76,25 @@ def getquizapi(request):
 
     if challenge: # Id of the received challenge or NEW
         if challenge == "new" and opponents: #fbid of opponents
+            opponents = opponents.split(',')
+            request_ids = request_ids.split(',')
             quizes = []
             for t in tags:
                 qs = Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))]
                 for q in qs:
                     quizes.append(q.id)
-            q = QuizCollection(quizes = ','.join(str(quiz) for quiz in quizes) )
+            q = QuizCollection(quizes = ','.join(str(quiz) for quiz in quizes) , tags = query_tags )
             q.save()
             # new challenge
             for r,o in zip(request_ids, opponents):
-                c = FBChallenge(sender = uid, sender_score = 0, receiver = o, receiver_score = 0, request_id = r, quizes = q)
+                c = FBChallenge(sender = uid, sender_score = -1, receiver = o, receiver_score = -1, request_id = r, quizes = q, message = message)
                 c.save()
 
         else:
             # play a pending challenge
             challenge_id = challenge
-            c = FBChallenge.objects.filter(challenge_id=challenge, receiver = uid)
-            quizes = c.quizes.split(',')
+            c = FBChallenge.objects.filter(request_id=challenge_id, receiver = uid).get()
+            quizes = c.quizes.quizes.split(',')
 
         for q_id in quizes:
             q = Quiz.objects.get(pk = q_id)
@@ -107,7 +110,7 @@ def getquizapi(request):
                 data[q.id] = mlist
 
     else:
-        # n t a challenge
+        # not a challenge
         for t in tags:
             qs = Quiz.objects.filter(tags__tag__contains = t, lang=query_lang).order_by('?')[:int(query_limit/len(tags))]
             for q in qs:

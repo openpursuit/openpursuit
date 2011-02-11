@@ -21,6 +21,7 @@ var audio_on = true;
 var opponents = [];
 var challenge_id = "";
 var challenge_request_ids = [];
+var challenge_msg = "";
 var apptoken = "27653567851|f56rJtw5QUFED8_TBPJnAst2rJM";
 
 soundManager.url = '/media/swf/';
@@ -195,7 +196,7 @@ function after_play2() {
 	}
     var murl = '/api/getquiz?tags='+selectedtags.join(",")+'&limit='+quiz_wanted+'&lang='+mylang+'&uid='+muid;
     if (opponents.length > 0 && challenge_request_ids.length > 0) {
-        murl += "&challenge=new&opponents="+opponents+"&request_ids="+challenge_request_ids;
+        murl += "&challenge=new&opponents="+opponents+"&request_ids="+challenge_request_ids + '&message=' + challenge_msg;
     } else if (challenge_id !== "") {
         murl += "&challenge=" + challenge_id;
     } 
@@ -292,9 +293,12 @@ function load_play1() {
 
 	currentpage = "play1";
  }
-function load_play2() { 
+function load_play2(c_id) { 
 	scoretag = [];
 	$("#ajax_loader").empty().html('<div id="loading"><img src="http://www.openpursuit.org/media/img/loading.gif" /></div>');
+    if (c_id != null) {
+        challenge_id = c_id; 
+    }
     $('#ajax_loader').load('play2 #ajax_loaded', function(response, status, xhr) { after_play2(); } );
 	currentpage = "play2";
     soundManager.stopAll();
@@ -480,7 +484,7 @@ function load_challenge_pending() {
 	$("#what_is").hide();
     soundManager.stopAll();
 	$("#ajax_loader").empty().html('<div id="loading"><img src="http://www.openpursuit.org/media/img/loading.gif" /></div>');
-    $('#ajax_loader').load('challenge-pending #ajax_loaded', function(response, status, xhr) { after_challenge_pending(); } );
+    $('#ajax_loader').load('challenge-pending?uid='+muid+' #ajax_loaded', function(response, status, xhr) { after_challenge_pending(); } );
     currentpage = "challenge-pending";
 }
 
@@ -495,7 +499,7 @@ function load_challenge_history() {
 
 
 function select_opponents() {
-    var challenge_msg = $("#challenge-msg").val();
+    challenge_msg = $("#challenge-msg").val();
     FB.ui(
     {
         method: 'apprequests',
@@ -546,6 +550,7 @@ function after_challenge_history() {
 }
 
 function after_challenge_pending() {
+    FB.XFBML.parse(document.getElementById('ajax_loaded'));
 }
 
 function after_challenge_create() {
@@ -632,6 +637,17 @@ function writetag( tag, tagid ) {
     }
 }
 
+function gup( name )
+{
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( window.location.href );
+    if( results == null )
+        return "";
+    else
+        return results[1];
+}
 
 $(document).ready(function() {
     // Fb init 
@@ -650,7 +666,17 @@ $(document).ready(function() {
             muid = 0;
         }
         $("#what_is").hide();
-        load_main();
+        var r_id = gup('request_ids');
+        alert(r_id);
+        if (r_id !== "" ) {
+            
+            challenge_id = r_id;
+            load_play2();
+        } else {
+            load_main();
+        }
+
+
     });
 
 	$("#what_is").hide();
