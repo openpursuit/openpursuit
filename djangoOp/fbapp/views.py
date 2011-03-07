@@ -22,7 +22,9 @@ import datetime
 #from models import User
 from forms import FBQuizForm
 from django.db.models import Avg, Min, Max, Count
+from django.utils import simplejson
 
+from sets import Set
 # We'll require login for our canvas page. This
 # isn't necessarily a good idea, as we might want
 # to let users see the page without granting our app
@@ -166,22 +168,139 @@ def addquiz(request):
         form = FBQuizForm()
     return direct_to_template(request, 'fbapp/addquiz.html', extra_context={'form':form})
 
+def challenge_info(request):
+    challenge_id = request.GET.get('challenge_id', None)
+    data = { 'winner_tagname': '', 'winner_score': -1000000, 'losers': {}  }
+    c = FBChallenge.objects.get(request_id = challenge_id)
+    data['quizes'] = c.quizes.tags
+    cc = FBChallenge.objects.filter(quizes = c.quizes)
+    for challenge in cc:
+        if challenge.sender_score != -1000000 and challenge.receiver_score != -1000000:
+            # for the sender 
+            p = FBProfile.objects.get(pk = challenge.sender)
+            tagname = '@[' + str(p.uid) + ':1:'+ p.first_name + ']'
+            if challenge.sender_score > data['winner_score']:
+                if data['winner_score'] != -1000000 and not data['losers'].has_key(data['winner_tagname']):
+                    data['losers'][data['winner_tagname']] = data['winner_score']
+                data['winner_score'] = challenge.sender_score
+                data['winner_tagname'] = tagname 
+            else:
+                if not data[losers].has_key(tagname):
+                    data['losers'][ tagname ] = challenge.sender_score 
+            # for the receiver
+            p = FBProfile.objects.get(pk = challenge.receiver)
+            tagname = '@[' + str(p.uid) + ':1:'+ p.first_name + ']'
+            if challenge.receiver_score > data['winner_score']:
+                if data['winner_score'] != -1000000 and not data['losers'].has_key(data['winner_tagname']):
+                    data['losers'][data['winner_tagname']] = data['winner_score']
+                data['winner_score']= challenge.receiver_score
+                data['winner_tagname'] = tagname 
+            else:
+                if not data['losers'].has_key(tagname):
+                    data['losers'][ tagname ] = challenge.receiver_score 
+        else:
+            data = None
+            break
+
+    return HttpResponse(simplejson.dumps(data), mimetype='application/json')
+
 def challenge_create(request):
     return direct_to_template(request, 'fbapp/challenge-create.html', extra_context={})
 
 def challenge_menu(request):
-    return direct_to_template(request, 'fbapp/challenge-menu.html', extra_context={})
+    uid = request.GET.get('uid', None)
+    pendingcount, historycount = 0,0
+    if uid:
+        pendingcount = FBChallenge.objects.filter(receiver = uid, receiver_score = -1000000 ).count()
+        pendingcount += FBChallenge.objects.filter(sender = uid, sender_score = -1000000 ).count()
+        historycount = FBChallenge.objects.filter(receiver = uid).exclude(receiver_score = -1000000).count()
+    return direct_to_template(request, 'fbapp/challenge-menu.html', extra_context={'pendingcount': pendingcount, 'historycount': historycount})
 
 def challenge_pending(request):
     uid = request.GET.get('uid', None)
     if uid:
-        pending = FBChallenge.objects.filter(receiver = uid, receiver_score = -1 )
+        pending = []
+        challengepending = FBChallenge.objects.filter(receiver = uid, receiver_score = -1000000 ) | FBChallenge.objects.filter(sender = uid, sender_score = -1000000 ) 
+        for challenge in challengepending:
+            request_id = challenge.request_id
+            tags = challenge.quizes.tags
+            userids = Set([]) 
+            other_receivers = FBChallenge.objects.filter(quizes = challenge.quizes)
+            for o in other_receivers:
+                userids.add(o.receiver)
+                userids.add(o.sender)
+            pending.append({'request_id': request_id, 'tags' : tags, 'userids' : userids })
         return direct_to_template(request, 'fbapp/challenge-pending.html', extra_context={'pending': pending})
     else:
         return HttpResponse("Error")
 
 def challenge_history(request):
-    return direct_to_template(request, 'fbapp/challenge-history.html', extra_context={})
+    uid = request.GET.get('uid', None)
+    if uid:
+        challengehistory = FBChallenge.objects.filter(receiver = uid, ).exclude(receiver_score = -1000000).exclude(sender_score = -1000000) | FBChallenge.objects.filter(sender = uid).exclude(receiver_score = -1000000).exclude(sender_score = -1000000)
+        history = []
+        for challenge in challengehistory:
+            tags = challenge.quizes.tags
+            other_receivers = FBChallenge.objects.filter(quizes = challenge.quizes).exclude(receiver_score = -1000000).exclude(sender_score = -1000000)
+            userids = Set([])
+            for o in other_receivers:
+                userids.add(o.receiver)
+                userids.add(o.sender)
+            history.append({'tags' : tags, 'userids' : userids })
+
+        return direct_to_template(request, 'fbapp/challenge-history.html', extra_context={'history': history})
+    else:
+        return HttpResponse("Error")
+
+def challenge_end(request):
+    uid = request.GET.get('uid', None)
+    request_ids = request.GET.get('request_ids', None)
+    challenge_id = request.GET.get('challenge_id', None)
+    score =  request.GET.get('score', None)
+    if uid:
+        pending = []
+        players = []
+        if challenge_id:
+            # receiver of a challenge
+            challenge = FBChallenge.objects.filter(request_id = challenge_id).get()
+            if challenge.receiver_score == -1000000:
+                challenge.receiver_score = score
+                challenge.save()
+            for el in FBChallenge.objects.filter(quizes = challenge.quizes):
+                if el.receiver_score == -1000000:
+                    name = FBProfile.objects.get(uid = el.receiver).first_name
+                    pending.append(name)
+                else:
+                    players.append({'userid': el.receiver, 'score': el.receiver_score}) 
+
+            if challenge.sender_score == -1000000:
+                pending.append(challenge.sender)
+            else:
+                players.append({'userid': challenge.sender, 'score': challenge.sender_score})
+
+        elif request_ids:
+            #sender of a challenge
+            request_ids = request_ids.split(',')
+            challengelist = []
+            challenge = None
+            for r in request_ids:
+                challenge = FBChallenge.objects.filter(request_id = r).get()
+                challenge.sender_score = score
+                challenge.save()
+                challengelist.append(challenge)
+            for el in FBChallenge.objects.filter(quizes = challenge.quizes):
+                if el.receiver_score == -1000000:
+                    try:
+                        name = FBProfile.objects.get(uid = el.receiver).first_name
+                    except:
+                        name = "altre persone"
+                    pending.append(name)
+                else:
+                    players.append({'userid': el.receiver, 'score': el.receiver_score})
+        return direct_to_template(request, 'fbapp/challenge-end.html', extra_context={'pending': ', '.join(pending), 'score': score, 'players': players})
+    else:
+        return HttpResponse("Error")
+
 
 def fb_login(request):
     if request.method == 'POST':
@@ -199,14 +318,19 @@ def fb_login(request):
         fbuser.email=email
         fbuser.score = 0
         fbuser.pic=File(name=uid+ "." +pic_url[-3:], file=open(content[0]))
-        user = User(username='FB'+uid, first_name=first_name, last_name=last_name,email=email, password="0", is_staff=False, is_active=True, is_superuser=False)
         try:
-            u = FBProfile.objects.get(uid=uid)
-            w = User.objects.get(username='FB'+uid)
+            user = User.objects.get(username='FB'+uid)
+        except:
+            user = User(username='FB'+uid, first_name=first_name, last_name=last_name,email=email, password="0", is_staff=False, is_active=True, is_superuser=False)
+            user.save()
         #    if os.path.exists(settings.MEDIA_ROOT + 'fbpics/' +uid+ "." +pic_url[-3:]):
         #        u.pic.delete()
+        try:
+            fbuser = FBProfile.objects.get(uid=uid)
+            if fbuser.user != user:
+                fbuser.user=user
+                fbuser.save()
         except:
-            user.save()
             fbuser.user=user
             fbuser.save()
         #fbuser.pic.save(uid+ "." +pic_url[-3:], File(open(content[0])) , save=True)

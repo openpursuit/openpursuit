@@ -672,3 +672,50 @@ a.disabled {
 /* END BUTTON */
 
 
+#challenge-menu {
+    font-size: 40px;
+    margin-left:100px;
+    line-height: 100px;
+}
+
+#challenge-menu a {
+    display: inline-block;
+    height: 70px;  
+    background: url(/media/img/op_cake_rollover.png) no-repeat 0 0;  
+    background-position: 0 0;
+    padding-left: 80px;
+}
+#challenge-menu a:hover{
+    background-position: 0 -70px ;
+}
+
+#mainbox {
+    padding-left: 80px;
+    font-size: 26px;
+}
+
+#challenge-menu span{
+    vertical-align: middle;
+}
+
+/*
+#challenge-menu a {
+    line-height: 100px;
+}
+
+
+
+#challenge-menu span.rollover{
+    display: inline-block;
+    width: 70px;  
+    height: 70px;  
+    background: url(/media/img/op_cake_rollover.png) no-repeat 0 0;  
+    background-position: 0 0;
+}
+
+#challenge-menu span.rollover:hover{
+    background-position: -70px 0;
+}
+
+
+*/

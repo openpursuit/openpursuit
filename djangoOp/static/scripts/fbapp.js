@@ -10,7 +10,7 @@ var answered = false; // if user has already answered
 var timer = 0;
 var mtimer = null; // timer object
 var goNextTimer = null; // timer go next
-var answer_time = 20; // seconds to answer a quiz
+var answer_time = 15; // seconds to answer a quiz
 var id2tag = []; //binds id of tags and tags
 var scoretag = [];
 var is_winner = true;
@@ -29,7 +29,7 @@ soundManager.flashVersion = 9; // optional: shiny features (default = 8)
 soundManager.useFlashBlock = false; // optionally, enable when you're ready to dive in
 // enable HTML5 audio support, if you're feeling adventurous. iPad/iPhone will always get this.
 // // soundManager.useHTML5Audio = true;
-
+var do_login = undefined;
 
 
 // **********  AFTER FUNCTIONS ******* //
@@ -97,9 +97,7 @@ function after_play1(){
 
 function after_play3() {
 	if (muid === 0 ) {
-		//$('#menu_registered').empty().html('<a href="javascript:publish_score()"> Pubblica il tuo punteggio </a><br /><div id="save_status"><a href="javascript:save_score()">Salva</a></div>');
-            $(' menu_registered').empty().html(' <p> Per salvare la partita e giocare con i tuoi amici devi registrarti</p> <a href="javascript:do_login()">Registrati!</a><br />');
-        // $("#tabs").tabs();
+            $('#menu_registered').empty().html('<p> Per salvare la partita e giocare con i tuoi amici devi registrarti</p> <a href="javascript:do_login()">Registrati!</a><br />');
 	} else {
         save_score();
     }
@@ -200,6 +198,10 @@ function after_play2() {
     } else if (challenge_id !== "") {
         murl += "&challenge=" + challenge_id;
     } 
+
+    score = 0;
+    scoretag = [];
+
 	$.ajax({
 	  url: murl, 
 	  async: false,
@@ -257,6 +259,18 @@ function after_play2() {
 }	
 
 
+function gup( name )
+{
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( window.location.href );
+    if( results == null )
+        return "";
+    else
+        return results[1];
+}
+
 
 
 
@@ -267,11 +281,25 @@ function load_main() {
     soundManager.stopAll(); 
     // sound_intro.play({onfinish:loopSound });
 	scoretag = [];
+    score = 0;
 	id2tag = [];		
     challenge_request_ids = [];
     opponents = [];
     challenge_id = "";
 	selectedtags = [];
+
+    var r_id = gup('request_ids');
+    if (r_id !== "" ) {
+        challenge_id = r_id;
+        if (muid == 0) {
+            do_login();
+        } else {
+            load_play2();
+        }
+        return;
+    } 
+
+
 	if (goNextTimer !== null) {
 		clearTimeout(goNextTimer);	
 		goNextTimer = null;
@@ -302,19 +330,35 @@ function load_play2(c_id) {
     $('#ajax_loader').load('play2 #ajax_loaded', function(response, status, xhr) { after_play2(); } );
 	currentpage = "play2";
     soundManager.stopAll();
-    if (! soundManager.getSoundById('play')) {
-        soundManager.createSound({
-            id: 'play',
-            url: '/static/sound/play.mp3',
-            autoPlay: true,
-            loops: 10 
-            // onload: [ event handler function object ],
-            // other options here..
-        });
-    } else {
-         soundManager.play('play');
-    }
+    if ($.inArray("nonsense",selectedtags) >= 0) {
+        if (! soundManager.getSoundById('playnonsense')) {
+            soundManager.createSound({
+                id: 'playnonsense',
+                url: '/static/sound/playnonsense.mp3',
+                autoPlay: true,
+                loops: 10 
+                // onload: [ event handler function object ],
+                // other options here..
+            });
+        } else {
+             soundManager.play('play');
+        }
 
+
+    } else {
+        if (! soundManager.getSoundById('play')) {
+            soundManager.createSound({
+                id: 'play',
+                url: '/static/sound/play.mp3',
+                autoPlay: true,
+                loops: 10 
+                // onload: [ event handler function object ],
+                // other options here..
+            });
+        } else {
+             soundManager.play('play');
+        }
+    }
 }
  
 function load_quiz_added() { 
@@ -399,19 +443,24 @@ function next_quiz() {
 			if (quizdata[current_quiz].tags[index] == index2 ) {
 				if (is_winner === true ) {
 					scoretag[ id2tag[index2] ] += timer;
-					score += timer;
 				} else {
 					scoretag[ id2tag[index2] ] -= 15;
-				    score -= 15;
 				}
 
 			}
 		} 
 	}
+    if (is_winner === true )
+        score += timer;
+    else
+        score -= 15;
 	load_tagscore();
 	current_quiz = (current_quiz +1)%quiz_n;
 	if (current_quiz == f_question) {
-		load_play3(); // end of game
+        if (challenge_request_ids.length > 0 || challenge_id !== "") 
+            load_challenge_end();
+        else
+            load_play3(); // end of game
 	}
     $('.answer').removeClass('ra');
 	$('#question').html(quizdata[current_quiz].question);
@@ -438,6 +487,7 @@ function start_timer() {
 	mtimer = setTimeout("loop_timer();",1000);
         $('#timer').removeClass("timer-hurry");
 }
+
 function loop_timer() {
 	timer = timer - 1;
 	mtimer = null;
@@ -476,7 +526,7 @@ function load_challenge_menu() {
 	$("#what_is").hide();
     soundManager.stopAll();
 	$("#ajax_loader").empty().html('<div id="loading"><img src="http://www.openpursuit.org/media/img/loading.gif" /></div>');
-    $('#ajax_loader').load('challenge-menu #ajax_loaded', function(response, status, xhr) { after_challenge_menu(); } );
+    $('#ajax_loader').load('challenge-menu?uid='+muid+' #ajax_loaded', function(response, status, xhr) { after_challenge_menu(); } );
     currentpage = "challenge-menu";
 }
 
@@ -492,11 +542,30 @@ function load_challenge_history() {
 	$("#what_is").hide();
     soundManager.stopAll();
 	$("#ajax_loader").empty().html('<div id="loading"><img src="http://www.openpursuit.org/media/img/loading.gif" /></div>');
-	$('#ajax_loader').load('challenge-history #ajax_loaded', function(response, status, xhr) { after_challenge_history(); } );
+	$('#ajax_loader').load('challenge-history?uid='+muid+' #ajax_loaded', function(response, status, xhr) { after_challenge_history(); } );
 	currentpage = "challenge-history";
 		
 }
 
+function on_end_challenge() {
+    var r_id = gup('request_ids');
+    if (r_id !== "") {
+        // remove the get parameter from the url
+        window.location.href = "http://apps.facebook.com/openpursuit/"; 
+    } else {
+        load_main();
+    
+    }
+
+}
+
+function load_challenge_end() {
+    $("#what_is").hide();
+    soundManager.stopAll();
+	$("#ajax_loader").empty().html('<div id="loading"><img src="http://www.openpursuit.org/media/img/loading.gif" /></div>');
+	$('#ajax_loader').load('challenge-end?uid='+muid+'&score='+score+'&challenge_id='+challenge_id+'&request_ids='+challenge_request_ids.join(',')+' #ajax_loaded', function(response, status, xhr) { after_challenge_end(); } );
+	currentpage = "challenge-end";
+}
 
 function select_opponents() {
     challenge_msg = $("#challenge-msg").val();
@@ -546,7 +615,17 @@ function after_challenge_menu() {
 }
 
 
-function after_challenge_history() {
+function after_challenge_history() 
+
+{
+    FB.XFBML.parse(document.getElementById('ajax_loaded'));
+}
+
+
+function after_challenge_end() 
+{
+    FB.XFBML.parse(document.getElementById('ajax_loaded'));
+    publish_challenge();
 }
 
 function after_challenge_pending() {
@@ -637,18 +716,6 @@ function writetag( tag, tagid ) {
     }
 }
 
-function gup( name )
-{
-    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-    var regexS = "[\\?&]"+name+"=([^&#]*)";
-    var regex = new RegExp( regexS );
-    var results = regex.exec( window.location.href );
-    if( results == null )
-        return "";
-    else
-        return results[1];
-}
-
 $(document).ready(function() {
     // Fb init 
     FB.init({
@@ -666,16 +733,7 @@ $(document).ready(function() {
             muid = 0;
         }
         $("#what_is").hide();
-        var r_id = gup('request_ids');
-        alert(r_id);
-        if (r_id !== "" ) {
-            
-            challenge_id = r_id;
-            load_play2();
-        } else {
-            load_main();
-        }
-
+        load_main();
 
     });
 
@@ -719,7 +777,7 @@ $(document).ready(function() {
 
 /**********************/
 
-function do_login() {
+var do_login = function()  {
  FB.login(function(response) {
           if (response.session) {
             if (response.perms) {
@@ -754,6 +812,31 @@ function do_login() {
 	
 }
 
+function publish_challenge() {
+    if (challenge_id !== "" ) // I am a receiver of a challenge
+        $.getJSON('/fbapp/challenge-info?challenge_id=' + challenge_id , function(data) {
+                if (data) { //Not null only for the last opponent
+                    var post_message = "";
+                    post_message +=  data.winner_tagname + " con uno strabiliante punteggio di " + data.winner_score + " ha battuto ";
+                    $.each( data.losers , function(name, score) {
+                        post_message += name + '(' + score + ')';     
+                    });
+                    post_message += " ai quiz su " + data.quizes;
+
+                     FB.api('/me/feed', 'post', { message: post_message }, function(response) {
+                        if (!response || response.error) {
+                            alert('Error occured');
+                        } else {
+                          //  alert('Post ID: ' + response.id);
+                          data = "";
+                          // ALL OK
+                        }
+                    });
+                }            
+
+
+        });
+}
 
 function publish_score() {
 	FB.ui(
@@ -765,7 +848,7 @@ function publish_score() {
 	     display: 'iframe',
 	     picture: 'http://www.openpursuit.org/media//img/logo.png',
 	     caption: 'Nuovo punteggio!',
-	     description: 'Ho totalizzato ' + score + ' su questi argomenti: ' + selectedtags.join() ,
+	     description: 'Ho totalizzato ' + score + ' su questi argomenti: ' + selectedtags.join() , 
 	     message: 'Weeeeeeeee'
 	   },
 	   function(response) {

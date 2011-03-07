@@ -187,5 +187,5 @@ class TagsScore(models.Model):
     date = models.DateField(auto_now=True)
     score = models.IntegerField()
     def __unicode__(self):
-                return "%s %s" % (self.user, self.tag)
+        return "%s %s: %s" % (self.user.first_name , self.user.last_name, self.tag.tag )
 

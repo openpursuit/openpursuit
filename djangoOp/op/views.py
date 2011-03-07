@@ -87,7 +87,7 @@ def getquizapi(request):
             q.save()
             # new challenge
             for r,o in zip(request_ids, opponents):
-                c = FBChallenge(sender = uid, sender_score = -1, receiver = o, receiver_score = -1, request_id = r, quizes = q, message = message)
+                c = FBChallenge(sender = uid, sender_score = -1000000, receiver = o, receiver_score = -1000000, request_id = r, quizes = q, message = message)
                 c.save()
 
         else:
